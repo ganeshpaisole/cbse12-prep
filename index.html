@@ -1948,7 +1948,7 @@ let swRegistration = null;
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
     try {
-      swRegistration = await navigator.serviceWorker.register('./sw.js');
+      swRegistration = await navigator.serviceWorker.register('./sw.js', { scope: './' });
       console.log('[PWA] Service Worker registered:', swRegistration.scope);
 
       // Check for updates
@@ -2025,7 +2025,7 @@ function updateOnlineStatus() {
 }
 window.addEventListener('online', updateOnlineStatus);
 window.addEventListener('offline', updateOnlineStatus);
-updateOnlineStatus();
+// Don't run on load — avoids false offline flash on GitHub Pages
 
 // ── UPDATE ──────────────────────────────────
 function showUpdateBar() {

@@ -51,6 +51,137 @@
   --rx:     22px;
 }
 
+/* ── COMPATIBILITY ALIASES (old variable names) ── */
+:root {
+  /* Old variable aliases → new Paper tokens */
+  --t1: var(--ink);
+  --t2: var(--ink-2);
+  --t3: var(--ink-3);
+  --t4: var(--ink-4);
+  --surf0: var(--paper);
+  --surf1: var(--paper-1);
+  --surf2: var(--paper-2);
+  --surf3: var(--paper-3);
+  --surf4: var(--paper-3);
+  --border2: var(--border-2);
+  --primary: #2563eb;
+  --primary-c: #dbeafe;
+  --primary-d: #1d4ed8;
+  --orange: #ea580c;
+  --red: var(--chem);
+  --yellow: var(--cs);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary: #60a5fa;
+    --primary-c: #1e3a6e;
+  }
+}
+
+/* ── MISSING LAYOUT CLASSES ── */
+.section-pad { padding: 14px 16px; }
+.section-pad.gap-12 { display: flex; flex-direction: column; gap: 12px; }
+
+/* ── SECTION HEADER ── */
+.sec-hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.sec-hd-t { font-size: 13px; font-weight: 700; color: var(--ink); letter-spacing: -.2px; }
+.sec-hd-link { font-size: 11px; font-weight: 600; color: var(--ink-4); cursor: pointer; }
+.sec-hd-link:active { opacity: .7; }
+
+/* ── WEEK ACTIVITY (progress hero) ── */
+.overall-score { flex: 1; }
+.big-score-info { flex: 1; }
+.big-score-sub { font-size: 11px; color: var(--ink-4); margin-top: 3px; }
+
+/* ── PLAN SCREEN SPECIFIC ── */
+.tl-done .tl-subj { color: var(--ink-4); text-decoration: line-through; }
+
+/* ── THINKING INDICATOR ── */
+.thinking { padding: 40px 16px; display: flex; flex-direction: column; align-items: center; gap: 16px; color: var(--ink-3); font-size: 13px; }
+.thinking .dots { display: flex; gap: 6px; }
+.thinking .dots span { width: 7px; height: 7px; border-radius: 50%; background: var(--ink-3); animation: pulse .9s ease-in-out infinite; }
+.thinking .dots span:nth-child(2) { animation-delay: .15s; }
+.thinking .dots span:nth-child(3) { animation-delay: .3s; }
+
+/* ── INTEGRITY REPORT ── */
+.cheat-log-item { display: flex; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+.cheat-log-item:last-child { border-bottom: none; }
+.cheat-log-icon { font-size: 14px; flex-shrink: 0; }
+.cheat-log-text { flex: 1; color: var(--ink-2); }
+.cheat-log-time { font-size: 10px; color: var(--ink-4); flex-shrink: 0; }
+.integrity-badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 100px; background: var(--math-l); border: 1px solid var(--math); font-size: 10px; font-weight: 700; color: var(--math-m); }
+.timed-badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 100px; background: var(--chem-l); color: var(--chem-m); display: inline-flex; align-items: center; gap: 4px; }
+
+/* ── SOURCE SELECTOR ── */
+.pyq-badge { background: var(--cs-l); border: 1px solid var(--cs); border-radius: var(--r); padding: 8px 12px; display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.pyq-badge-icon { font-size: 16px; }
+.pyq-badge-text { font-size: 12px; color: var(--cs-m); font-weight: 700; }
+.pyq-badge-sub { font-size: 10px; color: var(--ink-4); margin-top: 1px; }
+
+/* ── CHAPTER PLAN (study plan screen) ── */
+.ch-plan-pri { display: flex; gap: 8px; align-items: center; }
+
+/* ── HOTS QUESTIONS ── */
+.q-skill-badge { font-size: 10px; padding: 2px 8px; border-radius: 100px; margin-left: auto; }
+
+/* ── ASSERTION REASON ── */
+.ar-statement { padding: 10px 12px; border-radius: var(--r); background: var(--paper-2); margin-bottom: 8px; }
+.ar-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-4); margin-bottom: 4px; }
+.ar-text { font-size: 13px; color: var(--ink); line-height: 1.6; }
+.ar-opts { display: flex; flex-direction: column; gap: 6px; }
+
+/* ── FORMULA BANK ── */
+.formula-card { background: var(--paper-1); border: 1px solid var(--border); border-radius: var(--r); padding: 12px 14px; margin-bottom: 8px; }
+.formula-name { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.formula-expr { font-family: 'JetBrains Mono', monospace; font-size: 16px; color: var(--phy); margin-bottom: 6px; padding: 8px 10px; background: var(--paper-2); border-radius: 6px; }
+.formula-vars { font-size: 11px; color: var(--ink-3); margin-bottom: 4px; }
+.formula-use  { font-size: 11px; color: var(--ink-4); font-style: italic; }
+
+/* ── FILL BLANK ── */
+.fill-hint { font-size: 11px; color: var(--ink-4); font-style: italic; margin-bottom: 8px; }
+.fill-input { width: 100%; padding: 9px 12px; border-radius: var(--r); border: 1.5px solid var(--border-2); background: var(--paper); font-family: "Sora", sans-serif; font-size: 14px; color: var(--ink); outline: none; margin-bottom: 8px; }
+.fill-input:focus { border-color: var(--ink); }
+.fill-input.correct { border-color: var(--math); background: var(--math-l); }
+.fill-input.wrong   { border-color: var(--chem); background: var(--chem-l); }
+
+/* ── EXAM RECORDS KPI ── */
+.kpi-trend.up { color: var(--math); }
+.kpi-trend.dn { color: var(--chem); }
+.kpi-trend.nt { color: var(--ink-4); }
+
+/* ── SOURCE MODAL ── */
+.srcSelectorModal .ch-selector-sheet { max-height: 90vh; }
+
+/* ── WEAKNESS SCREEN EXTRAS ── */
+.adapt-alert { background: var(--phy-l); border: 1px solid var(--phy); border-radius: var(--r); padding: 10px 13px; font-size: 12px; color: var(--ink-2); display: flex; gap: 8px; align-items: flex-start; margin-bottom: 8px; }
+.error-pattern-item { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--border); }
+.error-pattern-item:last-child { border-bottom: none; }
+
+/* ── PAPER OUTPUT ── */
+.p-section { margin-bottom: 20px; }
+.p-q { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.p-q:last-child { border-bottom: none; }
+.p-qnum { font-family: "JetBrains Mono", monospace; font-size: 11px; font-weight: 700; color: var(--ink-4); margin-bottom: 4px; }
+.p-qtext { font-size: 13px; color: var(--ink); line-height: 1.65; margin-bottom: 8px; }
+.p-opts { padding-left: 4px; display: flex; flex-direction: column; gap: 4px; }
+.p-opt { font-size: 12px; color: var(--ink-3); }
+.p-ans { margin-top: 8px; padding: 8px 10px; background: var(--math-l); border-left: 3px solid var(--math); border-radius: 0 var(--r) var(--r) 0; font-size: 12px; color: var(--math-m); }
+.p-print-btn { display: flex; align-items: center; gap: 6px; }
+
+/* ── BOTTOM SCORE BAR ── */
+.score-bar-wrap { background: var(--paper); border-top: 1px solid var(--border); padding: 10px 16px; display: flex; align-items: center; gap: 12px; position: sticky; bottom: var(--nav-h); z-index: 30; }
+.sb-pct { margin-left: auto; font-size: 12px; font-weight: 600; color: var(--ink-4); }
+
+/* ── TOAST ── */
+#pwaToast { font-family: "Sora", sans-serif !important; }
+
+/* ── PLAN FILTER ── */
+.plan-filter-row { display: flex; gap: 6px; overflow-x: auto; padding: 10px 16px; border-bottom: 1px solid var(--border); }
+.plan-filter-row::-webkit-scrollbar { display: none; }
+.pf-chip { padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 600; border: 1px solid var(--border-2); background: var(--paper-1); color: var(--ink-3); cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+.pf-chip.on { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+
+
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
   :root {
@@ -1686,7 +1817,36 @@ textarea { resize: none; }
 
   </div><!-- /app -->
 
-<script>
+<script>const SUBJ_ICONS = {physics:'⚡',chemistry:'🧪',mathematics:'📐',english:'📖',cs:'💻'};
+const SUBJ_MCOLS = {physics:'var(--phy-m)',chemistry:'var(--chem-m)',mathematics:'var(--math-m)',english:'var(--eng-m)',cs:'var(--cs-m)'};
+const CH = {
+  physics:["Electric Charges & Fields","Electrostatic Potential & Capacitance","Current Electricity","Moving Charges & Magnetism","Magnetism & Matter","Electromagnetic Induction","Alternating Current","Electromagnetic Waves","Ray Optics & Optical Instruments","Wave Optics","Dual Nature of Radiation & Matter","Atoms","Nuclei","Semiconductor Electronics"],
+  chemistry:["Solid State","Solutions","Electrochemistry","Chemical Kinetics","Surface Chemistry","General Principles of Metal Extraction","p-Block Elements","d & f Block Elements","Coordination Compounds","Haloalkanes & Haloarenes","Alcohols, Phenols & Ethers","Aldehydes, Ketones & Carboxylic Acids","Amines","Biomolecules","Polymers","Chemistry in Everyday Life"],
+  mathematics:["Relations & Functions","Inverse Trigonometric Functions","Matrices","Determinants","Continuity & Differentiability","Application of Derivatives","Integrals","Application of Integrals","Differential Equations","Vector Algebra","Three Dimensional Geometry","Linear Programming","Probability"],
+  english:["The Last Lesson","Lost Spring","Deep Water","The Rattrap","Indigo","Poets and Pancakes","The Interview","Going Places","My Mother at Sixty Six","An Elementary School Classroom in a Slum","Keeping Quiet","A Thing of Beauty","A Roadside Stand","Aunt Jennifer's Tigers","The Third Level","The Tiger King","Journey to the End of the Earth","The Enemy","Should Wizard Hit Mommy","On the Face of It","Evans Tries an O-Level","Memories of Childhood","Writing — Article & Speech","Writing — Letter & Application","Writing — Report & Debate","Integrated Grammar"],
+  cs:["Python Revision (11th)","Object-Oriented Programming","File Handling in Python","Data Structures — Stack","Data Structures — Queue","Computer Networks","Database & SQL","MySQL-Python Connectivity","Societal Impacts & Cyber Safety"]
+};
+const PRI = {
+  physics:["h","h","h","h","m","h","h","m","h","h","m","m","m","h"],
+  chemistry:["m","h","h","h","l","m","h","h","h","h","h","h","h","m","l","l"],
+  mathematics:["h","m","m","h","h","h","h","h","h","h","h","m","h"],
+  english:["h","h","h","m","h","h","h","h","h","m","h","h","m","m","h","h","h","h","m","m","m","m","h","h","h","m"],
+  cs:["h","h","h","h","m","h","h","h","m"]
+};
+const DAYS_CH = {
+  physics:[5,5,6,5,3,5,5,2,6,4,3,2,2,5],
+  chemistry:[3,4,5,4,2,2,6,4,4,4,4,5,3,2,2,1],
+  mathematics:[4,3,3,4,5,5,8,3,4,4,4,2,5],
+  english:[2,2,2,2,2,2,2,2,1,1,1,1,1,1,2,2,2,2,2,2,2,2,3,3,3,2],
+  cs:[3,5,4,3,2,4,5,3,2]
+};
+const SL = {physics:"Physics",chemistry:"Chemistry",mathematics:"Mathematics",english:"English (Core)",cs:"Computer Science"};
+const SC = {physics:"042",chemistry:"043",mathematics:"041",english:"301",cs:"083"};
+
+const SUBJ_COLS  = {physics:'var(--phy)',chemistry:'var(--chem)',mathematics:'var(--math)',english:'var(--eng)',cs:'var(--cs)'};
+
+
+
 
 /* ══════════════════════════════════════════════
    ONBOARDING SYSTEM
@@ -1694,6 +1854,23 @@ textarea { resize: none; }
 let obTarget = '87%';
 let obWeakest = '';
 let obStep = 1;
+
+let curTab = 'home';
+let testSubj = 'physics', testDiff = 'Mixed';
+let scoreC = 0, scoreW = 0, scoreTot = 0;
+let testLoading = false, paperLoading = false;
+let testSource = 'ncert', paperChoice = 'yes', paperSrc = 'ncert';
+let timerInterval = null, timerTotal = 0, timerLeft = 0;
+let errorLog = JSON.parse(localStorage.getItem('cbse12_errlog') || '[]');
+let chapterScores = JSON.parse(localStorage.getItem('cbse12_chscores') || '{}');
+let waLoading = false;
+let selectedChapters = [];      // [{subj, chapter, idx}]
+let selectedSubjects = [];      // ['physics','chemistry',...]
+let activeSubjectsForTest = []; // current subjects being tested
+let currentPYQSubj = 'physics';
+let examHistory = JSON.parse(localStorage.getItem('cbse12_examhistory') || '[]');
+let historyFilter = 'all';
+
 
 function checkOnboarding() {
   const done = localStorage.getItem('cbse12_onboard_done');
@@ -2053,40 +2230,21 @@ function openNotif() {
 /* ══════════════════════════════════════════════
    DATA
 ══════════════════════════════════════════════ */
-const CH = {
-  physics:["Electric Charges & Fields","Electrostatic Potential & Capacitance","Current Electricity","Moving Charges & Magnetism","Magnetism & Matter","Electromagnetic Induction","Alternating Current","Electromagnetic Waves","Ray Optics & Optical Instruments","Wave Optics","Dual Nature of Radiation & Matter","Atoms","Nuclei","Semiconductor Electronics"],
-  chemistry:["Solid State","Solutions","Electrochemistry","Chemical Kinetics","Surface Chemistry","General Principles of Metal Extraction","p-Block Elements","d & f Block Elements","Coordination Compounds","Haloalkanes & Haloarenes","Alcohols, Phenols & Ethers","Aldehydes, Ketones & Carboxylic Acids","Amines","Biomolecules","Polymers","Chemistry in Everyday Life"],
-  mathematics:["Relations & Functions","Inverse Trigonometric Functions","Matrices","Determinants","Continuity & Differentiability","Application of Derivatives","Integrals","Application of Integrals","Differential Equations","Vector Algebra","Three Dimensional Geometry","Linear Programming","Probability"],
-  english:["The Last Lesson","Lost Spring","Deep Water","The Rattrap","Indigo","Poets and Pancakes","The Interview","Going Places","My Mother at Sixty Six","An Elementary School Classroom in a Slum","Keeping Quiet","A Thing of Beauty","A Roadside Stand","Aunt Jennifer's Tigers","The Third Level","The Tiger King","Journey to the End of the Earth","The Enemy","Should Wizard Hit Mommy","On the Face of It","Evans Tries an O-Level","Memories of Childhood","Writing — Article & Speech","Writing — Letter & Application","Writing — Report & Debate","Integrated Grammar"],
-  cs:["Python Revision (11th)","Object-Oriented Programming","File Handling in Python","Data Structures — Stack","Data Structures — Queue","Computer Networks","Database & SQL","MySQL-Python Connectivity","Societal Impacts & Cyber Safety"]
-};
-const PRI = {
-  physics:["h","h","h","h","m","h","h","m","h","h","m","m","m","h"],
-  chemistry:["m","h","h","h","l","m","h","h","h","h","h","h","h","m","l","l"],
-  mathematics:["h","m","m","h","h","h","h","h","h","h","h","m","h"],
-  english:["h","h","h","m","h","h","h","h","h","m","h","h","m","m","h","h","h","h","m","m","m","m","h","h","h","m"],
-  cs:["h","h","h","h","m","h","h","h","m"]
-};
-const DAYS_CH = {
-  physics:[5,5,6,5,3,5,5,2,6,4,3,2,2,5],
-  chemistry:[3,4,5,4,2,2,6,4,4,4,4,5,3,2,2,1],
-  mathematics:[4,3,3,4,5,5,8,3,4,4,4,2,5],
-  english:[2,2,2,2,2,2,2,2,1,1,1,1,1,1,2,2,2,2,2,2,2,2,3,3,3,2],
-  cs:[3,5,4,3,2,4,5,3,2]
-};
-const SL = {physics:"Physics",chemistry:"Chemistry",mathematics:"Mathematics",english:"English (Core)",cs:"Computer Science"};
-const SC = {physics:"042",chemistry:"043",mathematics:"041",english:"301",cs:"083"};
+
+
+
+
+
+
+
+
+
+
+
+
 const SCOL = {physics:"#4d9eff",chemistry:"#ff7043",mathematics:"#26c987",english:"#b970ff",cs:"#ffcc02"};
 
-let curTab = 'home';
-let testSubj = 'physics', testDiff = 'Mixed';
 let paperSubj = 'physics', paperScope = 'chapter', paperDiff = 'Mixed';
-let scoreC = 0, scoreW = 0, scoreTot = 0;
-let testLoading = false, paperLoading = false;
-let testSource = 'ncert', paperChoice = 'yes', paperSrc = 'ncert';
-let timerInterval = null, timerTotal = 0, timerLeft = 0;
-let errorLog = JSON.parse(localStorage.getItem('cbse12_errlog') || '[]');
-let chapterScores = JSON.parse(localStorage.getItem('cbse12_chscores') || '{}');
 let lastPaper = null;
 
 /* ══════════════════════════════════════════════
@@ -2904,7 +3062,6 @@ function computeCountdown() {
    WEAKNESS ANALYSIS ENGINE
 ══════════════════════════════════════════════ */
 let deepDiveSubj = 'physics';
-let waLoading = false;
 
 // ── CORE ANALYSIS ────────────────────────────
 function analyseWeaknesses() {
@@ -3193,7 +3350,7 @@ function showChapterPlanModal(plan, subj, chapter, score) {
   modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:300;display:flex;align-items:flex-end;';
   modal.innerHTML = `
     <div style="background:var(--surf1);border-radius:20px 20px 0 0;width:100%;max-height:85vh;overflow-y:auto;padding:0 0 32px">
-      <div style="width:36px;height:4px;background:var(--border2);border-radius:2px;margin:14px auto 6px"></div>
+      <div style="width:36px;height:4px;background:var(--border-2);border-radius:2px;margin:14px auto 6px"></div>
       <div style="padding:10px 18px 14px;border-bottom:1px solid var(--border)">
         <div style="font-family:'Nunito',sans-serif;font-weight:900;font-size:17px;color:var(--t1)">${esc(plan.title||'Recovery Plan')}</div>
         <div style="font-size:12px;color:var(--t2);margin-top:2px">${esc(subj)} · ${esc(chapter)} · Currently ${score}%</div>
@@ -3334,9 +3491,6 @@ function getApiKey() {
 /* ══════════════════════════════════════════════
    SMART CHAPTER + SUBJECT SELECTION ENGINE
 ══════════════════════════════════════════════ */
-let selectedChapters = [];      // [{subj, chapter, idx}]
-let selectedSubjects = [];      // ['physics','chemistry',...]
-let activeSubjectsForTest = []; // current subjects being tested
 
 // ── SUBJECT MULTI-SELECT ──────────────────────
 function renderSubjMultiGrid() {
@@ -3731,7 +3885,6 @@ const PYQ_PAPERS_DB = {
 };
 
 // ── DYNAMIC PYQ RENDER (replaces static PYQ_DATA) ──
-let currentPYQSubj = 'physics';
 
 function switchPYQSubj(subj, el) {
   currentPYQSubj = subj;
@@ -4734,12 +4887,8 @@ checkOnboarding();
 /* ══════════════════════════════════════════════
    EXAM RECORDS SYSTEM
 ══════════════════════════════════════════════ */
-let examHistory = JSON.parse(localStorage.getItem('cbse12_examhistory') || '[]');
-let historyFilter = 'all';
 
-const SUBJ_ICONS = {physics:'⚡',chemistry:'🧪',mathematics:'📐',english:'📖',cs:'💻'};
-const SUBJ_COLS  = {physics:'var(--phy)',chemistry:'var(--chem)',mathematics:'var(--math)',english:'var(--eng)',cs:'var(--cs)'};
-const SUBJ_MCOLS = {physics:'var(--phy-m)',chemistry:'var(--chem-m)',mathematics:'var(--math-m)',english:'var(--eng-m)',cs:'var(--cs-m)'};
+
 
 function saveExamRecord(subject, chapter, type, correct, wrong, total, source) {
   const pct = total > 0 ? Math.round((correct/total)*100) : 0;
@@ -5047,7 +5196,7 @@ function showToast(msg, duration = 3000) {
   t.id = 'pwaToast';
   t.style.cssText = `
     position:fixed; bottom:calc(var(--nav-h) + 80px); left:16px; right:16px;
-    background:rgba(29,43,63,.97); border:1px solid var(--border2);
+    background:var(--ink); border:1px solid var(--border-2);
     border-radius:12px; padding:13px 16px; font-size:13px; font-weight:600;
     color:var(--t1); z-index:200; text-align:center;
     backdrop-filter:blur(16px);

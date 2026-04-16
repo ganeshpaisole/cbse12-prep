@@ -2063,11 +2063,7 @@ window.addEventListener('hashchange', handleHash);
 handleHash();
 
 // Override goTab to also update hash
-const _origGoTab = goTab;
-function goTab(tab) {
-  _origGoTab(tab);
-  history.replaceState(null, '', '#' + tab);
-}
+
 
 // ── VIBRATION FEEDBACK ──────────────────────
 document.querySelectorAll('.nav-item, .btn-primary, .mcq-opt').forEach(el => {

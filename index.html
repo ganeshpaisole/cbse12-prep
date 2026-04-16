@@ -1915,7 +1915,14 @@ textarea { resize: none; }
 
   </div><!-- /app -->
 
-<script>const BACKEND_URL = 'https://cbseexamwala.up.railway.app';const SUBJ_ICONS = {physics:'⚡',chemistry:'🧪',mathematics:'📐',english:'📖',cs:'💻'};
+<script>
+/* ══════════════════════════════════════════════
+   BACKEND CONFIG — swap URL after deploying
+══════════════════════════════════════════════ */
+const BACKEND_URL = 'https://cbseexamwala.up.railway.app';
+// To use local dev backend: localStorage.setItem('cbse12_backend','http://localhost:3001')
+
+const SUBJ_ICONS = {physics:'⚡',chemistry:'🧪',mathematics:'📐',english:'📖',cs:'💻'};
 const SUBJ_MCOLS = {physics:'var(--phy-m)',chemistry:'var(--chem-m)',mathematics:'var(--math-m)',english:'var(--eng-m)',cs:'var(--cs-m)'};
 const CH = {
   physics:["Electric Charges & Fields","Electrostatic Potential & Capacitance","Current Electricity","Moving Charges & Magnetism","Magnetism & Matter","Electromagnetic Induction","Alternating Current","Electromagnetic Waves","Ray Optics & Optical Instruments","Wave Optics","Dual Nature of Radiation & Matter","Atoms","Nuclei","Semiconductor Electronics"],
@@ -2761,14 +2768,26 @@ ${type==='hots'?'- Tag cognitive skill: Analysis / Evaluation / Application':''}
 `;
 
   try {
-    const r = await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:6000,system:sys,messages:[{role:'user',content:usr}]})
+    const r = await fetch(BACKEND_URL + '/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        subject:    subjsForTest[0] || testSubj,
+        chapters:   chapterNames,
+        type:       type,
+        count:      count,
+        difficulty: diff,
+        source:     testSource,
+        examMode:   currentExam,
+      })
     });
-    if(!r.ok) throw new Error('API '+r.status);
+    if (!r.ok) {
+      const err = await r.json().catch(() => ({}));
+      throw new Error(err.error || 'Server error ' + r.status);
+    }
     const d = await r.json();
-    let raw = d.content[0].text.trim().replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/\s*```$/,'').trim();
-    const data = JSON.parse(raw);
+    if (!d.success) throw new Error(d.error || 'Generation failed');
+    const data = d.data;
     renderTestQuestions(data, chapter, diff, timerMins);
     // Activate anti-cheat AFTER questions are rendered and visible
     // Small delay lets browser settle after API response
@@ -3193,14 +3212,36 @@ ${note?'Teacher note: '+note:''}
 Include 5 CBSE-style general instructions. Date: March 2027. Full answer key for all questions.`;
 
   try {
-    const r = await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:8000,system:sys,messages:[{role:'user',content:usr}]})
+    const r = await fetch(BACKEND_URL + '/api/paper', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        subject:       paperSubj,
+        chapters:      chapters,
+        duration:      dur,
+        totalMarks:    total,
+        difficulty:    paperDiff,
+        includeChoice: paperChoice === 'yes',
+        source:        paperSrc,
+        examMode:      currentExam,
+        teacherNote:   note,
+        sections: [
+          m1 > 0 && { name: 'Section A MCQ',         count: m1, marks: 1 },
+          m2 > 0 && { name: 'Section A A&R',          count: m2, marks: 1 },
+          m3 > 0 && { name: 'Section B VSA',          count: m3, marks: 2 },
+          m4 > 0 && { name: 'Section C SA',           count: m4, marks: 3 },
+          m5 > 0 && { name: 'Section D LA',           count: m5, marks: 5 },
+          m6 > 0 && { name: 'Section E Case-based',   count: m6, marks: 4 },
+        ].filter(Boolean),
+      })
     });
-    if(!r.ok) throw new Error('API '+r.status);
+    if (!r.ok) {
+      const err = await r.json().catch(() => ({}));
+      throw new Error(err.error || 'Server error ' + r.status);
+    }
     const d = await r.json();
-    let raw = d.content[0].text.trim().replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/\s*```$/,'').trim();
-    const paper = JSON.parse(raw);
+    if (!d.success) throw new Error(d.error || 'Paper generation failed');
+    const paper = d.data;
     lastPaper = paper;
     renderPaper(paper);
   } catch(e) {
@@ -3596,10 +3637,10 @@ Create a 7-day targeted recovery plan to improve their score to 75%+.
 Include: daily actions, specific NCERT exercises, practice question types, common mistake warnings.`;
 
   try {
-    const r = await fetch('https://api.anthropic.com/v1/messages',{
+    const r = await fetch(BACKEND_URL + '/api/generate',{
       method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':getApiKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,system:sys,messages:[{role:'user',content:usr}]})
+      headers:{'Content-Type':'application/json','Content-Type':'application/json'},
+      body:JSON.stringify({subject:'physics',chapters:['Recovery Plan'],type:'short',count:5,difficulty:'Mixed',examMode:currentExam,_raw:{system:sys,user:usr}})
     });
     if(!r.ok) throw new Error('API '+r.status);
     const d = await r.json();
@@ -3687,10 +3728,10 @@ Create a comprehensive personalised improvement plan to reach 85%+ in all subjec
 Focus on the weakest areas first. Be specific about NCERT chapters and daily time allocation.`;
 
   try {
-    const r = await fetch('https://api.anthropic.com/v1/messages',{
+    const r = await fetch(BACKEND_URL + '/api/generate',{
       method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':getApiKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2500,system:sys,messages:[{role:'user',content:usr}]})
+      headers:{'Content-Type':'application/json','Content-Type':'application/json'},
+      body:JSON.stringify({subject:'physics',chapters:['Weakness Plan'],type:'short',count:5,difficulty:'Mixed',examMode:currentExam,_raw:{system:sys,user:usr}})
     });
     if(!r.ok) throw new Error('API '+r.status);
     const d = await r.json();
@@ -3750,12 +3791,7 @@ function renderFullPlan(plan) {
   document.getElementById('aiPlanContent').innerHTML = html;
 }
 
-// Helper to get API key from existing fetch calls
-function getApiKey() {
-  const scripts = document.body.innerHTML;
-  const match = scripts.match(/'x-api-key':'([^']+)'/);
-  return match ? match[1] : '';
-}
+// API key is now secure on backend server
 
 
 

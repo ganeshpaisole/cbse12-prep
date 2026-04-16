@@ -754,6 +754,90 @@ textarea.ta:focus { border-color: var(--primary); }
   }
 }
 
+
+/* ═══════════════════════════════════════════
+   EXAM TIMER
+═══════════════════════════════════════════ */
+.timer-bar {
+  display:none; align-items:center; gap:10px;
+  padding:10px 16px; background:var(--surf1);
+  border-bottom:1px solid var(--border);
+  position:sticky; top:0; z-index:40;
+}
+.timer-bar.active { display:flex; }
+.timer-circle {
+  width:48px; height:48px; border-radius:50%;
+  border:3px solid var(--border2);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Nunito',sans-serif; font-weight:900;
+  font-size:13px; flex-shrink:0;
+  transition:border-color .5s, color .5s;
+}
+.timer-circle.ok  { border-color:var(--green); color:var(--green); }
+.timer-circle.mid { border-color:var(--yellow); color:var(--yellow); }
+.timer-circle.low { border-color:var(--red); color:var(--red); animation:timerPulse .6s ease-in-out infinite; }
+@keyframes timerPulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+.timer-info { flex:1; }
+.timer-title { font-size:12px; font-weight:700; color:var(--t1); }
+.timer-sub { font-size:10px; color:var(--t3); margin-top:1px; }
+.timer-prog { height:4px; background:var(--surf3); border-radius:2px; margin-top:5px; overflow:hidden; }
+.timer-prog-fill { height:100%; border-radius:2px; transition:width 1s linear, background .5s; }
+.timer-stop-btn {
+  padding:6px 12px; border-radius:8px;
+  border:1px solid var(--border2); background:var(--surf2);
+  font-size:11px; font-weight:700; color:var(--t3);
+  cursor:pointer;
+}
+.timed-badge {
+  font-size:10px; font-weight:700; padding:2px 8px;
+  border-radius:100px; background:rgba(255,82,82,.15);
+  color:#ff8f8f; display:inline-flex; align-items:center; gap:4px;
+}
+
+/* ═══════════════════════════════════════════
+   ERROR LOG
+═══════════════════════════════════════════ */
+.errlog-item {
+  display:flex; gap:10px; align-items:flex-start;
+  padding:10px 0; border-bottom:1px solid var(--border);
+}
+.errlog-item:last-child { border-bottom:none; }
+.errlog-q { flex:1; font-size:13px; color:var(--t1); }
+.errlog-meta { font-size:10px; color:var(--t3); margin-top:3px; }
+.errlog-ans { font-size:11px; color:#ff8f8f; margin-top:2px; }
+.errlog-cor { font-size:11px; color:var(--math-m); margin-top:1px; }
+.err-count-badge {
+  min-width:20px; height:20px; border-radius:10px;
+  background:var(--red); color:#fff;
+  font-size:10px; font-weight:800;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+
+/* ═══════════════════════════════════════════
+   PYQ MODE BADGE
+═══════════════════════════════════════════ */
+.pyq-badge {
+  background:rgba(255,204,2,.15); border:1px solid rgba(255,204,2,.3);
+  border-radius:var(--r); padding:8px 12px;
+  display:flex; align-items:center; gap:8px;
+  margin-bottom:10px;
+}
+.pyq-badge-icon { font-size:18px; }
+.pyq-badge-text { font-size:12px; color:var(--cs-m); font-weight:700; }
+.pyq-badge-sub { font-size:10px; color:var(--t3); margin-top:1px; }
+
+/* ═══════════════════════════════════════════
+   ADAPTIVE PLAN
+═══════════════════════════════════════════ */
+.adapt-alert {
+  background:rgba(77,158,255,.1); border:1px solid rgba(77,158,255,.25);
+  border-radius:var(--r); padding:10px 13px;
+  font-size:12px; color:var(--phy-m);
+  display:flex; gap:8px; align-items:flex-start;
+  margin-bottom:8px;
+}
+
 /* Print */
 @media print {
   .app > *:not(#screen-papers) { display: none !important; }
@@ -1041,6 +1125,9 @@ textarea.ta:focus { border-color: var(--primary); }
           </div>
         </div>
 
+        <!-- Adaptive Alerts based on scores -->
+        <div id="adaptiveAlerts" style="margin-bottom:4px"></div>
+
         <!-- Key reminders -->
         <div class="card">
           <div class="card-body">
@@ -1070,6 +1157,17 @@ textarea.ta:focus { border-color: var(--primary); }
         <div class="subj-tab" data-s="cs"         onclick="testPickSubj('cs',this)">💻 CS</div>
       </div>
 
+      <!-- EXAM TIMER BAR -->
+      <div class="timer-bar" id="timerBar">
+        <div class="timer-circle ok" id="timerCircle">--:--</div>
+        <div class="timer-info">
+          <div class="timer-title" id="timerTitle">Exam Timer</div>
+          <div class="timer-sub" id="timerSub">Answer all questions before time runs out</div>
+          <div class="timer-prog"><div class="timer-prog-fill" id="timerProgFill" style="width:100%;background:var(--green)"></div></div>
+        </div>
+        <button class="timer-stop-btn" onclick="stopTimer()">Stop</button>
+      </div>
+
       <!-- Config -->
       <div class="section-pad" style="padding-bottom:0">
         <div style="display:flex;gap:8px;margin-bottom:10px">
@@ -1082,6 +1180,7 @@ textarea.ta:focus { border-color: var(--primary); }
             <select id="testType">
               <option value="mcq">MCQ</option>
               <option value="assertion">Assertion & Reason</option>
+              <option value="hots">HOTS Questions</option>
               <option value="formula">Formula Bank</option>
               <option value="short">Short Q&A</option>
               <option value="long">Long Q&A</option>
@@ -1091,16 +1190,37 @@ textarea.ta:focus { border-color: var(--primary); }
         </div>
         <div style="display:flex;gap:8px;margin-bottom:10px">
           <div style="flex:1">
-            <div class="field-label">Difficulty</div>
+            <div class="field-label">Source</div>
             <div class="toggle-row">
-              <div class="toggle-btn" onclick="pickTestDiff('Easy',this)">Easy</div>
-              <div class="toggle-btn on" onclick="pickTestDiff('Mixed',this)">Mixed</div>
-              <div class="toggle-btn" onclick="pickTestDiff('Hard',this)">Hard</div>
+              <div class="toggle-btn on" onclick="pickTestSource('ncert',this)">NCERT</div>
+              <div class="toggle-btn" onclick="pickTestSource('exemplar',this)">Exemplar</div>
+              <div class="toggle-btn" onclick="pickTestSource('pyq',this)">PYQ</div>
             </div>
           </div>
-          <div style="flex:0 0 80px">
+          <div style="flex:0 0 90px">
+            <div class="field-label">Difficulty</div>
+            <select id="testDiffSel">
+              <option value="Easy">Easy</option>
+              <option value="Mixed" selected>Mixed</option>
+              <option value="Hard">Hard</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:10px">
+          <div style="flex:1">
             <div class="field-label">Count</div>
-            <input type="number" id="testCount" value="5" min="1" max="15" style="padding:9px 10px">
+            <input type="number" id="testCount" value="5" min="1" max="20" style="padding:9px 10px">
+          </div>
+          <div style="flex:1">
+            <div class="field-label">Timer</div>
+            <select id="testTimer">
+              <option value="0">No Timer</option>
+              <option value="5">5 min</option>
+              <option value="10">10 min</option>
+              <option value="15">15 min</option>
+              <option value="20">20 min</option>
+              <option value="30">30 min</option>
+            </select>
           </div>
         </div>
         <button class="btn btn-primary" id="testGenBtn" onclick="generateTest()">
@@ -1206,8 +1326,23 @@ textarea.ta:focus { border-color: var(--primary); }
             <div class="toggle-btn" onclick="pickPaperDiff('Hard',this)">Hard</div>
           </div>
           <div style="margin-top:10px">
+            <div class="field-label">Internal Choice (OR Questions)</div>
+            <div class="toggle-row" id="choiceToggle">
+              <div class="toggle-btn on" onclick="pickChoice('yes',this)">Include OR choices</div>
+              <div class="toggle-btn" onclick="pickChoice('no',this)">No choices</div>
+            </div>
+          </div>
+          <div style="margin-top:10px">
+            <div class="field-label">Question Source</div>
+            <div class="toggle-row" id="paperSrcToggle">
+              <div class="toggle-btn on" onclick="pickPaperSrc('ncert',this)">NCERT</div>
+              <div class="toggle-btn" onclick="pickPaperSrc('exemplar',this)">+ Exemplar</div>
+              <div class="toggle-btn" onclick="pickPaperSrc('pyq',this)">+ PYQ Style</div>
+            </div>
+          </div>
+          <div style="margin-top:10px">
             <div class="field-label">Teacher's Note (optional)</div>
-            <textarea class="ta" id="paperNote" rows="2" placeholder="e.g. Focus on numericals..."></textarea>
+            <textarea class="ta" id="paperNote" rows="2" placeholder="e.g. Focus on numericals, include HOTS..."></textarea>
           </div>
         </div>
 
@@ -1332,6 +1467,21 @@ textarea.ta:focus { border-color: var(--primary); }
           </div>
         </div>
 
+        <!-- Error Log -->
+        <div class="card" id="errLogCard">
+          <div class="card-body">
+            <div class="sec-hd">
+              <span class="sec-hd-t">❌ Error Log</span>
+              <span class="sec-hd-link" onclick="clearErrLog()">Clear All</span>
+            </div>
+            <div id="errLogList">
+              <div style="text-align:center;padding:20px;color:var(--t3);font-size:13px">
+                No errors logged yet. Wrong answers will appear here automatically.
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Achievements -->
         <div>
           <div class="sec-hd-t" style="margin-bottom:10px">🏆 Achievements</div>
@@ -1430,6 +1580,10 @@ let testSubj = 'physics', testDiff = 'Mixed';
 let paperSubj = 'physics', paperScope = 'chapter', paperDiff = 'Mixed';
 let scoreC = 0, scoreW = 0, scoreTot = 0;
 let testLoading = false, paperLoading = false;
+let testSource = 'ncert', paperChoice = 'yes', paperSrc = 'ncert';
+let timerInterval = null, timerTotal = 0, timerLeft = 0;
+let errorLog = JSON.parse(localStorage.getItem('cbse12_errlog') || '[]');
+let chapterScores = JSON.parse(localStorage.getItem('cbse12_chscores') || '{}');
 let lastPaper = null;
 
 /* ══════════════════════════════════════════════
@@ -1518,7 +1672,24 @@ function renderTestChapters() {
 }
 function pickTestDiff(d, el) {
   testDiff = d;
-  document.querySelectorAll('#screen-tests .toggle-btn').forEach(b => b.classList.remove('on'));
+}
+function getTestDiff() {
+  const sel = document.getElementById('testDiffSel');
+  return sel ? sel.value : 'Mixed';
+}
+function pickTestSource(s, el) {
+  testSource = s;
+  document.querySelectorAll('#screen-tests .toggle-row:nth-of-type(2) .toggle-btn').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+}
+function pickChoice(v, el) {
+  paperChoice = v;
+  document.querySelectorAll('#choiceToggle .toggle-btn').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+}
+function pickPaperSrc(v, el) {
+  paperSrc = v;
+  document.querySelectorAll('#paperSrcToggle .toggle-btn').forEach(b => b.classList.remove('on'));
   el.classList.add('on');
 }
 function setTestSubj(s) {
@@ -1543,37 +1714,43 @@ async function generateTest() {
   const chapter = document.getElementById('testChapter').value;
   const type = document.getElementById('testType').value;
   const count = parseInt(document.getElementById('testCount').value) || 5;
+  const diff = getTestDiff();
+  const timerMins = parseInt(document.getElementById('testTimer').value) || 0;
   const area = document.getElementById('testArea');
 
   area.innerHTML = `<div class="thinking"><div class="dots"><span></span><span></span><span></span></div><div>Creating ${SL[testSubj]} questions…</div></div>`;
 
-  const sys = `You are a CBSE Grade 12 expert tutor. Return ONLY valid JSON, no markdown, no fences, no extra text.
-For MCQ: {"type":"mcq","questions":[{"q":"...","opts":["(a)...","(b)...","(c)...","(d)..."],"correct":0,"exp":"..."},...]}
-For assertion: {"type":"assertion","questions":[{"assertion":"...","reason":"...","correct":0,"exp":"..."},...]}
-For formula: {"type":"formula","formulas":[{"name":"...","formula":"ASCII notation","vars":"what each means","use":"when to apply"},...]}
-For short: {"type":"short","questions":[{"q":"...","a":"..."},...]}
-For long: {"type":"long","questions":[{"q":"...","a":"..."},...]}
-For fill: {"type":"fill","questions":[{"q":"sentence with ___ blank","answer":"...","hint":"..."},...]}
-correct is 0-indexed. All content NCERT Class 12 accurate. Difficulty: ${testDiff}.`;
+  const sourceMap = { ncert:'NCERT textbook', exemplar:'NCERT Exemplar Problems book', pyq:'Previous Year CBSE Board Questions (2015-2024)' };
+  const sourceLabel = sourceMap[testSource] || 'NCERT';
 
-  const typeNames = {mcq:'Multiple Choice Questions',assertion:'Assertion & Reason questions',formula:'a Formula Bank',short:'Short Answer Questions',long:'Long Answer Questions (5 marks)',fill:'Fill in the Blank questions'};
-  const usr = `Generate ${type==='formula'?'all key formulas':count+' '+typeNames[type]} for CBSE Grade 12 ${SL[testSubj]} — ${chapter}. NCERT-based, board-exam level, difficulty: ${testDiff}.`;
+  const sys = `You are a CBSE Grade 12 expert tutor and examiner. Return ONLY valid JSON, no markdown, no fences, no extra text.
+For MCQ: {"type":"mcq","questions":[{"q":"...","opts":["(a)...","(b)...","(c)...","(d)..."],"correct":0,"exp":"...","source":"NCERT Ch X / PYQ 2023"},...]}
+For assertion: {"type":"assertion","questions":[{"assertion":"...","reason":"...","correct":0,"exp":"..."},...]}
+For hots: {"type":"hots","questions":[{"q":"...","marks":3,"a":"...","hint":"...","skill":"Analysis|Evaluation|Application"},...]}
+For formula: {"type":"formula","formulas":[{"name":"...","formula":"ASCII notation","vars":"what each means","use":"when to apply","ncert_ref":"Chapter X, Page Y"},...]}
+For short: {"type":"short","questions":[{"q":"...","a":"...","marks":2,"ncert_ref":"..."},...]}
+For long: {"type":"long","questions":[{"q":"...","a":"...","marks":5,"ncert_ref":"..."},...]}
+For fill: {"type":"fill","questions":[{"q":"sentence with ___ blank","answer":"...","hint":"..."},...]}
+correct is 0-indexed. All content must be accurate for CBSE Class 12. Source: ${sourceLabel}. Difficulty: ${diff}.
+For PYQ source, mention the actual year the question appeared if known.
+For HOTS, questions must require analysis/evaluation/application — not simple recall.`;
+
+  const typeNames = {mcq:'Multiple Choice Questions',assertion:'Assertion & Reason questions',hots:'HOTS (Higher Order Thinking) questions',formula:'a Formula Bank',short:'Short Answer Questions',long:'Long Answer Questions (5 marks)',fill:'Fill in the Blank questions'};
+  const usr = `Generate ${type==='formula'?'all key formulas':count+' '+typeNames[type]} for CBSE Grade 12 ${SL[testSubj]} — ${chapter}.
+Source: ${sourceLabel}
+Difficulty: ${diff}
+Board exam style. Include NCERT references where possible.${testSource==='pyq'?' Mention year for PYQ questions.':''}${type==='hots'?' Tag each question with the cognitive skill it tests (Analysis/Evaluation/Application).':''}`;
 
   try {
     const r = await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',headers:{
-        'Content-Type':'application/json',
-        'x-api-key':'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',
-        'anthropic-version':'2023-06-01',
-        'anthropic-dangerous-direct-browser-access':'true'
-      },
+      method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:6000,system:sys,messages:[{role:'user',content:usr}]})
     });
     if(!r.ok) throw new Error('API '+r.status);
     const d = await r.json();
     let raw = d.content[0].text.trim().replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/\s*```$/,'').trim();
     const data = JSON.parse(raw);
-    renderTestQuestions(data, chapter);
+    renderTestQuestions(data, chapter, diff, timerMins);
   } catch(e) {
     area.innerHTML = `<div class="err-card">Error: ${e.message}. Please try again.</div>`;
   }
@@ -1582,7 +1759,8 @@ correct is 0-indexed. All content NCERT Class 12 accurate. Difficulty: ${testDif
   document.getElementById('testGenText').textContent='Generate Questions';
 }
 
-function renderTestQuestions(data, chapter) {
+function renderTestQuestions(data, chapter, diff, timerMins) {
+  if (timerMins > 0) startTimer(timerMins);
   const area = document.getElementById('testArea');
   const c = SCOL[testSubj];
   const bg = c + '22';
@@ -1594,7 +1772,8 @@ function renderTestQuestions(data, chapter) {
         <div class="q-card-head">
           <span class="q-type-badge" style="background:${bg};color:${c}">MCQ</span>
           <span style="font-size:11px;color:var(--t3)">Q${i+1}</span>
-          <span style="font-size:10px;color:var(--t3);margin-left:auto">${testDiff}</span>
+          <span style="font-size:10px;color:var(--t3);margin-left:auto">${diff}</span>
+          ${q.source?`<span style="font-size:10px;color:var(--t3)">${esc(q.source)}</span>`:''}
         </div>
         <div class="q-card-body">
           <div class="q-text">${esc(q.q)}</div>
@@ -1647,6 +1826,24 @@ function renderTestQuestions(data, chapter) {
         </div>
       </div>`;
     });
+  } else if (data.type === 'hots') {
+    data.questions.forEach((q,i) => {
+      const id = `hots-${i}`;
+      const skillColor = q.skill==='Analysis'?'var(--phy)':q.skill==='Evaluation'?'var(--chem)':'var(--math)';
+      html += `<div class="q-card">
+        <div class="q-card-head">
+          <span class="q-type-badge" style="background:${bg};color:${c}">HOTS</span>
+          <span style="font-size:11px;color:var(--t3)">Q${i+1} · ${q.marks||3}M</span>
+          <span style="font-size:10px;padding:2px 8px;border-radius:100px;background:${skillColor}22;color:${skillColor};margin-left:auto">${esc(q.skill||'Application')}</span>
+        </div>
+        <div class="q-card-body">
+          <div class="q-text">${esc(q.q)}</div>
+          <div style="font-size:11px;color:var(--t3);margin-bottom:6px;font-style:italic">💡 Hint: ${esc(q.hint||'Think carefully')}</div>
+          <button class="reveal-btn" onclick="togReveal('${id}',this)"><span>▶</span> Show Answer</button>
+          <div class="ans-reveal" id="ans-${id}"><div class="ans-reveal-lbl">Model Answer</div><div class="ans-reveal-text">${esc(q.a).replace(/\n/g,'<br>')}</div></div>
+        </div>
+      </div>`;
+    });
   } else if (data.type === 'fill') {
     data.questions.forEach((q,i) => {
       const id = `fill-${i}`;
@@ -1674,11 +1871,24 @@ function answerMCQ(qi, sel, correct, expEnc, prefix) {
     if(j===correct) opt.classList.add('revealed');
     else if(j===sel&&sel!==correct) opt.classList.add('wrong');
   });
+  const chapter = document.getElementById('testChapter').value;
   if(sel===correct){
     scoreC++;
     document.getElementById(`${pref}-${sel}`).classList.remove('wrong');
     document.getElementById(`${pref}-${sel}`).classList.add('correct');
-  } else { scoreW++; }
+    addCorrectToScore(testSubj, chapter);
+  } else {
+    scoreW++;
+    const qEl = document.querySelector(`[id^="${pref}-0"]`);
+    const qText = document.querySelector(`#mcq-${typeof qi==='number'?qi:'ar-'+qi.toString().replace('ar-','')} .q-text, #mcq-ar-${typeof qi==='number'?qi:qi.toString().replace('ar-','')} .q-text`);
+    const yourOptEl = document.getElementById(`${pref}-${sel}`);
+    const corrOptEl = document.getElementById(`${pref}-${correct}`);
+    const yourText = yourOptEl ? yourOptEl.textContent.trim().slice(0,60) : 'Option '+'ABCD'[sel];
+    const corrText = corrOptEl ? corrOptEl.textContent.trim().slice(0,60) : 'Option '+'ABCD'[correct];
+    const qTextEl = document.querySelector(`#opt-${typeof qi==='number'?qi:0}-0`)?.closest('.q-card-body')?.querySelector('.q-text');
+    const qStr = qTextEl ? qTextEl.textContent.slice(0,100) : 'Question '+(typeof qi==='number'?qi+1:qi);
+    addToErrorLog(qStr, yourText, corrText, SL[testSubj], chapter);
+  }
   scoreTot++;
   updateScoreBar();
   const expBox = document.getElementById(`exp-${prefix==='ar'?'ar-'+qi.toString().replace('ar-',''):'mcq-'+qi}`);
@@ -1703,6 +1913,118 @@ function updateScoreBar() {
   const pill = document.getElementById('spct');
   pill.textContent = pct + '%';
   pill.className = 'sb-pct ' + (pct>=70?'g':pct>=40?'o':'r');
+}
+
+/* ── EXAM TIMER ─────────────────────────── */
+function startTimer(minutes) {
+  if (timerInterval) clearInterval(timerInterval);
+  timerTotal = minutes * 60;
+  timerLeft = timerTotal;
+  const bar = document.getElementById('timerBar');
+  bar.classList.add('active');
+  document.getElementById('timerTitle').textContent = minutes + ' min Exam Timer';
+  updateTimerDisplay();
+  timerInterval = setInterval(() => {
+    timerLeft--;
+    updateTimerDisplay();
+    if (timerLeft <= 0) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      document.getElementById('timerCircle').textContent = 'TIME';
+      document.getElementById('timerCircle').className = 'timer-circle low';
+      document.getElementById('timerSub').textContent = '⏰ Time is up! Review your answers.';
+      if ('vibrate' in navigator) navigator.vibrate([300, 100, 300]);
+    }
+  }, 1000);
+}
+function updateTimerDisplay() {
+  const m = Math.floor(timerLeft / 60);
+  const s = timerLeft % 60;
+  const display = m + ':' + String(s).padStart(2,'0');
+  const circle = document.getElementById('timerCircle');
+  const fill = document.getElementById('timerProgFill');
+  const pct = (timerLeft / timerTotal) * 100;
+  circle.textContent = display;
+  fill.style.width = pct + '%';
+  if (pct > 50) {
+    circle.className = 'timer-circle ok';
+    fill.style.background = 'var(--green)';
+    document.getElementById('timerSub').textContent = 'Keep going — you have time!';
+  } else if (pct > 20) {
+    circle.className = 'timer-circle mid';
+    fill.style.background = 'var(--yellow)';
+    document.getElementById('timerSub').textContent = 'Half time gone — pick up pace';
+  } else {
+    circle.className = 'timer-circle low';
+    fill.style.background = 'var(--red)';
+    document.getElementById('timerSub').textContent = '⚠️ Less than 20% time remaining!';
+    if (timerLeft % 60 === 0 && 'vibrate' in navigator) navigator.vibrate(200);
+  }
+}
+function stopTimer() {
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+  document.getElementById('timerBar').classList.remove('active');
+}
+
+/* ── ERROR LOG ──────────────────────────── */
+function addToErrorLog(q, yourAns, correctAns, subject, chapter) {
+  errorLog.unshift({ q, yourAns, correctAns, subject, chapter, date: new Date().toLocaleDateString('en-IN') });
+  if (errorLog.length > 100) errorLog = errorLog.slice(0, 100);
+  localStorage.setItem('cbse12_errlog', JSON.stringify(errorLog));
+  updateChapterScore(subject, chapter, false);
+  renderErrLog();
+}
+function addCorrectToScore(subject, chapter) {
+  updateChapterScore(subject, chapter, true);
+}
+function updateChapterScore(subject, chapter, correct) {
+  const key = subject + '::' + chapter;
+  if (!chapterScores[key]) chapterScores[key] = { c:0, t:0 };
+  chapterScores[key].t++;
+  if (correct) chapterScores[key].c++;
+  localStorage.setItem('cbse12_chscores', JSON.stringify(chapterScores));
+  renderAdaptiveAlerts();
+}
+function renderErrLog() {
+  const el = document.getElementById('errLogList');
+  if (!el) return;
+  if (!errorLog.length) {
+    el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--t3);font-size:13px">No errors logged yet. Wrong answers appear here automatically.</div>';
+    return;
+  }
+  el.innerHTML = errorLog.slice(0,20).map((e,i) => `
+    <div class="errlog-item">
+      <div class="err-count-badge">${i+1}</div>
+      <div style="flex:1">
+        <div class="errlog-q">${esc(e.q)}</div>
+        <div class="errlog-meta">${esc(e.subject)} · ${esc(e.chapter)} · ${esc(e.date)}</div>
+        <div class="errlog-ans">✗ Your answer: ${esc(e.yourAns)}</div>
+        <div class="errlog-cor">✓ Correct: ${esc(e.correctAns)}</div>
+      </div>
+    </div>`).join('');
+}
+function clearErrLog() {
+  if (!confirm('Clear all error log entries?')) return;
+  errorLog = [];
+  localStorage.setItem('cbse12_errlog', JSON.stringify([]));
+  renderErrLog();
+}
+function renderAdaptiveAlerts() {
+  const container = document.getElementById('adaptiveAlerts');
+  if (!container) return;
+  const weak = Object.entries(chapterScores)
+    .filter(([k,v]) => v.t >= 3 && (v.c/v.t) < 0.6)
+    .map(([k,v]) => ({ key:k, pct: Math.round((v.c/v.t)*100), total:v.t }))
+    .sort((a,b) => a.pct - b.pct)
+    .slice(0,3);
+  if (!weak.length) { container.innerHTML = ''; return; }
+  container.innerHTML = weak.map(w => {
+    const [subj, ch] = w.key.split('::');
+    return `<div class="adapt-alert">
+      <span>⚠️</span>
+      <div><strong style="color:var(--t1)">${esc(ch)}</strong> — only ${w.pct}% correct in ${w.total} attempts. Consider revising this chapter before moving on.</div>
+    </div>`;
+  }).join('');
 }
 
 function resetScore() {
@@ -1770,27 +2092,27 @@ Schema:
 {"paperTitle":"string","examDate":"string","totalMarks":number,"duration":"string","generalInstructions":["string",...],"sections":[{"sectionName":"string","sectionDesc":"string","totalMarks":number,"qType":"mcq|assertion|vsa|sa|la|casebased|fill","questions":[{"qNum":number,"qText":"string","marks":number,"opts":["(a)...","(b)...","(c)...","(d)..."],"assertion":"string","reason":"string","passage":"string","subQuestions":["string"],"answerKey":"string","answerExplanation":"string"}]}]}
 Rules: opts only for mcq/assertion. assertion+reason only for assertion. passage+subQuestions only for casebased. All NCERT Class 12 accurate. Question numbers sequential across sections.`;
 
+  const _srcLabels = {'ncert':'NCERT textbook only','exemplar':'NCERT + NCERT Exemplar Problems','pyq':'NCERT + Previous Year Board Questions (2015-2024 style)'};
+  const _srcLabel = _srcLabels[paperSrc] || 'NCERT';
+  const _choiceNote = paperChoice==='yes' ? 'IMPORTANT: Provide internal choice (OR) in all SA and LA questions. Format as the question followed by a line break, "OR", then alternate question.' : '';
   const usr = `Generate a ${typeMap[ptype]} for CBSE Grade 12 ${SL[paperSubj]} (Code: ${SC[paperSubj]}).
 Coverage: ${chapters.join(', ')}
 Duration: ${dur}, Total: ${total} marks, Difficulty: ${paperDiff}
+Source: ${_srcLabel}
+${_choiceNote}
 Sections:
-${m1>0?`Section A: ${m1} MCQ ×1 mark = ${m1}M`:''}
-${m2>0?`Section A cont: ${m2} Assertion & Reason ×1 mark = ${m2}M`:''}
-${m3>0?`Section B: ${m3} VSA ×2 marks = ${m3*2}M`:''}
-${m4>0?`Section C: ${m4} SA ×3 marks = ${m4*3}M`:''}
-${m5>0?`Section D: ${m5} LA ×5 marks = ${m5*5}M`:''}
-${m6>0?`Section E: ${m6} Case-based ×4 marks = ${m6*4}M (each has passage + 4 sub-questions of 1 mark)`:''}
+${m1>0?`Section A: ${m1} MCQ x1 mark = ${m1}M`:''}
+${m2>0?`Section A cont: ${m2} Assertion & Reason x1 mark = ${m2}M`:''}
+${m3>0?`Section B: ${m3} VSA x2 marks = ${m3*2}M`:''}
+${m4>0?`Section C: ${m4} SA x3 marks = ${m4*3}M${paperChoice==='yes'?' (with OR choice)':''}`:''}
+${m5>0?`Section D: ${m5} LA x5 marks = ${m5*5}M${paperChoice==='yes'?' (with OR choice)':''}`:''}
+${m6>0?`Section E: ${m6} Case-based x4 marks = ${m6*4}M (passage + 4 sub-questions of 1 mark each)`:''}
 ${note?'Teacher note: '+note:''}
-Include 5 general instructions. Date: March 2027. Full answer key for all questions.`;
+Include 5 CBSE-style general instructions. Date: March 2027. Full answer key for all questions.`;
 
   try {
     const r = await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',headers:{
-        'Content-Type':'application/json',
-        'x-api-key':'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',
-        'anthropic-version':'2023-06-01',
-        'anthropic-dangerous-direct-browser-access':'true'
-      },
+      method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:8000,system:sys,messages:[{role:'user',content:usr}]})
     });
     if(!r.ok) throw new Error('API '+r.status);
@@ -1934,6 +2256,8 @@ renderChPlan();
 renderTestChapters();
 renderPaperChapters();
 calcPaperTotal();
+renderErrLog();
+renderAdaptiveAlerts();
 
 
 /* ══════════════════════════════════════════════
@@ -2063,7 +2387,11 @@ window.addEventListener('hashchange', handleHash);
 handleHash();
 
 // Override goTab to also update hash
-
+const _origGoTab = goTab;
+function goTab(tab) {
+  _origGoTab(tab);
+  history.replaceState(null, '', '#' + tab);
+}
 
 // ── VIBRATION FEEDBACK ──────────────────────
 document.querySelectorAll('.nav-item, .btn-primary, .mcq-opt').forEach(el => {

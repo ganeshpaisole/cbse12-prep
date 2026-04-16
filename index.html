@@ -4276,12 +4276,12 @@ const REF_BOOKS = {
     },
     {
       id: 'pradeep_phy',
-      name: 'Pradeep's Fundamental Physics',
+      name: "Pradeep's Fundamental Physics",
       author: 'K.L. Gomber & K.L. Gogia',
       type: 'reference',
       icon: '📒',
       color: 'var(--phy)',
-      prompt: 'Pradeep's Fundamental Physics Class 12. Include very short answer questions (1 mark), short answer questions (2-3 marks), long answer questions (5 marks), and value-based questions. Pradeep style is comprehensive for CBSE boards.',
+      prompt: "Pradeep's Fundamental Physics Class 12. Include very short answer questions (1 mark), short answer questions (2-3 marks), long answer questions (5 marks), and value-based questions. Pradeep style is comprehensive for CBSE boards.",
       focus: ['VSA (1M)','SA (2-3M)','LA (5M)','Value-based Qs']
     },
     {
@@ -4720,6 +4720,16 @@ function updateSrcSelectorLabel() {
 /* ══════════════════════════════════════════════
    INIT
 ══════════════════════════════════════════════ */
+buildWeekGrid();
+buildActivity();
+renderChPlan();
+renderTestChapters();
+renderPaperChapters();
+calcPaperTotal();
+renderErrLog();
+renderAdaptiveAlerts();
+renderProgressScreen();
+checkOnboarding();
 
 /* ══════════════════════════════════════════════
    EXAM RECORDS SYSTEM

@@ -704,11 +704,11 @@ textarea.ta:focus { border-color: var(--primary); }
   background: linear-gradient(135deg, #1d2b3f, #233148);
   border: 1px solid rgba(77,158,255,.35);
   border-radius: var(--rl); padding: 14px 16px;
-  display: flex; align-items: center; gap: 12px;
+  display: none; align-items: center; gap: 12px;
   z-index: 100; box-shadow: 0 8px 32px rgba(0,0,0,.5);
   transform: translateY(120%); transition: transform .4s cubic-bezier(.32,.72,0,1);
 }
-.install-banner.show { transform: translateY(0); }
+.install-banner.show { display: flex; transform: translateY(0); }
 .install-icon { font-size: 26px; flex-shrink: 0; }
 .install-info { flex: 1; min-width: 0; }
 .install-title { font-family: "Nunito", sans-serif; font-weight: 800; font-size: 13px; color: var(--t1); }
@@ -836,6 +836,197 @@ textarea.ta:focus { border-color: var(--primary); }
   font-size:12px; color:var(--phy-m);
   display:flex; gap:8px; align-items:flex-start;
   margin-bottom:8px;
+}
+
+
+/* ═══════════════════════════════════════════
+   EXAM RECORDS & KPI DASHBOARD
+═══════════════════════════════════════════ */
+.kpi-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
+.kpi-card {
+  background:var(--surf1); border-radius:var(--rl);
+  border:1px solid var(--border); padding:14px 12px;
+}
+.kpi-val {
+  font-family:'Nunito',sans-serif; font-weight:900;
+  font-size:26px; line-height:1; margin-bottom:3px;
+}
+.kpi-lbl { font-size:10px; font-weight:700; color:var(--t3); letter-spacing:.06em; text-transform:uppercase; }
+.kpi-trend { font-size:10px; margin-top:4px; }
+.kpi-trend.up { color:var(--green); }
+.kpi-trend.dn { color:var(--red); }
+.kpi-trend.nt { color:var(--t3); }
+
+.rec-filter-row { display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; margin-bottom:12px; }
+.rec-filter-row::-webkit-scrollbar { display:none; }
+.rec-chip {
+  padding:5px 12px; border-radius:100px; font-size:12px; font-weight:700;
+  border:1px solid var(--border2); background:var(--surf2); color:var(--t2);
+  cursor:pointer; white-space:nowrap; flex-shrink:0; transition:all .15s;
+}
+.rec-chip.on { background:rgba(77,158,255,.15); border-color:var(--primary); color:var(--primary); }
+
+.rec-item {
+  background:var(--surf1); border-radius:var(--r);
+  border:1px solid var(--border); padding:12px 14px;
+  margin-bottom:8px; cursor:pointer; transition:all .15s;
+}
+.rec-item:active { transform:scale(.98); }
+.rec-item-head { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+.rec-subj-icon { font-size:16px; }
+.rec-subj-name { font-size:13px; font-weight:700; color:var(--t1); flex:1; }
+.rec-score-badge {
+  font-family:'Nunito',sans-serif; font-weight:900;
+  font-size:15px; padding:3px 10px;
+  border-radius:100px;
+}
+.rec-score-g { background:rgba(38,201,135,.15); color:var(--math-m); }
+.rec-score-y { background:rgba(255,204,2,.12); color:var(--cs-m); }
+.rec-score-r { background:rgba(255,82,82,.12); color:#ff8f8f; }
+.rec-meta { display:flex; gap:10px; flex-wrap:wrap; }
+.rec-meta-item { font-size:10px; color:var(--t3); font-weight:600; display:flex; align-items:center; gap:3px; }
+.rec-detail-row { display:flex; gap:8px; margin-top:8px; padding-top:8px; border-top:1px solid var(--border); }
+.rec-detail-stat { flex:1; text-align:center; }
+.rec-detail-val { font-family:'Nunito',sans-serif; font-weight:800; font-size:14px; }
+.rec-detail-lbl { font-size:9px; color:var(--t3); font-weight:700; text-transform:uppercase; }
+
+.trend-mini { display:flex; align-items:flex-end; gap:3px; height:32px; margin-top:6px; }
+.trend-bar-mini { flex:1; border-radius:2px; min-height:3px; transition:height .3s; }
+
+.empty-state { text-align:center; padding:32px 16px; color:var(--t3); }
+.empty-icon { font-size:36px; margin-bottom:8px; }
+.empty-msg { font-size:13px; font-weight:700; color:var(--t2); }
+.empty-sub { font-size:11px; margin-top:4px; }
+
+
+/* ═══════════════════════════════════════════
+   WEAKNESS ANALYSIS SCREEN
+═══════════════════════════════════════════ */
+.wa-hero {
+  background: linear-gradient(160deg, #2d0a0a 0%, #0f1923 60%);
+  padding: 20px 16px 24px;
+  border-bottom: 1px solid var(--border);
+}
+.wa-hero-title {
+  font-family: 'Nunito', sans-serif; font-weight: 900;
+  font-size: 20px; color: var(--t1); margin-bottom: 4px;
+}
+.wa-hero-sub { font-size: 12px; color: var(--t3); margin-bottom: 16px; }
+
+.weakness-ring-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; }
+.weakness-ring-row::-webkit-scrollbar { display: none; }
+.w-ring-card {
+  flex-shrink: 0; width: 80px; text-align: center;
+  background: var(--surf1); border-radius: var(--rl);
+  border: 1px solid var(--border); padding: 12px 8px;
+}
+.w-ring-pct {
+  font-family: 'Nunito', sans-serif; font-weight: 900;
+  font-size: 20px; line-height: 1; margin-bottom: 3px;
+}
+.w-ring-subj { font-size: 9px; font-weight: 700; color: var(--t3); text-transform: uppercase; letter-spacing: .06em; }
+.w-ring-icon { font-size: 16px; margin-bottom: 4px; display: block; }
+
+.wa-section { padding: 0 16px 16px; }
+.wa-sec-title {
+  font-size: 11px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--t3);
+  margin: 20px 0 10px; display: flex; align-items: center; gap: 6px;
+}
+
+/* Weakness cards */
+.wk-card {
+  background: var(--surf1); border-radius: var(--rl);
+  border: 1px solid var(--border); margin-bottom: 10px;
+  overflow: hidden;
+}
+.wk-card-head {
+  padding: 12px 14px 10px;
+  display: flex; align-items: center; gap: 10px;
+}
+.wk-severity {
+  width: 4px; border-radius: 2px; align-self: stretch; flex-shrink: 0;
+}
+.wk-main { flex: 1; min-width: 0; }
+.wk-chapter { font-size: 13px; font-weight: 700; color: var(--t1); }
+.wk-subject { font-size: 11px; color: var(--t2); margin-top: 1px; }
+.wk-pct-badge {
+  font-family: 'Nunito', sans-serif; font-weight: 900;
+  font-size: 18px; flex-shrink: 0;
+}
+.wk-stats-row {
+  display: flex; gap: 0;
+  border-top: 1px solid var(--border);
+}
+.wk-stat {
+  flex: 1; padding: 8px 10px; text-align: center;
+  border-right: 1px solid var(--border);
+}
+.wk-stat:last-child { border-right: none; }
+.wk-stat-v { font-size: 13px; font-weight: 700; color: var(--t1); }
+.wk-stat-l { font-size: 9px; color: var(--t3); font-weight: 700; text-transform: uppercase; margin-top: 1px; }
+.wk-action-row {
+  padding: 10px 14px; display: flex; gap: 8px;
+  border-top: 1px solid var(--border);
+  background: var(--surf2);
+}
+
+/* AI Plan card */
+.plan-card {
+  background: linear-gradient(135deg, rgba(77,158,255,.12) 0%, rgba(124,58,237,.12) 100%);
+  border: 1px solid rgba(77,158,255,.25);
+  border-radius: var(--rl); padding: 16px;
+  margin-bottom: 10px;
+}
+.plan-card-title {
+  font-family: 'Nunito', sans-serif; font-weight: 900;
+  font-size: 15px; color: var(--t1); margin-bottom: 4px;
+  display: flex; align-items: center; gap: 8px;
+}
+.plan-card-sub { font-size: 11px; color: var(--t2); margin-bottom: 14px; }
+.plan-step {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 8px 0; border-bottom: 1px solid var(--border);
+}
+.plan-step:last-child { border-bottom: none; }
+.plan-step-num {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: rgba(77,158,255,.2); border: 1px solid rgba(77,158,255,.35);
+  font-size: 11px; font-weight: 800; color: var(--primary);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+}
+.plan-step-text { font-size: 13px; color: var(--t1); line-height: 1.5; flex: 1; }
+.plan-step-sub { font-size: 11px; color: var(--t3); margin-top: 2px; }
+
+/* Subject deep dive */
+.subj-deep-tabs {
+  display: flex; gap: 0; border-bottom: 1px solid var(--border);
+  overflow-x: auto; margin: 0 -16px; padding: 0 16px;
+}
+.subj-deep-tabs::-webkit-scrollbar { display: none; }
+.sdt {
+  padding: 10px 13px; font-size: 12px; font-weight: 700;
+  color: var(--t3); cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap; flex-shrink: 0; transition: all .15s;
+}
+.sdt.on { color: var(--primary); border-bottom-color: var(--primary); }
+
+.ch-analysis-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 0; border-bottom: 1px solid var(--border);
+}
+.ch-analysis-item:last-child { border-bottom: none; }
+.ch-an-bar { flex: 1; }
+.ch-an-label { display: flex; justify-content: space-between; margin-bottom: 3px; }
+.ch-an-name { font-size: 12px; font-weight: 700; color: var(--t1); }
+.ch-an-pct { font-size: 11px; font-weight: 700; }
+.ch-an-meta { font-size: 10px; color: var(--t3); margin-top: 2px; }
+.no-data-chip {
+  font-size: 10px; color: var(--t3); background: var(--surf2);
+  border: 1px solid var(--border); border-radius: 100px;
+  padding: 2px 8px; white-space: nowrap;
 }
 
 /* Print */
@@ -1361,11 +1552,11 @@ textarea.ta:focus { border-color: var(--primary); }
 
       <div class="prog-hero">
         <div class="overall-score">
-          <div class="big-score">74%</div>
+          <div class="big-score" id="kpiOverallPct">—%</div>
           <div class="big-score-info">
             <div class="big-score-label" style="font-size:14px;font-weight:700;color:var(--t1)">Overall Mock Average</div>
-            <div class="big-score-label">This month · 12 tests taken</div>
-            <div class="big-score-sub">Target: 87% · Keep going! 💪</div>
+            <div class="big-score-label" id="kpiTestCount">No tests yet</div>
+            <div class="big-score-sub" id="kpiTargetLine">Complete a test to see your stats 🎯</div>
           </div>
         </div>
         <div>
@@ -1385,86 +1576,65 @@ textarea.ta:focus { border-color: var(--primary); }
 
       <div class="section-pad gap-12">
 
-        <!-- Subject progress -->
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-val" id="kpi1" style="color:var(--primary)">—</div>
+            <div class="kpi-lbl">Overall Average</div>
+            <div class="kpi-trend nt" id="kpi1t">No data yet</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-val" id="kpi2" style="color:var(--green)">0</div>
+            <div class="kpi-lbl">Tests Taken</div>
+            <div class="kpi-trend nt" id="kpi2t">Start practicing</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-val" id="kpi3" style="color:var(--yellow)">—</div>
+            <div class="kpi-lbl">Best Score</div>
+            <div class="kpi-trend nt" id="kpi3t">—</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-val" id="kpi4" style="color:var(--orange)">—</div>
+            <div class="kpi-lbl">Needs Work</div>
+            <div class="kpi-trend nt" id="kpi4t">Below 60%</div>
+          </div>
+        </div>
+
+        <!-- Subject Performance — LIVE -->
         <div class="card">
           <div class="card-body">
             <div class="sec-hd-t" style="margin-bottom:14px">Subject Performance</div>
-            <div>
-              <div class="subj-prog-item">
-                <div class="spi-head"><span class="spi-icon">⚡</span><span class="spi-name">Physics</span><span class="spi-pct" style="color:var(--phy-m)">72%</span></div>
-                <div class="prog-bar"><div class="prog-fill" style="width:72%;background:var(--phy)"></div></div>
-              </div>
-              <div class="subj-prog-item">
-                <div class="spi-head"><span class="spi-icon">🧪</span><span class="spi-name">Chemistry</span><span class="spi-pct" style="color:var(--chem-m)">68%</span></div>
-                <div class="prog-bar"><div class="prog-fill" style="width:68%;background:var(--chem)"></div></div>
-              </div>
-              <div class="subj-prog-item">
-                <div class="spi-head"><span class="spi-icon">📐</span><span class="spi-name">Mathematics</span><span class="spi-pct" style="color:var(--math-m)">81%</span></div>
-                <div class="prog-bar"><div class="prog-fill" style="width:81%;background:var(--math)"></div></div>
-              </div>
-              <div class="subj-prog-item">
-                <div class="spi-head"><span class="spi-icon">📖</span><span class="spi-name">English</span><span class="spi-pct" style="color:var(--eng-m)">79%</span></div>
-                <div class="prog-bar"><div class="prog-fill" style="width:79%;background:var(--eng)"></div></div>
-              </div>
-              <div class="subj-prog-item" style="margin-bottom:0">
-                <div class="spi-head"><span class="spi-icon">💻</span><span class="spi-name">Comp. Science</span><span class="spi-pct" style="color:var(--cs-m)">76%</span></div>
-                <div class="prog-bar"><div class="prog-fill" style="width:76%;background:var(--cs)"></div></div>
-              </div>
+            <div id="liveSubjPerf">
+              <div class="empty-state"><div class="empty-icon">📊</div><div class="empty-msg">No data yet</div><div class="empty-sub">Complete tests to see subject-wise scores</div></div>
             </div>
           </div>
         </div>
 
-        <!-- Weak areas -->
+        <!-- Weak Areas — LIVE -->
         <div class="card">
           <div class="card-body">
             <div class="sec-hd"><span class="sec-hd-t">⚠️ Weak Areas</span><span class="sec-hd-link" onclick="goTab('tests')">Practice →</span></div>
-            <div style="display:flex;flex-direction:column;gap:8px">
-              <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,82,82,.08);border-radius:var(--r);border:1px solid rgba(255,82,82,.2)">
-                <span style="font-size:14px">⚡</span>
-                <div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--t1)">Alternating Current</div><div style="font-size:11px;color:var(--t3)">Physics Ch 7 · 58% score</div></div>
-                <span style="font-size:18px;color:var(--red)">↓</span>
-              </div>
-              <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,82,82,.08);border-radius:var(--r);border:1px solid rgba(255,82,82,.2)">
-                <span style="font-size:14px">🧪</span>
-                <div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--t1)">Coordination Compounds</div><div style="font-size:11px;color:var(--t3)">Chemistry Ch 9 · 61% score</div></div>
-                <span style="font-size:18px;color:var(--red)">↓</span>
-              </div>
-              <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,204,2,.06);border-radius:var(--r);border:1px solid rgba(255,204,2,.15)">
-                <span style="font-size:14px">📐</span>
-                <div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--t1)">Application of Integrals</div><div style="font-size:11px;color:var(--t3)">Maths Ch 8 · 67% score</div></div>
-                <span style="font-size:18px;color:var(--yellow)">→</span>
-              </div>
+            <div id="liveWeakAreas">
+              <div style="font-size:12px;color:var(--t3);padding:8px 0">Complete tests to identify weak chapters</div>
             </div>
           </div>
         </div>
 
-        <!-- Recent tests -->
-        <div class="card">
-          <div class="card-body">
-            <div class="sec-hd-t" style="margin-bottom:10px">Recent Test Scores</div>
-            <div style="display:flex;flex-direction:column;gap:1px">
-              <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)">
-                <span style="font-size:13px">📐</span>
-                <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--t1)">Maths — Integration</div><div style="font-size:11px;color:var(--t3)">Sun 15 · MCQ · 15 Qs</div></div>
-                <span style="font-size:14px;font-weight:800;color:var(--math-m)">87%</span>
-              </div>
-              <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)">
-                <span style="font-size:13px">⚡</span>
-                <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--t1)">Physics — Optics</div><div style="font-size:11px;color:var(--t3)">Fri 13 · Full Mock</div></div>
-                <span style="font-size:14px;font-weight:800;color:var(--phy-m)">74%</span>
-              </div>
-              <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)">
-                <span style="font-size:13px">🧪</span>
-                <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--t1)">Chemistry — Organic</div><div style="font-size:11px;color:var(--t3)">Wed 11 · SA + LA</div></div>
-                <span style="font-size:14px;font-weight:800;color:var(--yellow)">69%</span>
-              </div>
-              <div style="display:flex;align-items:center;gap:10px;padding:9px 0">
-                <span style="font-size:13px">💻</span>
-                <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--t1)">CS — SQL & Networks</div><div style="font-size:11px;color:var(--t3)">Mon 9 · Mixed</div></div>
-                <span style="font-size:14px;font-weight:800;color:var(--cs-m)">81%</span>
-              </div>
-            </div>
+        <!-- Exam History -->
+        <div>
+          <div class="sec-hd">
+            <span class="sec-hd-t">📋 Exam History</span>
+            <span class="sec-hd-link" onclick="clearExamHistory()" style="color:var(--red)">Clear All</span>
           </div>
+          <div class="rec-filter-row">
+            <div class="rec-chip on" onclick="filterHistory('all',this)">All</div>
+            <div class="rec-chip" onclick="filterHistory('physics',this)">⚡ Physics</div>
+            <div class="rec-chip" onclick="filterHistory('chemistry',this)">🧪 Chemistry</div>
+            <div class="rec-chip" onclick="filterHistory('mathematics',this)">📐 Maths</div>
+            <div class="rec-chip" onclick="filterHistory('english',this)">📖 English</div>
+            <div class="rec-chip" onclick="filterHistory('cs',this)">💻 CS</div>
+          </div>
+          <div id="examHistoryList"></div>
         </div>
 
         <!-- Error Log -->
@@ -1498,6 +1668,65 @@ textarea.ta:focus { border-color: var(--primary); }
       </div>
     </div><!-- /screen-progress -->
 
+
+    <!-- ── SCREEN 6: WEAKNESS ANALYSIS ── -->
+    <div class="screen" id="screen-weakness">
+
+      <!-- Hero -->
+      <div class="wa-hero">
+        <div class="wa-hero-title">🎯 Weakness Analysis</div>
+        <div class="wa-hero-sub">AI-powered diagnosis of your weak areas with a personalised recovery plan</div>
+        <div class="weakness-ring-row" id="waSubjRings"></div>
+      </div>
+
+      <div class="wa-section">
+
+        <!-- Generate AI Plan button -->
+        <div class="plan-card" id="aiPlanCard">
+          <div class="plan-card-title">🤖 AI Recovery Plan</div>
+          <div class="plan-card-sub" id="aiPlanSub">Analyse your performance and get a personalised improvement plan</div>
+          <div id="aiPlanContent">
+            <button class="btn btn-primary" id="aiPlanBtn" onclick="generateWeaknessPlan()">
+              <span id="aiPlanIcon">✦</span><span id="aiPlanText">Generate My Recovery Plan</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Critical Weaknesses -->
+        <div class="wa-sec-title">🔴 Critical — Below 50%</div>
+        <div id="criticalList"><div style="font-size:12px;color:var(--t3)">Complete tests to identify critical weaknesses</div></div>
+
+        <!-- Moderate Weaknesses -->
+        <div class="wa-sec-title">🟡 Needs Improvement — 50–70%</div>
+        <div id="moderateList"><div style="font-size:12px;color:var(--t3)">Complete tests to identify areas needing improvement</div></div>
+
+        <!-- Subject Deep Dive -->
+        <div class="wa-sec-title">📊 Subject Deep Dive</div>
+        <div class="subj-deep-tabs" id="deepTabs">
+          <div class="sdt on" onclick="deepDive('physics',this)">⚡ Physics</div>
+          <div class="sdt" onclick="deepDive('chemistry',this)">🧪 Chemistry</div>
+          <div class="sdt" onclick="deepDive('mathematics',this)">📐 Maths</div>
+          <div class="sdt" onclick="deepDive('english',this)">📖 English</div>
+          <div class="sdt" onclick="deepDive('cs',this)">💻 CS</div>
+        </div>
+        <div class="card" style="margin-top:10px">
+          <div class="card-body" id="deepDiveContent">
+            <div class="empty-state"><div class="empty-icon">📊</div><div class="empty-msg">No data for Physics yet</div><div class="empty-sub">Complete Physics tests to see chapter analysis</div></div>
+          </div>
+        </div>
+
+        <!-- Error Pattern Analysis -->
+        <div class="wa-sec-title">❌ Error Pattern Analysis</div>
+        <div class="card">
+          <div class="card-body" id="errorPatternContent">
+            <div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-msg">No error patterns yet</div><div class="empty-sub">Wrong answers are tracked automatically</div></div>
+          </div>
+        </div>
+
+        <div style="height:20px"></div>
+      </div>
+    </div><!-- /screen-weakness -->
+
   </div><!-- /screens -->
 
   <!-- BOTTOM NAV -->
@@ -1521,6 +1750,10 @@ textarea.ta:focus { border-color: var(--primary); }
     <div class="nav-item" id="nav-progress" onclick="goTab('progress')">
       <div class="nav-icon">📈</div>
       <div class="nav-label">Progress</div>
+    </div>
+    <div class="nav-item" id="nav-weakness" onclick="goTab('weakness')">
+      <div class="nav-icon">🎯</div>
+      <div class="nav-label">Improve</div>
     </div>
   </div>
 
@@ -1590,11 +1823,24 @@ let lastPaper = null;
    NAVIGATION
 ══════════════════════════════════════════════ */
 function goTab(tab) {
+  // Auto-save exam record if leaving test screen with answers
+  if (curTab === 'tests' && tab !== 'tests' && scoreTot > 0) {
+    const chapter = document.getElementById('testChapter').value;
+    const type = document.getElementById('testType').value;
+    const diff = getTestDiff();
+    saveExamRecord(SL[testSubj], chapter, type, scoreC, scoreW, scoreTot, testSource.toUpperCase()+' · '+diff);
+    scoreC=scoreW=scoreTot=0;
+    document.getElementById('scoreBarWrap').style.display='none';
+  }
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('screen-' + (tab==='home'?'home':tab==='plan'?'plan':tab==='tests'?'tests':tab==='papers'?'papers':'progress')).classList.add('active');
-  document.getElementById('nav-' + (tab==='home'?'home':tab==='plan'?'plan':tab==='tests'?'tests':tab==='papers'?'papers':'progress')).classList.add('active');
+  const screenMap = {home:'home',plan:'plan',tests:'tests',papers:'papers',progress:'progress',weakness:'weakness'};
+  const sid = screenMap[tab]||'home';
+  document.getElementById('screen-'+sid).classList.add('active');
+  document.getElementById('nav-'+sid).classList.add('active');
   curTab = tab;
+  if (tab === 'weakness') analyseWeaknesses();
+  if (tab === 'progress') renderProgressScreen();
 }
 
 /* ══════════════════════════════════════════════
@@ -2028,6 +2274,12 @@ function renderAdaptiveAlerts() {
 }
 
 function resetScore() {
+  if (scoreTot > 0) {
+    const chapter = document.getElementById('testChapter').value;
+    const type = document.getElementById('testType').value;
+    const diff = getTestDiff();
+    saveExamRecord(SL[testSubj], chapter, type, scoreC, scoreW, scoreTot, testSource.toUpperCase()+' · '+diff);
+  }
   scoreC=scoreW=scoreTot=0;
   document.getElementById('scoreBarWrap').style.display='none';
 }
@@ -2246,6 +2498,1072 @@ function computeCountdown() {
   els.forEach(e => { if(e) e.textContent = days; });
 }
 
+
+/* ══════════════════════════════════════════════
+   WEAKNESS ANALYSIS ENGINE
+══════════════════════════════════════════════ */
+let deepDiveSubj = 'physics';
+let waLoading = false;
+
+// ── CORE ANALYSIS ────────────────────────────
+function analyseWeaknesses() {
+  const chMap = buildChapterMap();
+  const subjMap = buildSubjectMap();
+  renderSubjRings(subjMap);
+  renderWeaknessLists(chMap);
+  deepDive(deepDiveSubj, null);
+  renderErrorPatterns();
+}
+
+function buildChapterMap() {
+  const map = {};
+  examHistory.forEach(r => {
+    const key = r.subject + '||' + r.chapter;
+    if (!map[key]) map[key] = { subject:r.subject, chapter:r.chapter, scores:[], correct:0, wrong:0, total:0, attempts:0 };
+    map[key].scores.push(r.pct);
+    map[key].correct += r.correct || 0;
+    map[key].wrong   += r.wrong   || 0;
+    map[key].total   += r.total   || 0;
+    map[key].attempts++;
+  });
+  Object.values(map).forEach(c => {
+    c.avg = Math.round(c.scores.reduce((a,b)=>a+b,0)/c.scores.length);
+    c.trend = c.scores.length >= 2
+      ? (c.scores[0] > c.scores[c.scores.length-1] ? 'improving' : c.scores[0] < c.scores[c.scores.length-1] ? 'declining' : 'stable')
+      : 'new';
+    c.lastScore = c.scores[0];
+  });
+  return map;
+}
+
+function buildSubjectMap() {
+  const map = {};
+  ['physics','chemistry','mathematics','english','cs'].forEach(s => {
+    const recs = examHistory.filter(r => r.subject === SL[s] || r.subject.toLowerCase() === s);
+    if (!recs.length) { map[s] = null; return; }
+    const avg = Math.round(recs.reduce((a,r)=>a+r.pct,0)/recs.length);
+    const best = Math.max(...recs.map(r=>r.pct));
+    const worst = Math.min(...recs.map(r=>r.pct));
+    map[s] = { avg, best, worst, count: recs.length, recs };
+  });
+  return map;
+}
+
+// ── RENDER SUBJECT RINGS ─────────────────────
+function renderSubjRings(subjMap) {
+  const el = document.getElementById('waSubjRings');
+  if (!el) return;
+  const subjects = ['physics','chemistry','mathematics','english','cs'];
+  el.innerHTML = subjects.map(s => {
+    const d = subjMap[s];
+    const pct = d ? d.avg : null;
+    const col = pct === null ? 'var(--t3)' : pct >= 75 ? 'var(--green)' : pct >= 55 ? 'var(--yellow)' : 'var(--red)';
+    return `<div class="w-ring-card" onclick="deepDive('${s}',null);goTab('weakness')">
+      <span class="w-ring-icon">${SUBJ_ICONS[s]}</span>
+      <div class="w-ring-pct" style="color:${col}">${pct !== null ? pct+'%' : '—'}</div>
+      <div class="w-ring-subj">${s==='cs'?'CS':s==='mathematics'?'Maths':s.slice(0,4).charAt(0).toUpperCase()+s.slice(1,4)}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── RENDER WEAKNESS LISTS ────────────────────
+function renderWeaknessLists(chMap) {
+  const all = Object.values(chMap).filter(c => c.attempts >= 1);
+  const critical = all.filter(c => c.avg < 50).sort((a,b) => a.avg-b.avg);
+  const moderate = all.filter(c => c.avg >= 50 && c.avg < 70).sort((a,b) => a.avg-b.avg);
+
+  document.getElementById('criticalList').innerHTML = critical.length
+    ? critical.map(c => weaknessCard(c, 'critical')).join('')
+    : '<div style="font-size:12px;color:var(--green);padding:8px 0">🎉 No critical weaknesses! Keep it up.</div>';
+
+  document.getElementById('moderateList').innerHTML = moderate.length
+    ? moderate.map(c => weaknessCard(c, 'moderate')).join('')
+    : '<div style="font-size:12px;color:var(--t3);padding:8px 0">Complete more tests to identify moderate weaknesses</div>';
+}
+
+function weaknessCard(c, level) {
+  const subjKey = Object.keys(SL).find(k => SL[k]===c.subject) || c.subject.toLowerCase();
+  const col = level==='critical' ? 'var(--red)' : 'var(--yellow)';
+  const bgCol = level==='critical' ? 'rgba(255,82,82,.08)' : 'rgba(255,204,2,.06)';
+  const trendIcon = c.trend==='improving' ? '↑' : c.trend==='declining' ? '↓' : c.trend==='stable' ? '→' : '•';
+  const trendCol = c.trend==='improving' ? 'var(--green)' : c.trend==='declining' ? 'var(--red)' : 'var(--t3)';
+  const accuracy = c.total > 0 ? Math.round((c.correct/c.total)*100) : c.avg;
+  return `<div class="wk-card" style="background:${bgCol}">
+    <div class="wk-card-head">
+      <div class="wk-severity" style="background:${col}"></div>
+      <div class="wk-main">
+        <div class="wk-chapter">${esc(c.chapter)}</div>
+        <div class="wk-subject">${SUBJ_ICONS[subjKey]||'📚'} ${esc(c.subject)} · <span style="color:${trendCol}">${trendIcon} ${c.trend}</span></div>
+      </div>
+      <div class="wk-pct-badge" style="color:${col}">${c.avg}%</div>
+    </div>
+    <div class="wk-stats-row">
+      <div class="wk-stat"><div class="wk-stat-v">${c.attempts}</div><div class="wk-stat-l">Attempts</div></div>
+      <div class="wk-stat"><div class="wk-stat-v" style="color:var(--green)">${c.correct}</div><div class="wk-stat-l">Correct</div></div>
+      <div class="wk-stat"><div class="wk-stat-v" style="color:var(--red)">${c.wrong}</div><div class="wk-stat-l">Wrong</div></div>
+      <div class="wk-stat"><div class="wk-stat-v">${c.lastScore}%</div><div class="wk-stat-l">Last</div></div>
+    </div>
+    <div class="wk-action-row">
+      <button class="btn btn-outline btn-sm" onclick="quickPractice('${encodeURIComponent(c.subject)}','${encodeURIComponent(c.chapter)}')">⚡ Quick Practice</button>
+      <button class="btn btn-primary btn-sm" onclick="generateChapterPlan('${encodeURIComponent(c.subject)}','${encodeURIComponent(c.chapter)}',${c.avg})">🤖 Fix This</button>
+    </div>
+  </div>`;
+}
+
+// ── DEEP DIVE PER SUBJECT ────────────────────
+function deepDive(subj, el) {
+  deepDiveSubj = subj;
+  if (el) {
+    document.querySelectorAll('.sdt').forEach(t => t.classList.remove('on'));
+    el.classList.add('on');
+  } else {
+    document.querySelectorAll('.sdt').forEach((t,i) => {
+      const subjects = ['physics','chemistry','mathematics','english','cs'];
+      if (subjects[i]===subj) t.classList.add('on'); else t.classList.remove('on');
+    });
+  }
+  const el2 = document.getElementById('deepDiveContent');
+  if (!el2) return;
+
+  const recs = examHistory.filter(r => r.subject === SL[subj] || r.subject.toLowerCase() === subj);
+  if (!recs.length) {
+    el2.innerHTML = `<div class="empty-state"><div class="empty-icon">📊</div><div class="empty-msg">No data for ${SL[subj]} yet</div><div class="empty-sub">Complete ${SL[subj]} tests to see chapter analysis</div></div>`;
+    return;
+  }
+
+  // Build chapter map for this subject
+  const chMap = {};
+  recs.forEach(r => {
+    if (!chMap[r.chapter]) chMap[r.chapter] = { scores:[], correct:0, wrong:0, total:0 };
+    chMap[r.chapter].scores.push(r.pct);
+    chMap[r.chapter].correct += r.correct||0;
+    chMap[r.chapter].wrong   += r.wrong||0;
+    chMap[r.chapter].total   += r.total||0;
+  });
+
+  // Stats summary
+  const allPcts = recs.map(r=>r.pct);
+  const avg = Math.round(allPcts.reduce((a,b)=>a+b,0)/allPcts.length);
+  const best = Math.max(...allPcts);
+  const worst = Math.min(...allPcts);
+  const tested = Object.keys(chMap).length;
+  const total = CH[subj] ? CH[subj].length : 0;
+
+  let html = `
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:14px">
+      <div style="text-align:center"><div style="font-family:'Nunito',sans-serif;font-weight:900;font-size:18px;color:${SUBJ_MCOLS[subj]}">${avg}%</div><div style="font-size:9px;color:var(--t3);font-weight:700;text-transform:uppercase">Avg</div></div>
+      <div style="text-align:center"><div style="font-family:'Nunito',sans-serif;font-weight:900;font-size:18px;color:var(--green)">${best}%</div><div style="font-size:9px;color:var(--t3);font-weight:700;text-transform:uppercase">Best</div></div>
+      <div style="text-align:center"><div style="font-family:'Nunito',sans-serif;font-weight:900;font-size:18px;color:var(--red)">${worst}%</div><div style="font-size:9px;color:var(--t3);font-weight:700;text-transform:uppercase">Worst</div></div>
+      <div style="text-align:center"><div style="font-family:'Nunito',sans-serif;font-weight:900;font-size:18px;color:var(--t2)">${tested}/${total}</div><div style="font-size:9px;color:var(--t3);font-weight:700;text-transform:uppercase">Chapters</div></div>
+    </div>
+    <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:8px">Chapter Breakdown</div>`;
+
+  // All chapters sorted by score
+  const chapters = CH[subj] || [];
+  chapters.forEach((ch, i) => {
+    const d = chMap[ch];
+    if (!d) {
+      html += `<div class="ch-analysis-item">
+        <div class="ch-an-bar" style="flex:1">
+          <div class="ch-an-label"><span class="ch-an-name" style="color:var(--t3)">Ch ${i+1}. ${esc(ch)}</span><span class="no-data-chip">Not tested</span></div>
+          <div class="prog-bar" style="height:4px"><div class="prog-fill" style="width:0%;background:var(--surf3)"></div></div>
+        </div>
+      </div>`;
+      return;
+    }
+    const avg2 = Math.round(d.scores.reduce((a,b)=>a+b,0)/d.scores.length);
+    const col = avg2 >= 75 ? 'var(--green)' : avg2 >= 55 ? 'var(--yellow)' : 'var(--red)';
+    html += `<div class="ch-analysis-item">
+      <div class="ch-an-bar" style="flex:1">
+        <div class="ch-an-label">
+          <span class="ch-an-name">Ch ${i+1}. ${esc(ch)}</span>
+          <span class="ch-an-pct" style="color:${col}">${avg2}%</span>
+        </div>
+        <div class="prog-bar" style="height:5px"><div class="prog-fill" style="width:${avg2}%;background:${col};transition:width .6s ease"></div></div>
+        <div class="ch-an-meta">${d.scores.length} attempt${d.scores.length>1?'s':''} · ${d.correct}✓ ${d.wrong}✗</div>
+      </div>
+    </div>`;
+  });
+
+  el2.innerHTML = html;
+}
+
+// ── ERROR PATTERN ANALYSIS ───────────────────
+function renderErrorPatterns() {
+  const el = document.getElementById('errorPatternContent');
+  if (!el || !errorLog.length) return;
+
+  // Count errors by subject
+  const bySubj = {};
+  errorLog.forEach(e => {
+    const k = e.subject||'Unknown';
+    bySubj[k] = (bySubj[k]||0)+1;
+  });
+
+  // Count errors by chapter
+  const byCh = {};
+  errorLog.forEach(e => {
+    const k = (e.subject||'?') + ' — ' + (e.chapter||'?');
+    byCh[k] = (byCh[k]||0)+1;
+  });
+  const topChapters = Object.entries(byCh).sort((a,b)=>b[1]-a[1]).slice(0,5);
+
+  let html = `<div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:8px">Most Errors By Chapter</div>`;
+  html += topChapters.map(([k,v]) => `
+    <div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border)">
+      <div style="flex:1;font-size:12px;font-weight:600;color:var(--t1)">${esc(k)}</div>
+      <div style="font-size:11px;font-weight:700;color:var(--red)">${v} error${v>1?'s':''}</div>
+    </div>`).join('');
+
+  html += `<div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin:14px 0 8px">Error Distribution By Subject</div>`;
+  html += Object.entries(bySubj).sort((a,b)=>b[1]-a[1]).map(([s,v]) => {
+    const sk = Object.keys(SL).find(k=>SL[k]===s)||s.toLowerCase();
+    const col = SUBJ_COLS[sk]||'var(--primary)';
+    const total = errorLog.length;
+    const pct = Math.round((v/total)*100);
+    return `<div style="margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px">
+        <span style="color:var(--t1);font-weight:600">${SUBJ_ICONS[sk]||''} ${esc(s)}</span>
+        <span style="color:var(--t3)">${v} errors (${pct}%)</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:${col}"></div></div>
+    </div>`;
+  }).join('');
+
+  el.innerHTML = html;
+}
+
+// ── QUICK PRACTICE ───────────────────────────
+function quickPractice(subjEnc, chapterEnc) {
+  const subj = decodeURIComponent(subjEnc);
+  const chapter = decodeURIComponent(chapterEnc);
+  const sk = Object.keys(SL).find(k=>SL[k]===subj)||subj.toLowerCase();
+  testSubj = sk;
+  goTab('tests');
+  document.querySelectorAll('.subj-tab').forEach(t => t.classList.remove('active'));
+  const tab = document.querySelector(`.subj-tab[data-s="${sk}"]`);
+  if (tab) tab.classList.add('active');
+  renderTestChapters();
+  const sel = document.getElementById('testChapter');
+  if (sel) {
+    for (let i=0; i<sel.options.length; i++) {
+      if (sel.options[i].value === chapter) { sel.selectedIndex=i; break; }
+    }
+  }
+  showToast('Chapter set to: ' + chapter + ' — now tap Generate!');
+}
+
+// ── AI CHAPTER RECOVERY PLAN ─────────────────
+async function generateChapterPlan(subjEnc, chapterEnc, score) {
+  const subj = decodeURIComponent(subjEnc);
+  const chapter = decodeURIComponent(chapterEnc);
+  const btn = event.target;
+  btn.disabled = true; btn.textContent = 'Generating…';
+
+  const sys = `You are a CBSE Grade 12 expert academic coach. Return ONLY valid JSON, no markdown.
+Schema: {"title":"string","diagnosis":"string","steps":[{"day":"Day X","action":"string","detail":"string","time":"X min"}],"tips":["string"],"resources":["string"]}`;
+  const usr = `Student is scoring ${score}% in CBSE Grade 12 ${subj} — ${chapter}. This is a weak area.
+Create a 7-day targeted recovery plan to improve their score to 75%+.
+Include: daily actions, specific NCERT exercises, practice question types, common mistake warnings.`;
+
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':getApiKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,system:sys,messages:[{role:'user',content:usr}]})
+    });
+    if(!r.ok) throw new Error('API '+r.status);
+    const d = await r.json();
+    let raw = d.content[0].text.trim().replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/\s*```$/,'').trim();
+    const plan = JSON.parse(raw);
+    showChapterPlanModal(plan, subj, chapter, score);
+  } catch(e) {
+    showToast('Error: '+e.message);
+  }
+  btn.disabled=false; btn.textContent='🤖 Fix This';
+}
+
+function showChapterPlanModal(plan, subj, chapter, score) {
+  const existing = document.getElementById('chPlanModal');
+  if (existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'chPlanModal';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:300;display:flex;align-items:flex-end;';
+  modal.innerHTML = `
+    <div style="background:var(--surf1);border-radius:20px 20px 0 0;width:100%;max-height:85vh;overflow-y:auto;padding:0 0 32px">
+      <div style="width:36px;height:4px;background:var(--border2);border-radius:2px;margin:14px auto 6px"></div>
+      <div style="padding:10px 18px 14px;border-bottom:1px solid var(--border)">
+        <div style="font-family:'Nunito',sans-serif;font-weight:900;font-size:17px;color:var(--t1)">${esc(plan.title||'Recovery Plan')}</div>
+        <div style="font-size:12px;color:var(--t2);margin-top:2px">${esc(subj)} · ${esc(chapter)} · Currently ${score}%</div>
+      </div>
+      <div style="padding:16px">
+        <div style="background:rgba(255,82,82,.1);border:1px solid rgba(255,82,82,.2);border-radius:var(--r);padding:12px;margin-bottom:14px;font-size:13px;color:var(--t2)">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--red);margin-bottom:4px">Diagnosis</div>
+          ${esc(plan.diagnosis||'')}
+        </div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:10px">7-Day Action Plan</div>
+        ${(plan.steps||[]).map((s,i) => `
+          <div class="plan-step">
+            <div class="plan-step-num">${i+1}</div>
+            <div style="flex:1">
+              <div style="font-size:11px;font-weight:700;color:var(--primary);margin-bottom:2px">${esc(s.day)} · ${esc(s.time||'')}</div>
+              <div class="plan-step-text">${esc(s.action)}</div>
+              <div class="plan-step-sub">${esc(s.detail||'')}</div>
+            </div>
+          </div>`).join('')}
+        ${plan.tips&&plan.tips.length?`
+          <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin:14px 0 8px">Pro Tips</div>
+          ${plan.tips.map(t=>`<div style="font-size:13px;color:var(--t2);padding:4px 0;border-bottom:1px solid var(--border)">💡 ${esc(t)}</div>`).join('')}`:''}
+        <button class="btn btn-primary" style="margin-top:16px" onclick="document.getElementById('chPlanModal').remove()">Got it! Start today →</button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  setTimeout(() => modal.querySelector('div[style*="border-radius:20px"]').scrollIntoView({behavior:'smooth'}), 100);
+}
+
+// ── FULL AI RECOVERY PLAN ────────────────────
+async function generateWeaknessPlan() {
+  if (waLoading) return;
+  waLoading = true;
+  const btn = document.getElementById('aiPlanBtn');
+  if (btn) { btn.disabled=true; btn.classList.add('loading'); }
+  document.getElementById('aiPlanIcon').textContent='⟳';
+  document.getElementById('aiPlanText').textContent='Analysing your performance…';
+  document.getElementById('aiPlanContent').innerHTML = '<div class="thinking"><div class="dots"><span></span><span></span><span></span></div><div>Analysing all your test data…</div></div>';
+
+  const chMap = buildChapterMap();
+  const subjMap = buildSubjectMap();
+  const weak = Object.values(chMap).filter(c=>c.avg<70).sort((a,b)=>a.avg-b.avg).slice(0,6);
+  const subjSummary = Object.entries(subjMap).filter(([,v])=>v).map(([s,v])=>`${SL[s]}: ${v.avg}% (${v.count} tests)`).join(', ');
+
+  if (!weak.length && !Object.values(subjMap).some(v=>v)) {
+    document.getElementById('aiPlanContent').innerHTML = '<div style="font-size:13px;color:var(--t3);padding:8px 0">Complete some tests first to get a personalised plan.</div>';
+    waLoading=false; return;
+  }
+
+  const weakSummary = weak.map(c=>`${c.subject} - ${c.chapter}: ${c.avg}% (${c.attempts} attempts, trend: ${c.trend})`).join('\n');
+
+  const sys = `You are a CBSE Grade 12 expert academic coach. Return ONLY valid JSON.
+Schema: {"overview":"string","priority_order":["subject"],"weekly_plan":[{"week":"Week X","focus":"string","subjects":["string"],"daily_hours":number,"key_actions":["string"]}],"subject_strategies":[{"subject":"string","current":"X%","target":"X%","strategy":"string","key_topics":["string"],"daily_min":number}],"motivational_tip":"string"}`;
+
+  const usr = `CBSE Grade 12 student performance data:
+Subject averages: ${subjSummary||'No data yet'}
+Weak chapters:
+${weakSummary||'No weak chapters identified yet'}
+Total tests taken: ${examHistory.length}
+Error log entries: ${errorLog.length}
+
+Create a comprehensive personalised improvement plan to reach 85%+ in all subjects before board exams (March 2027).
+Focus on the weakest areas first. Be specific about NCERT chapters and daily time allocation.`;
+
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':getApiKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2500,system:sys,messages:[{role:'user',content:usr}]})
+    });
+    if(!r.ok) throw new Error('API '+r.status);
+    const d = await r.json();
+    let raw = d.content[0].text.trim().replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/\s*```$/,'').trim();
+    const plan = JSON.parse(raw);
+    renderFullPlan(plan);
+  } catch(e) {
+    document.getElementById('aiPlanContent').innerHTML = `<div class="err-card">Error: ${e.message}. Please try again.</div>`;
+  }
+  waLoading=false;
+}
+
+function renderFullPlan(plan) {
+  let html = '';
+  if (plan.overview) {
+    html += `<div style="font-size:13px;color:var(--t2);line-height:1.65;margin-bottom:14px;padding:12px;background:var(--surf2);border-radius:var(--r)">${esc(plan.overview)}</div>`;
+  }
+
+  if (plan.subject_strategies && plan.subject_strategies.length) {
+    html += `<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:10px">Subject Strategies</div>`;
+    html += plan.subject_strategies.map(s => {
+      const sk = Object.keys(SL).find(k=>SL[k]===s.subject)||s.subject.toLowerCase();
+      const col = SUBJ_COLS[sk]||'var(--primary)';
+      return `<div style="background:var(--surf2);border-radius:var(--r);border:1px solid var(--border);padding:12px;margin-bottom:8px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <span style="font-size:16px">${SUBJ_ICONS[sk]||'📚'}</span>
+          <span style="font-size:13px;font-weight:700;color:var(--t1);flex:1">${esc(s.subject)}</span>
+          <span style="font-size:12px;color:var(--red)">${esc(s.current)}</span>
+          <span style="font-size:12px;color:var(--t3)">→</span>
+          <span style="font-size:12px;color:var(--green)">${esc(s.target)}</span>
+        </div>
+        <div style="font-size:12px;color:var(--t2);margin-bottom:6px">${esc(s.strategy)}</div>
+        ${s.key_topics&&s.key_topics.length?`<div style="display:flex;flex-wrap:wrap;gap:4px">${s.key_topics.map(t=>`<span class="chip" style="font-size:10px;padding:3px 8px">${esc(t)}</span>`).join('')}</div>`:''}
+        <div style="font-size:10px;color:var(--t3);margin-top:6px">⏱ ${s.daily_min||30} min/day recommended</div>
+      </div>`;
+    }).join('');
+  }
+
+  if (plan.weekly_plan && plan.weekly_plan.length) {
+    html += `<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin:14px 0 10px">Weekly Roadmap</div>`;
+    html += plan.weekly_plan.map((w,i) => `
+      <div class="plan-step">
+        <div class="plan-step-num">${i+1}</div>
+        <div style="flex:1">
+          <div style="font-size:11px;font-weight:700;color:var(--primary);margin-bottom:2px">${esc(w.week)} · ${w.daily_hours||2}h/day</div>
+          <div class="plan-step-text">${esc(w.focus)}</div>
+          ${w.key_actions&&w.key_actions.length?`<div style="margin-top:4px">${w.key_actions.map(a=>`<div style="font-size:11px;color:var(--t3);padding:1px 0">• ${esc(a)}</div>`).join('')}</div>`:''}
+        </div>
+      </div>`).join('');
+  }
+
+  if (plan.motivational_tip) {
+    html += `<div style="margin-top:14px;padding:12px;background:rgba(38,201,135,.1);border-radius:var(--r);border:1px solid rgba(38,201,135,.25);font-size:13px;color:var(--math-m)">💪 ${esc(plan.motivational_tip)}</div>`;
+  }
+
+  html += `<button class="btn btn-outline" style="margin-top:14px" onclick="generateWeaknessPlan()">🔄 Regenerate Plan</button>`;
+  document.getElementById('aiPlanContent').innerHTML = html;
+}
+
+// Helper to get API key from existing fetch calls
+function getApiKey() {
+  const scripts = document.body.innerHTML;
+  const match = scripts.match(/'x-api-key':'([^']+)'/);
+  return match ? match[1] : '';
+}
+
+/* ══════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════ */
+
+/* ══════════════════════════════════════════════
+   EXAM RECORDS SYSTEM
+══════════════════════════════════════════════ */
+let examHistory = JSON.parse(localStorage.getItem('cbse12_examhistory') || '[]');
+let historyFilter = 'all';
+
+const SUBJ_ICONS = {physics:'⚡',chemistry:'🧪',mathematics:'📐',english:'📖',cs:'💻'};
+const SUBJ_COLS  = {physics:'var(--phy)',chemistry:'var(--chem)',mathematics:'var(--math)',english:'var(--eng)',cs:'var(--cs)'};
+const SUBJ_MCOLS = {physics:'var(--phy-m)',chemistry:'var(--chem-m)',mathematics:'var(--math-m)',english:'var(--eng-m)',cs:'var(--cs-m)'};
+
+function saveExamRecord(subject, chapter, type, correct, wrong, total, source) {
+  const pct = total > 0 ? Math.round((correct/total)*100) : 0;
+  const record = {
+    id: Date.now(),
+    date: new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}),
+    time: new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}),
+    subject, chapter, type, correct, wrong, total, pct, source: source||'NCERT',
+    duration: timerTotal > 0 ? Math.round((timerTotal - timerLeft)/60) + ' min' : '—'
+  };
+  examHistory.unshift(record);
+  if (examHistory.length > 200) examHistory = examHistory.slice(0,200);
+  localStorage.setItem('cbse12_examhistory', JSON.stringify(examHistory));
+  renderProgressScreen();
+}
+
+function filterHistory(f, el) {
+  historyFilter = f;
+  document.querySelectorAll('.rec-chip').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+  renderHistoryList();
+}
+
+function clearExamHistory() {
+  if (!confirm('Clear all exam history? This cannot be undone.')) return;
+  examHistory = [];
+  localStorage.setItem('cbse12_examhistory', JSON.stringify([]));
+  renderProgressScreen();
+}
+
+function renderProgressScreen() {
+  renderKPIs();
+  renderLiveSubjPerf();
+  renderLiveWeakAreas();
+  renderHistoryList();
+  renderWeekActivity();
+}
+
+function renderKPIs() {
+  if (!examHistory.length) return;
+  const allPct = examHistory.map(r => r.pct);
+  const avg = Math.round(allPct.reduce((a,b)=>a+b,0)/allPct.length);
+  const best = Math.max(...allPct);
+  const bestRec = examHistory.find(r => r.pct === best);
+  const weak = allPct.filter(p => p < 60).length;
+  const last5avg = allPct.length >= 5 ? Math.round(allPct.slice(0,5).reduce((a,b)=>a+b,0)/5) : null;
+  const trend = last5avg !== null ? (last5avg > avg ? '↑ Improving' : last5avg < avg ? '↓ Declining' : '→ Steady') : 'Keep going!';
+  const trendCls = last5avg !== null ? (last5avg > avg ? 'up' : last5avg < avg ? 'dn' : 'nt') : 'nt';
+
+  document.getElementById('kpi1').textContent = avg + '%';
+  document.getElementById('kpi1t').className = 'kpi-trend ' + trendCls;
+  document.getElementById('kpi1t').textContent = trend;
+  document.getElementById('kpi2').textContent = examHistory.length;
+  document.getElementById('kpi2t').textContent = 'Last 5 avg: ' + (last5avg !== null ? last5avg+'%' : '—');
+  document.getElementById('kpi3').textContent = best + '%';
+  document.getElementById('kpi3t').textContent = bestRec ? bestRec.subject + ' · ' + bestRec.chapter.slice(0,18) : '—';
+  document.getElementById('kpi4').textContent = weak;
+  document.getElementById('kpi4t').textContent = weak ? weak + ' tests under 60%' : 'All above 60% 🎉';
+
+  // Update hero
+  document.getElementById('kpiOverallPct').textContent = avg + '%';
+  document.getElementById('kpiTestCount').textContent = 'This session · ' + examHistory.length + ' tests taken';
+  const emoji = avg >= 85 ? '🔥' : avg >= 70 ? '💪' : avg >= 50 ? '📚' : '⚠️';
+  document.getElementById('kpiTargetLine').textContent = 'Target: 87%+ · ' + emoji + ' ' + (avg >= 87 ? 'Target achieved!' : avg >= 70 ? 'Keep pushing!' : 'More practice needed');
+}
+
+function renderLiveSubjPerf() {
+  const el = document.getElementById('liveSubjPerf');
+  if (!el) return;
+  const subjects = ['physics','chemistry','mathematics','english','cs'];
+  const data = subjects.map(s => {
+    const recs = examHistory.filter(r => r.subject.toLowerCase() === s || r.subject === SL[s]);
+    if (!recs.length) return null;
+    const avg = Math.round(recs.reduce((a,r)=>a+r.pct,0)/recs.length);
+    return { s, avg, count: recs.length };
+  }).filter(Boolean);
+  if (!data.length) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">📊</div><div class="empty-msg">No data yet</div><div class="empty-sub">Complete tests to see subject-wise scores</div></div>';
+    return;
+  }
+  el.innerHTML = data.map(d => `
+    <div class="subj-prog-item">
+      <div class="spi-head">
+        <span class="spi-icon">${SUBJ_ICONS[d.s]||'📚'}</span>
+        <span class="spi-name">${SL[d.s]}</span>
+        <span style="font-size:10px;color:var(--t3)">${d.count} test${d.count>1?'s':''}</span>
+        <span class="spi-pct" style="color:${SUBJ_MCOLS[d.s]}">${d.avg}%</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${d.avg}%;background:${SUBJ_COLS[d.s]}"></div></div>
+    </div>`).join('');
+}
+
+function renderLiveWeakAreas() {
+  const el = document.getElementById('liveWeakAreas');
+  if (!el) return;
+  const chMap = {};
+  examHistory.forEach(r => {
+    const key = r.subject + '::' + r.chapter;
+    if (!chMap[key]) chMap[key] = { subject:r.subject, chapter:r.chapter, scores:[] };
+    chMap[key].scores.push(r.pct);
+  });
+  const weak = Object.values(chMap)
+    .map(c => ({ ...c, avg: Math.round(c.scores.reduce((a,b)=>a+b,0)/c.scores.length), count:c.scores.length }))
+    .filter(c => c.avg < 70 && c.count >= 2)
+    .sort((a,b) => a.avg - b.avg)
+    .slice(0,5);
+  if (!weak.length) {
+    el.innerHTML = '<div style="font-size:12px;color:var(--t3);padding:8px 0">Complete 2+ tests per chapter to identify weak areas</div>';
+    return;
+  }
+  const subjKey = s => Object.keys(SL).find(k => SL[k]===s) || 'physics';
+  el.innerHTML = weak.map(w => {
+    const sk = subjKey(w.subject);
+    const col = w.avg < 50 ? 'rgba(255,82,82,.08)' : 'rgba(255,204,2,.06)';
+    const bdr = w.avg < 50 ? 'rgba(255,82,82,.2)' : 'rgba(255,204,2,.15)';
+    const arr = w.avg < 50 ? '↓' : '→';
+    const ac  = w.avg < 50 ? 'var(--red)' : 'var(--yellow)';
+    return `<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:${col};border-radius:var(--r);border:1px solid ${bdr};margin-bottom:6px">
+      <span style="font-size:14px">${SUBJ_ICONS[sk]||'📚'}</span>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:700;color:var(--t1)">${esc(w.chapter)}</div>
+        <div style="font-size:11px;color:var(--t3)">${esc(w.subject)} · ${w.avg}% avg · ${w.count} attempts</div>
+      </div>
+      <span style="font-size:18px;color:${ac}">${arr}</span>
+    </div>`;
+  }).join('');
+}
+
+function renderHistoryList() {
+  const el = document.getElementById('examHistoryList');
+  if (!el) return;
+  let filtered = historyFilter === 'all' ? examHistory
+    : examHistory.filter(r => r.subject.toLowerCase() === historyFilter || r.subject === SL[historyFilter]);
+  if (!filtered.length) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-msg">${historyFilter==='all'?'No exam records yet':'No records for this subject'}</div><div class="empty-sub">${historyFilter==='all'?'Complete a practice test to start tracking':'Try a test in this subject'}</div></div>`;
+    return;
+  }
+  el.innerHTML = filtered.map(r => {
+    const scoreCls = r.pct >= 70 ? 'rec-score-g' : r.pct >= 50 ? 'rec-score-y' : 'rec-score-r';
+    const sk = Object.keys(SL).find(k => SL[k]===r.subject) || r.subject.toLowerCase();
+    const col = SUBJ_COLS[sk] || 'var(--primary)';
+    return `<div class="rec-item">
+      <div class="rec-item-head">
+        <span class="rec-subj-icon">${SUBJ_ICONS[sk]||'📚'}</span>
+        <span class="rec-subj-name">${esc(r.subject)} — ${esc(r.chapter)}</span>
+        <span class="rec-score-badge ${scoreCls}">${r.pct}%</span>
+      </div>
+      <div class="rec-meta">
+        <span class="rec-meta-item">📅 ${esc(r.date)}</span>
+        <span class="rec-meta-item">🕐 ${esc(r.time)}</span>
+        <span class="rec-meta-item">📝 ${esc(r.type.toUpperCase())}</span>
+        <span class="rec-meta-item">📚 ${esc(r.source||'NCERT')}</span>
+        ${r.duration !== '—' ? `<span class="rec-meta-item">⏱ ${esc(r.duration)}</span>` : ''}
+      </div>
+      <div class="rec-detail-row">
+        <div class="rec-detail-stat">
+          <div class="rec-detail-val" style="color:var(--green)">${r.correct}</div>
+          <div class="rec-detail-lbl">Correct</div>
+        </div>
+        <div class="rec-detail-stat">
+          <div class="rec-detail-val" style="color:var(--red)">${r.wrong}</div>
+          <div class="rec-detail-lbl">Wrong</div>
+        </div>
+        <div class="rec-detail-stat">
+          <div class="rec-detail-val" style="color:var(--t2)">${r.total}</div>
+          <div class="rec-detail-lbl">Total Qs</div>
+        </div>
+        <div class="rec-detail-stat">
+          <div class="rec-detail-val" style="color:${col}">${r.pct}%</div>
+          <div class="rec-detail-lbl">Score</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderWeekActivity() {
+  const wa = document.getElementById('weekActivity');
+  if (!wa) return;
+  const today = new Date();
+  const days = Array.from({length:7},(_,i) => {
+    const d = new Date(today); d.setDate(today.getDate() - (6-i));
+    return d.toLocaleDateString('en-IN');
+  });
+  const counts = days.map(d => examHistory.filter(r => r.date === d).length);
+  const maxC = Math.max(...counts, 1);
+  const colors = ['var(--phy)','var(--chem)','var(--math)','var(--phy)','var(--math)','var(--eng)','var(--cs)'];
+  wa.innerHTML = counts.map((c,i) => `
+    <div class="act-day">
+      <div class="act-fill" style="height:${Math.max(10,Math.round((c/maxC)*100))}%;background:${c>0?colors[i]:'var(--surf3)'}"></div>
+    </div>`).join('');
+}
+
+
+/* ══════════════════════════════════════════════
+   WEAKNESS ANALYSIS ENGINE
+══════════════════════════════════════════════ */
+let deepDiveSubj = 'physics';
+let waLoading = false;
+
+// ── CORE ANALYSIS ────────────────────────────
+function analyseWeaknesses() {
+  const chMap = buildChapterMap();
+  const subjMap = buildSubjectMap();
+  renderSubjRings(subjMap);
+  renderWeaknessLists(chMap);
+  deepDive(deepDiveSubj, null);
+  renderErrorPatterns();
+}
+
+function buildChapterMap() {
+  const map = {};
+  examHistory.forEach(r => {
+    const key = r.subject + '||' + r.chapter;
+    if (!map[key]) map[key] = { subject:r.subject, chapter:r.chapter, scores:[], correct:0, wrong:0, total:0, attempts:0 };
+    map[key].scores.push(r.pct);
+    map[key].correct += r.correct || 0;
+    map[key].wrong   += r.wrong   || 0;
+    map[key].total   += r.total   || 0;
+    map[key].attempts++;
+  });
+  Object.values(map).forEach(c => {
+    c.avg = Math.round(c.scores.reduce((a,b)=>a+b,0)/c.scores.length);
+    c.trend = c.scores.length >= 2
+      ? (c.scores[0] > c.scores[c.scores.length-1] ? 'improving' : c.scores[0] < c.scores[c.scores.length-1] ? 'declining' : 'stable')
+      : 'new';
+    c.lastScore = c.scores[0];
+  });
+  return map;
+}
+
+function buildSubjectMap() {
+  const map = {};
+  ['physics','chemistry','mathematics','english','cs'].forEach(s => {
+    const recs = examHistory.filter(r => r.subject === SL[s] || r.subject.toLowerCase() === s);
+    if (!recs.length) { map[s] = null; return; }
+    const avg = Math.round(recs.reduce((a,r)=>a+r.pct,0)/recs.length);
+    const best = Math.max(...recs.map(r=>r.pct));
+    const worst = Math.min(...recs.map(r=>r.pct));
+    map[s] = { avg, best, worst, count: recs.length, recs };
+  });
+  return map;
+}
+
+// ── RENDER SUBJECT RINGS ─────────────────────
+function renderSubjRings(subjMap) {
+  const el = document.getElementById('waSubjRings');
+  if (!el) return;
+  const subjects = ['physics','chemistry','mathematics','english','cs'];
+  el.innerHTML = subjects.map(s => {
+    const d = subjMap[s];
+    const pct = d ? d.avg : null;
+    const col = pct === null ? 'var(--t3)' : pct >= 75 ? 'var(--green)' : pct >= 55 ? 'var(--yellow)' : 'var(--red)';
+    return `<div class="w-ring-card" onclick="deepDive('${s}',null);goTab('weakness')">
+      <span class="w-ring-icon">${SUBJ_ICONS[s]}</span>
+      <div class="w-ring-pct" style="color:${col}">${pct !== null ? pct+'%' : '—'}</div>
+      <div class="w-ring-subj">${s==='cs'?'CS':s==='mathematics'?'Maths':s.slice(0,4).charAt(0).toUpperCase()+s.slice(1,4)}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── RENDER WEAKNESS LISTS ────────────────────
+function renderWeaknessLists(chMap) {
+  const all = Object.values(chMap).filter(c => c.attempts >= 1);
+  const critical = all.filter(c => c.avg < 50).sort((a,b) => a.avg-b.avg);
+  const moderate = all.filter(c => c.avg >= 50 && c.avg < 70).sort((a,b) => a.avg-b.avg);
+
+  document.getElementById('criticalList').innerHTML = critical.length
+    ? critical.map(c => weaknessCard(c, 'critical')).join('')
+    : '<div style="font-size:12px;color:var(--green);padding:8px 0">🎉 No critical weaknesses! Keep it up.</div>';
+
+  document.getElementById('moderateList').innerHTML = moderate.length
+    ? moderate.map(c => weaknessCard(c, 'moderate')).join('')
+    : '<div style="font-size:12px;color:var(--t3);padding:8px 0">Complete more tests to identify moderate weaknesses</div>';
+}
+
+function weaknessCard(c, level) {
+  const subjKey = Object.keys(SL).find(k => SL[k]===c.subject) || c.subject.toLowerCase();
+  const col = level==='critical' ? 'var(--red)' : 'var(--yellow)';
+  const bgCol = level==='critical' ? 'rgba(255,82,82,.08)' : 'rgba(255,204,2,.06)';
+  const trendIcon = c.trend==='improving' ? '↑' : c.trend==='declining' ? '↓' : c.trend==='stable' ? '→' : '•';
+  const trendCol = c.trend==='improving' ? 'var(--green)' : c.trend==='declining' ? 'var(--red)' : 'var(--t3)';
+  const accuracy = c.total > 0 ? Math.round((c.correct/c.total)*100) : c.avg;
+  return `<div class="wk-card" style="background:${bgCol}">
+    <div class="wk-card-head">
+      <div class="wk-severity" style="background:${col}"></div>
+      <div class="wk-main">
+        <div class="wk-chapter">${esc(c.chapter)}</div>
+        <div class="wk-subject">${SUBJ_ICONS[subjKey]||'📚'} ${esc(c.subject)} · <span style="color:${trendCol}">${trendIcon} ${c.trend}</span></div>
+      </div>
+      <div class="wk-pct-badge" style="color:${col}">${c.avg}%</div>
+    </div>
+    <div class="wk-stats-row">
+      <div class="wk-stat"><div class="wk-stat-v">${c.attempts}</div><div class="wk-stat-l">Attempts</div></div>
+      <div class="wk-stat"><div class="wk-stat-v" style="color:var(--green)">${c.correct}</div><div class="wk-stat-l">Correct</div></div>
+      <div class="wk-stat"><div class="wk-stat-v" style="color:var(--red)">${c.wrong}</div><div class="wk-stat-l">Wrong</div></div>
+      <div class="wk-stat"><div class="wk-stat-v">${c.lastScore}%</div><div class="wk-stat-l">Last</div></div>
+    </div>
+    <div class="wk-action-row">
+      <button class="btn btn-outline btn-sm" onclick="quickPractice('${encodeURIComponent(c.subject)}','${encodeURIComponent(c.chapter)}')">⚡ Quick Practice</button>
+      <button class="btn btn-primary btn-sm" onclick="generateChapterPlan('${encodeURIComponent(c.subject)}','${encodeURIComponent(c.chapter)}',${c.avg})">🤖 Fix This</button>
+    </div>
+  </div>`;
+}
+
+// ── DEEP DIVE PER SUBJECT ────────────────────
+function deepDive(subj, el) {
+  deepDiveSubj = subj;
+  if (el) {
+    document.querySelectorAll('.sdt').forEach(t => t.classList.remove('on'));
+    el.classList.add('on');
+  } else {
+    document.querySelectorAll('.sdt').forEach((t,i) => {
+      const subjects = ['physics','chemistry','mathematics','english','cs'];
+      if (subjects[i]===subj) t.classList.add('on'); else t.classList.remove('on');
+    });
+  }
+  const el2 = document.getElementById('deepDiveContent');
+  if (!el2) return;
+
+  const recs = examHistory.filter(r => r.subject === SL[subj] || r.subject.toLowerCase() === subj);
+  if (!recs.length) {
+    el2.innerHTML = `<div class="empty-state"><div class="empty-icon">📊</div><div class="empty-msg">No data for ${SL[subj]} yet</div><div class="empty-sub">Complete ${SL[subj]} tests to see chapter analysis</div></div>`;
+    return;
+  }
+
+  // Build chapter map for this subject
+  const chMap = {};
+  recs.forEach(r => {
+    if (!chMap[r.chapter]) chMap[r.chapter] = { scores:[], correct:0, wrong:0, total:0 };
+    chMap[r.chapter].scores.push(r.pct);
+    chMap[r.chapter].correct += r.correct||0;
+    chMap[r.chapter].wrong   += r.wrong||0;
+    chMap[r.chapter].total   += r.total||0;
+  });
+
+  // Stats summary
+  const allPcts = recs.map(r=>r.pct);
+  const avg = Math.round(allPcts.reduce((a,b)=>a+b,0)/allPcts.length);
+  const best = Math.max(...allPcts);
+  const worst = Math.min(...allPcts);
+  const tested = Object.keys(chMap).length;
+  const total = CH[subj] ? CH[subj].length : 0;
+
+  let html = `
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:14px">
+      <div style="text-align:center"><div style="font-family:'Nunito',sans-serif;font-weight:900;font-size:18px;color:${SUBJ_MCOLS[subj]}">${avg}%</div><div style="font-size:9px;color:var(--t3);font-weight:700;text-transform:uppercase">Avg</div></div>
+      <div style="text-align:center"><div style="font-family:'Nunito',sans-serif;font-weight:900;font-size:18px;color:var(--green)">${best}%</div><div style="font-size:9px;color:var(--t3);font-weight:700;text-transform:uppercase">Best</div></div>
+      <div style="text-align:center"><div style="font-family:'Nunito',sans-serif;font-weight:900;font-size:18px;color:var(--red)">${worst}%</div><div style="font-size:9px;color:var(--t3);font-weight:700;text-transform:uppercase">Worst</div></div>
+      <div style="text-align:center"><div style="font-family:'Nunito',sans-serif;font-weight:900;font-size:18px;color:var(--t2)">${tested}/${total}</div><div style="font-size:9px;color:var(--t3);font-weight:700;text-transform:uppercase">Chapters</div></div>
+    </div>
+    <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:8px">Chapter Breakdown</div>`;
+
+  // All chapters sorted by score
+  const chapters = CH[subj] || [];
+  chapters.forEach((ch, i) => {
+    const d = chMap[ch];
+    if (!d) {
+      html += `<div class="ch-analysis-item">
+        <div class="ch-an-bar" style="flex:1">
+          <div class="ch-an-label"><span class="ch-an-name" style="color:var(--t3)">Ch ${i+1}. ${esc(ch)}</span><span class="no-data-chip">Not tested</span></div>
+          <div class="prog-bar" style="height:4px"><div class="prog-fill" style="width:0%;background:var(--surf3)"></div></div>
+        </div>
+      </div>`;
+      return;
+    }
+    const avg2 = Math.round(d.scores.reduce((a,b)=>a+b,0)/d.scores.length);
+    const col = avg2 >= 75 ? 'var(--green)' : avg2 >= 55 ? 'var(--yellow)' : 'var(--red)';
+    html += `<div class="ch-analysis-item">
+      <div class="ch-an-bar" style="flex:1">
+        <div class="ch-an-label">
+          <span class="ch-an-name">Ch ${i+1}. ${esc(ch)}</span>
+          <span class="ch-an-pct" style="color:${col}">${avg2}%</span>
+        </div>
+        <div class="prog-bar" style="height:5px"><div class="prog-fill" style="width:${avg2}%;background:${col};transition:width .6s ease"></div></div>
+        <div class="ch-an-meta">${d.scores.length} attempt${d.scores.length>1?'s':''} · ${d.correct}✓ ${d.wrong}✗</div>
+      </div>
+    </div>`;
+  });
+
+  el2.innerHTML = html;
+}
+
+// ── ERROR PATTERN ANALYSIS ───────────────────
+function renderErrorPatterns() {
+  const el = document.getElementById('errorPatternContent');
+  if (!el || !errorLog.length) return;
+
+  // Count errors by subject
+  const bySubj = {};
+  errorLog.forEach(e => {
+    const k = e.subject||'Unknown';
+    bySubj[k] = (bySubj[k]||0)+1;
+  });
+
+  // Count errors by chapter
+  const byCh = {};
+  errorLog.forEach(e => {
+    const k = (e.subject||'?') + ' — ' + (e.chapter||'?');
+    byCh[k] = (byCh[k]||0)+1;
+  });
+  const topChapters = Object.entries(byCh).sort((a,b)=>b[1]-a[1]).slice(0,5);
+
+  let html = `<div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:8px">Most Errors By Chapter</div>`;
+  html += topChapters.map(([k,v]) => `
+    <div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border)">
+      <div style="flex:1;font-size:12px;font-weight:600;color:var(--t1)">${esc(k)}</div>
+      <div style="font-size:11px;font-weight:700;color:var(--red)">${v} error${v>1?'s':''}</div>
+    </div>`).join('');
+
+  html += `<div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin:14px 0 8px">Error Distribution By Subject</div>`;
+  html += Object.entries(bySubj).sort((a,b)=>b[1]-a[1]).map(([s,v]) => {
+    const sk = Object.keys(SL).find(k=>SL[k]===s)||s.toLowerCase();
+    const col = SUBJ_COLS[sk]||'var(--primary)';
+    const total = errorLog.length;
+    const pct = Math.round((v/total)*100);
+    return `<div style="margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px">
+        <span style="color:var(--t1);font-weight:600">${SUBJ_ICONS[sk]||''} ${esc(s)}</span>
+        <span style="color:var(--t3)">${v} errors (${pct}%)</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:${col}"></div></div>
+    </div>`;
+  }).join('');
+
+  el.innerHTML = html;
+}
+
+// ── QUICK PRACTICE ───────────────────────────
+function quickPractice(subjEnc, chapterEnc) {
+  const subj = decodeURIComponent(subjEnc);
+  const chapter = decodeURIComponent(chapterEnc);
+  const sk = Object.keys(SL).find(k=>SL[k]===subj)||subj.toLowerCase();
+  testSubj = sk;
+  goTab('tests');
+  document.querySelectorAll('.subj-tab').forEach(t => t.classList.remove('active'));
+  const tab = document.querySelector(`.subj-tab[data-s="${sk}"]`);
+  if (tab) tab.classList.add('active');
+  renderTestChapters();
+  const sel = document.getElementById('testChapter');
+  if (sel) {
+    for (let i=0; i<sel.options.length; i++) {
+      if (sel.options[i].value === chapter) { sel.selectedIndex=i; break; }
+    }
+  }
+  showToast('Chapter set to: ' + chapter + ' — now tap Generate!');
+}
+
+// ── AI CHAPTER RECOVERY PLAN ─────────────────
+async function generateChapterPlan(subjEnc, chapterEnc, score) {
+  const subj = decodeURIComponent(subjEnc);
+  const chapter = decodeURIComponent(chapterEnc);
+  const btn = event.target;
+  btn.disabled = true; btn.textContent = 'Generating…';
+
+  const sys = `You are a CBSE Grade 12 expert academic coach. Return ONLY valid JSON, no markdown.
+Schema: {"title":"string","diagnosis":"string","steps":[{"day":"Day X","action":"string","detail":"string","time":"X min"}],"tips":["string"],"resources":["string"]}`;
+  const usr = `Student is scoring ${score}% in CBSE Grade 12 ${subj} — ${chapter}. This is a weak area.
+Create a 7-day targeted recovery plan to improve their score to 75%+.
+Include: daily actions, specific NCERT exercises, practice question types, common mistake warnings.`;
+
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':getApiKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,system:sys,messages:[{role:'user',content:usr}]})
+    });
+    if(!r.ok) throw new Error('API '+r.status);
+    const d = await r.json();
+    let raw = d.content[0].text.trim().replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/\s*```$/,'').trim();
+    const plan = JSON.parse(raw);
+    showChapterPlanModal(plan, subj, chapter, score);
+  } catch(e) {
+    showToast('Error: '+e.message);
+  }
+  btn.disabled=false; btn.textContent='🤖 Fix This';
+}
+
+function showChapterPlanModal(plan, subj, chapter, score) {
+  const existing = document.getElementById('chPlanModal');
+  if (existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'chPlanModal';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:300;display:flex;align-items:flex-end;';
+  modal.innerHTML = `
+    <div style="background:var(--surf1);border-radius:20px 20px 0 0;width:100%;max-height:85vh;overflow-y:auto;padding:0 0 32px">
+      <div style="width:36px;height:4px;background:var(--border2);border-radius:2px;margin:14px auto 6px"></div>
+      <div style="padding:10px 18px 14px;border-bottom:1px solid var(--border)">
+        <div style="font-family:'Nunito',sans-serif;font-weight:900;font-size:17px;color:var(--t1)">${esc(plan.title||'Recovery Plan')}</div>
+        <div style="font-size:12px;color:var(--t2);margin-top:2px">${esc(subj)} · ${esc(chapter)} · Currently ${score}%</div>
+      </div>
+      <div style="padding:16px">
+        <div style="background:rgba(255,82,82,.1);border:1px solid rgba(255,82,82,.2);border-radius:var(--r);padding:12px;margin-bottom:14px;font-size:13px;color:var(--t2)">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--red);margin-bottom:4px">Diagnosis</div>
+          ${esc(plan.diagnosis||'')}
+        </div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:10px">7-Day Action Plan</div>
+        ${(plan.steps||[]).map((s,i) => `
+          <div class="plan-step">
+            <div class="plan-step-num">${i+1}</div>
+            <div style="flex:1">
+              <div style="font-size:11px;font-weight:700;color:var(--primary);margin-bottom:2px">${esc(s.day)} · ${esc(s.time||'')}</div>
+              <div class="plan-step-text">${esc(s.action)}</div>
+              <div class="plan-step-sub">${esc(s.detail||'')}</div>
+            </div>
+          </div>`).join('')}
+        ${plan.tips&&plan.tips.length?`
+          <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin:14px 0 8px">Pro Tips</div>
+          ${plan.tips.map(t=>`<div style="font-size:13px;color:var(--t2);padding:4px 0;border-bottom:1px solid var(--border)">💡 ${esc(t)}</div>`).join('')}`:''}
+        <button class="btn btn-primary" style="margin-top:16px" onclick="document.getElementById('chPlanModal').remove()">Got it! Start today →</button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  setTimeout(() => modal.querySelector('div[style*="border-radius:20px"]').scrollIntoView({behavior:'smooth'}), 100);
+}
+
+// ── FULL AI RECOVERY PLAN ────────────────────
+async function generateWeaknessPlan() {
+  if (waLoading) return;
+  waLoading = true;
+  const btn = document.getElementById('aiPlanBtn');
+  if (btn) { btn.disabled=true; btn.classList.add('loading'); }
+  document.getElementById('aiPlanIcon').textContent='⟳';
+  document.getElementById('aiPlanText').textContent='Analysing your performance…';
+  document.getElementById('aiPlanContent').innerHTML = '<div class="thinking"><div class="dots"><span></span><span></span><span></span></div><div>Analysing all your test data…</div></div>';
+
+  const chMap = buildChapterMap();
+  const subjMap = buildSubjectMap();
+  const weak = Object.values(chMap).filter(c=>c.avg<70).sort((a,b)=>a.avg-b.avg).slice(0,6);
+  const subjSummary = Object.entries(subjMap).filter(([,v])=>v).map(([s,v])=>`${SL[s]}: ${v.avg}% (${v.count} tests)`).join(', ');
+
+  if (!weak.length && !Object.values(subjMap).some(v=>v)) {
+    document.getElementById('aiPlanContent').innerHTML = '<div style="font-size:13px;color:var(--t3);padding:8px 0">Complete some tests first to get a personalised plan.</div>';
+    waLoading=false; return;
+  }
+
+  const weakSummary = weak.map(c=>`${c.subject} - ${c.chapter}: ${c.avg}% (${c.attempts} attempts, trend: ${c.trend})`).join('\n');
+
+  const sys = `You are a CBSE Grade 12 expert academic coach. Return ONLY valid JSON.
+Schema: {"overview":"string","priority_order":["subject"],"weekly_plan":[{"week":"Week X","focus":"string","subjects":["string"],"daily_hours":number,"key_actions":["string"]}],"subject_strategies":[{"subject":"string","current":"X%","target":"X%","strategy":"string","key_topics":["string"],"daily_min":number}],"motivational_tip":"string"}`;
+
+  const usr = `CBSE Grade 12 student performance data:
+Subject averages: ${subjSummary||'No data yet'}
+Weak chapters:
+${weakSummary||'No weak chapters identified yet'}
+Total tests taken: ${examHistory.length}
+Error log entries: ${errorLog.length}
+
+Create a comprehensive personalised improvement plan to reach 85%+ in all subjects before board exams (March 2027).
+Focus on the weakest areas first. Be specific about NCERT chapters and daily time allocation.`;
+
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':getApiKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2500,system:sys,messages:[{role:'user',content:usr}]})
+    });
+    if(!r.ok) throw new Error('API '+r.status);
+    const d = await r.json();
+    let raw = d.content[0].text.trim().replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/\s*```$/,'').trim();
+    const plan = JSON.parse(raw);
+    renderFullPlan(plan);
+  } catch(e) {
+    document.getElementById('aiPlanContent').innerHTML = `<div class="err-card">Error: ${e.message}. Please try again.</div>`;
+  }
+  waLoading=false;
+}
+
+function renderFullPlan(plan) {
+  let html = '';
+  if (plan.overview) {
+    html += `<div style="font-size:13px;color:var(--t2);line-height:1.65;margin-bottom:14px;padding:12px;background:var(--surf2);border-radius:var(--r)">${esc(plan.overview)}</div>`;
+  }
+
+  if (plan.subject_strategies && plan.subject_strategies.length) {
+    html += `<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:10px">Subject Strategies</div>`;
+    html += plan.subject_strategies.map(s => {
+      const sk = Object.keys(SL).find(k=>SL[k]===s.subject)||s.subject.toLowerCase();
+      const col = SUBJ_COLS[sk]||'var(--primary)';
+      return `<div style="background:var(--surf2);border-radius:var(--r);border:1px solid var(--border);padding:12px;margin-bottom:8px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <span style="font-size:16px">${SUBJ_ICONS[sk]||'📚'}</span>
+          <span style="font-size:13px;font-weight:700;color:var(--t1);flex:1">${esc(s.subject)}</span>
+          <span style="font-size:12px;color:var(--red)">${esc(s.current)}</span>
+          <span style="font-size:12px;color:var(--t3)">→</span>
+          <span style="font-size:12px;color:var(--green)">${esc(s.target)}</span>
+        </div>
+        <div style="font-size:12px;color:var(--t2);margin-bottom:6px">${esc(s.strategy)}</div>
+        ${s.key_topics&&s.key_topics.length?`<div style="display:flex;flex-wrap:wrap;gap:4px">${s.key_topics.map(t=>`<span class="chip" style="font-size:10px;padding:3px 8px">${esc(t)}</span>`).join('')}</div>`:''}
+        <div style="font-size:10px;color:var(--t3);margin-top:6px">⏱ ${s.daily_min||30} min/day recommended</div>
+      </div>`;
+    }).join('');
+  }
+
+  if (plan.weekly_plan && plan.weekly_plan.length) {
+    html += `<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin:14px 0 10px">Weekly Roadmap</div>`;
+    html += plan.weekly_plan.map((w,i) => `
+      <div class="plan-step">
+        <div class="plan-step-num">${i+1}</div>
+        <div style="flex:1">
+          <div style="font-size:11px;font-weight:700;color:var(--primary);margin-bottom:2px">${esc(w.week)} · ${w.daily_hours||2}h/day</div>
+          <div class="plan-step-text">${esc(w.focus)}</div>
+          ${w.key_actions&&w.key_actions.length?`<div style="margin-top:4px">${w.key_actions.map(a=>`<div style="font-size:11px;color:var(--t3);padding:1px 0">• ${esc(a)}</div>`).join('')}</div>`:''}
+        </div>
+      </div>`).join('');
+  }
+
+  if (plan.motivational_tip) {
+    html += `<div style="margin-top:14px;padding:12px;background:rgba(38,201,135,.1);border-radius:var(--r);border:1px solid rgba(38,201,135,.25);font-size:13px;color:var(--math-m)">💪 ${esc(plan.motivational_tip)}</div>`;
+  }
+
+  html += `<button class="btn btn-outline" style="margin-top:14px" onclick="generateWeaknessPlan()">🔄 Regenerate Plan</button>`;
+  document.getElementById('aiPlanContent').innerHTML = html;
+}
+
+// Helper to get API key from existing fetch calls
+function getApiKey() {
+  const scripts = document.body.innerHTML;
+  const match = scripts.match(/'x-api-key':'([^']+)'/);
+  return match ? match[1] : '';
+}
+
 /* ══════════════════════════════════════════════
    INIT
 ══════════════════════════════════════════════ */
@@ -2258,6 +3576,7 @@ renderPaperChapters();
 calcPaperTotal();
 renderErrLog();
 renderAdaptiveAlerts();
+renderProgressScreen();
 
 
 /* ══════════════════════════════════════════════
@@ -2293,7 +3612,9 @@ window.addEventListener('beforeinstallprompt', (e) => {
   deferredPrompt = e;
   // Show after 3 seconds if not dismissed before
   const dismissed = localStorage.getItem('pwa-install-dismissed');
-  if (!dismissed) {
+  const isInstalled = window.matchMedia('(display-mode: standalone)').matches
+    || window.navigator.standalone === true;
+  if (!dismissed && !isInstalled) {
     setTimeout(() => {
       document.getElementById('installBanner').classList.add('show');
     }, 3000);
@@ -2302,7 +3623,10 @@ window.addEventListener('beforeinstallprompt', (e) => {
 
 window.addEventListener('appinstalled', () => {
   console.log('[PWA] App installed!');
-  document.getElementById('installBanner').classList.remove('show');
+  const banner = document.getElementById('installBanner');
+  banner.classList.remove('show');
+  setTimeout(() => { banner.style.display = 'none'; }, 400);
+  localStorage.setItem('pwa-install-dismissed', '1');
   deferredPrompt = null;
   showToast('✅ App installed! Find it on your home screen.');
 });
@@ -2321,7 +3645,9 @@ async function triggerInstall() {
 }
 
 function dismissInstall() {
-  document.getElementById('installBanner').classList.remove('show');
+  const banner = document.getElementById('installBanner');
+  banner.classList.remove('show');
+  setTimeout(() => { banner.style.display = 'none'; }, 400);
   localStorage.setItem('pwa-install-dismissed', '1');
 }
 

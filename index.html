@@ -1561,7 +1561,7 @@ correct is 0-indexed. All content NCERT Class 12 accurate. Difficulty: ${testDif
 
   try {
     const r = await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',headers:{''method:'POST',headers:{'Content-Type':'application/json','x-api-key':'sk-ant-YOUR-KEY-HERE','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      method:'POST',headers:{''method:'POST',headers:{'Content-Type':'application/json','x-api-key':'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','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
       body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:6000,system:sys,messages:[{role:'user',content:usr}]})
     });
     if(!r.ok) throw new Error('API '+r.status);
@@ -1780,7 +1780,7 @@ Include 5 general instructions. Date: March 2027. Full answer key for all questi
 
   try {
     const r = await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',headers:{'method:'POST',headers:{'Content-Type':'application/json','x-api-key':'sk-ant-YOUR-KEY-HERE','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},'},
+      method:'POST',headers:{'method:'POST',headers:{'Content-Type':'application/json','x-api-key':'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','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},'},
       body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:8000,system:sys,messages:[{role:'user',content:usr}]})
     });
     if(!r.ok) throw new Error('API '+r.status);

@@ -1,61 +1,48 @@
 // CBSE 12 Board Prep — Service Worker
-// Enables offline use, asset caching, background sync
+// Fixed for GitHub Pages subfolder deployment
 
-const CACHE_NAME = 'cbse12-v1.2';
+const CACHE_NAME = 'cbse12-v1.3';
 const STATIC_ASSETS = [
-  './',
   './index.html',
-  './manifest.json',
-  'https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Nunito+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap'
+  './manifest.json'
 ];
 
-// ── INSTALL: Cache all static assets ──────────────────
+// ── INSTALL ──────────────────────────────────
 self.addEventListener('install', (event) => {
-  console.log('[SW] Installing CBSE12 Service Worker');
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(STATIC_ASSETS.map(url => {
-        return new Request(url, { mode: 'no-cors' });
-      })).catch(err => {
-        console.log('[SW] Some assets failed to cache:', err);
-      });
+      return Promise.allSettled(
+        STATIC_ASSETS.map(url => cache.add(url).catch(e => console.log('[SW] Failed to cache:', url, e)))
+      );
     })
   );
   self.skipWaiting();
 });
 
-// ── ACTIVATE: Clean old caches ──────────────────────
+// ── ACTIVATE ─────────────────────────────────
 self.addEventListener('activate', (event) => {
-  console.log('[SW] Activating CBSE12 Service Worker');
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames
           .filter(name => name !== CACHE_NAME)
-          .map(name => {
-            console.log('[SW] Deleting old cache:', name);
-            return caches.delete(name);
-          })
+          .map(name => caches.delete(name))
       );
     })
   );
   self.clients.claim();
 });
 
-// ── FETCH: Stale-while-revalidate strategy ──────────
+// ── FETCH ────────────────────────────────────
 self.addEventListener('fetch', (event) => {
   const { request } = event;
-  const url = new URL(request.url);
 
-  // Skip non-GET and API calls (let them go to network)
+  // Skip non-GET and Anthropic API calls
   if (request.method !== 'GET') return;
-  if (url.hostname === 'api.anthropic.com') return;
-
-  // For Google Fonts: cache-first
-  if (url.hostname.includes('fonts.googleapis.com') || 
-      url.hostname.includes('fonts.gstatic.com')) {
+  if (request.url.includes('api.anthropic.com')) return;
+  if (request.url.includes('fonts.googleapis.com') || request.url.includes('fonts.gstatic.com')) {
     event.respondWith(
-      caches.open(CACHE_NAME).then(cache => 
+      caches.open(CACHE_NAME).then(cache =>
         cache.match(request).then(cached => {
           if (cached) return cached;
           return fetch(request).then(response => {
@@ -68,24 +55,20 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // For app shell: stale-while-revalidate
+  // Network first, fall back to cache
   event.respondWith(
-    caches.open(CACHE_NAME).then(cache =>
-      cache.match(request).then(cachedResponse => {
-        const fetchPromise = fetch(request).then(networkResponse => {
-          if (networkResponse && networkResponse.status === 200) {
-            cache.put(request, networkResponse.clone());
-          }
-          return networkResponse;
-        }).catch(() => null);
-
-        return cachedResponse || fetchPromise;
+    fetch(request)
+      .then(response => {
+        if (response && response.status === 200) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(request, clone));
+        }
+        return response;
       })
-    )
+      .catch(() => caches.match(request))
   );
 });
 
-// ── BACKGROUND SYNC: Notify updates ─────────────────
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();

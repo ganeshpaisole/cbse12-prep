@@ -3,1620 +3,1076 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#0f1923">
+<meta name="theme-color" content="#fafaf8">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="CBSE12">
-<meta name="theme-color" content="#0f1923" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#0f1923" media="(prefers-color-scheme: light)">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
-<link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152.png">
-<link rel="apple-touch-icon" sizes="144x144" href="icons/icon-144.png">
-<link rel="apple-touch-icon" sizes="128x128" href="icons/icon-128.png">
-<link rel="apple-touch-icon" sizes="96x96" href="icons/icon-96.png">
-<link rel="apple-touch-icon" sizes="72x72" href="icons/icon-72.png">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="format-detection" content="telephone=no">
-
 <title>CBSE 12 — Board Prep</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Nunito+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════
-   DESIGN TOKENS — Material You Dark Theme
-═══════════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   DESIGN SYSTEM — PAPER CONCEPT C
+   Cream · Ink · Sora · Monospace numbers
+═══════════════════════════════════════ */
 :root {
-  /* Surface layers */
-  --bg:        #0f1923;
-  --surf0:     #131e2b;
-  --surf1:     #182436;
-  --surf2:     #1d2b3f;
-  --surf3:     #233148;
-  --surf4:     #283752;
-  --border:    rgba(255,255,255,.08);
-  --border2:   rgba(255,255,255,.14);
+  /* Paper palette */
+  --paper:      #fafaf8;
+  --paper-1:    #f4f4f0;
+  --paper-2:    #eeede8;
+  --paper-3:    #e6e5df;
+  --ink:        #111110;
+  --ink-2:      #3a3a38;
+  --ink-3:      #6b6b68;
+  --ink-4:      #9ca3af;
+  --border:     #e4e3dd;
+  --border-2:   #d1d0ca;
 
-  /* Text */
-  --t1:  #e8f0fb;
-  --t2:  #8fa8c8;
-  --t3:  #5a7a9a;
-
-  /* Brand */
-  --primary:   #4d9eff;
-  --primary-c: #0f3566;
-  --primary-d: #2b7ee0;
-
-  /* Subjects */
-  --phy:  #4d9eff; --phy-d: #0d2e5a; --phy-m: #82bfff;
-  --chem: #ff7043; --chem-d:#3d1408; --chem-m:#ffab8f;
-  --math: #26c987; --math-d:#083d22; --math-m:#72e8b8;
-  --eng:  #b970ff; --eng-d: #2d1050; --eng-m:#d4a0ff;
-  --cs:   #ffcc02; --cs-d:  #3d3000; --cs-m: #ffe166;
+  /* Subject accents */
+  --phy:   #2563eb; --phy-l:  #dbeafe; --phy-m:  #1d4ed8;
+  --chem:  #dc2626; --chem-l: #fee2e2; --chem-m: #b91c1c;
+  --math:  #059669; --math-l: #d1fae5; --math-m: #047857;
+  --eng:   #7c3aed; --eng-l:  #ede9fe; --eng-m:  #6d28d9;
+  --cs:    #d97706; --cs-l:   #fef3c7; --cs-m:   #b45309;
 
   /* Status */
-  --green: #26c987; --yellow: #ffcc02; --red: #ff5252; --orange: #ff7043;
+  --green:  #059669;
+  --red:    #dc2626;
+  --yellow: #d97706;
+  --orange: #ea580c;
 
-  /* Nav */
-  --nav-h: 68px;
-  --top-h: 60px;
+  /* Layout */
+  --nav-h:  64px;
+  --top-h:  56px;
+  --r:      10px;
+  --rl:     16px;
+  --rx:     22px;
+}
 
-  --r:  12px;
-  --rl: 18px;
-  --rx: 24px;
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper:   #111110;
+    --paper-1: #1a1a18;
+    --paper-2: #222220;
+    --paper-3: #2a2a28;
+    --ink:     #f5f5f3;
+    --ink-2:   #c8c8c4;
+    --ink-3:   #8a8a86;
+    --ink-4:   #5a5a58;
+    --border:  #2a2a28;
+    --border-2:#3a3a38;
+    --phy-l:   #1e3a6e; --chem-l: #4c1c1c;
+    --math-l:  #064e3b; --eng-l:  #3b1f6e;
+    --cs-l:    #4c2e00;
+  }
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-html, body { height: 100%; overflow: hidden; }
+html, body { height: 100%; overflow: hidden; background: var(--paper); }
 
 body {
-  font-family: 'Nunito Sans', sans-serif;
-  background: var(--bg);
-  color: var(--t1);
-  font-size: 15px;
+  font-family: 'Sora', system-ui, sans-serif;
+  color: var(--ink);
+  font-size: 14px;
   line-height: 1.5;
   overscroll-behavior: none;
 }
 
-/* ═══════════════════════════════════════════
-   SCROLLBARS
-═══════════════════════════════════════════ */
-::-webkit-scrollbar { width: 3px; }
+/* Monospace for all numbers */
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+::-webkit-scrollbar { width: 2px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 2px; }
 
-/* ═══════════════════════════════════════════
-   APP SHELL
-═══════════════════════════════════════════ */
-.app { display: flex; flex-direction: column; height: 100vh; position: relative; }
+/* ── APP SHELL ─────────────────────── */
+.app { display: flex; flex-direction: column; height: 100vh; position: relative; background: var(--paper); }
 
-/* TOP BAR */
+/* ── TOP BAR ────────────────────────── */
 .topbar {
   height: var(--top-h);
-  background: var(--surf0);
+  background: var(--paper);
   border-bottom: 1px solid var(--border);
   display: flex; align-items: center;
-  padding: 0 18px;
-  gap: 12px;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 50;
+  padding: 0 16px; gap: 10px;
+  flex-shrink: 0; z-index: 50; position: relative;
 }
 .tb-logo {
-  width: 34px; height: 34px;
-  background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
-  border-radius: 10px;
+  width: 32px; height: 32px;
+  background: var(--ink); border-radius: 9px;
   display: flex; align-items: center; justify-content: center;
-  font-family: 'Nunito', sans-serif;
-  font-weight: 900; font-size: 14px; color: #fff;
-  flex-shrink: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600; font-size: 13px; color: var(--paper);
+  flex-shrink: 0; letter-spacing: -1px;
 }
 .tb-info { flex: 1; min-width: 0; }
-.tb-title { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 16px; color: var(--t1); }
-.tb-sub { font-size: 10.5px; color: var(--t3); font-weight: 600; }
+.tb-title { font-size: 14px; font-weight: 700; color: var(--ink); letter-spacing: -.3px; }
+.tb-sub   { font-size: 10px; color: var(--ink-4); margin-top: 1px; font-weight: 400; }
 .tb-actions { display: flex; gap: 6px; }
 .tb-btn {
-  width: 36px; height: 36px;
-  border-radius: 50%; border: 1px solid var(--border2);
-  background: var(--surf2);
+  width: 32px; height: 32px; border-radius: 9px;
+  border: 1px solid var(--border); background: var(--paper-1);
   display: flex; align-items: center; justify-content: center;
-  cursor: pointer; font-size: 16px;
-  transition: background .15s;
+  font-size: 14px; cursor: pointer; transition: background .15s;
 }
-.tb-btn:active { background: var(--surf3); }
+.tb-btn:active { background: var(--paper-2); }
 
-/* MAIN SCROLL AREA */
-.screens {
-  flex: 1;
-  overflow: hidden;
-  position: relative;
-}
+/* ── SCREENS ────────────────────────── */
+.screens { flex: 1; overflow: hidden; position: relative; }
 .screen {
   position: absolute; inset: 0;
-  overflow-y: auto;
-  padding-bottom: calc(var(--nav-h) + 16px);
-  display: none;
-  animation: fadeUp .25s ease;
+  overflow-y: auto; overflow-x: hidden;
+  display: none; padding-bottom: calc(var(--nav-h) + 16px);
+  background: var(--paper);
 }
 .screen.active { display: block; }
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
 
-/* BOTTOM NAV */
+/* ── NAV BAR ────────────────────────── */
 .nav {
   height: var(--nav-h);
-  background: var(--surf1);
+  background: var(--paper);
   border-top: 1px solid var(--border);
-  display: flex;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 50;
+  display: flex; align-items: flex-start;
+  padding-top: 8px; flex-shrink: 0;
 }
 .nav-item {
-  flex: 1;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 3px; cursor: pointer;
-  padding: 8px 4px;
-  transition: all .2s;
-  position: relative;
-}
-.nav-icon {
-  width: 46px; height: 28px;
-  border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 19px;
-  transition: all .2s;
-}
-.nav-label { font-size: 10px; font-weight: 700; color: var(--t3); letter-spacing: .02em; }
-.nav-item.active .nav-icon { background: var(--primary-c); }
-.nav-item.active .nav-icon .ni { filter: none; }
-.nav-item.active .nav-label { color: var(--primary); }
-.nav-badge {
-  position: absolute; top: 6px; right: calc(50% - 26px);
-  width: 16px; height: 16px;
-  background: var(--red);
-  border-radius: 50%;
-  font-size: 9px; font-weight: 800; color: #fff;
-  display: flex; align-items: center; justify-content: center;
-}
-
-/* ═══════════════════════════════════════════
-   COMMON COMPONENTS
-═══════════════════════════════════════════ */
-.section-pad { padding: 16px; }
-.gap-12 { display: flex; flex-direction: column; gap: 12px; }
-
-/* Cards */
-.card {
-  background: var(--surf1);
-  border-radius: var(--rl);
-  border: 1px solid var(--border);
-  overflow: hidden;
-}
-.card-body { padding: 16px; }
-.card-sm { padding: 12px 14px; }
-
-/* Section header */
-.sec-hd {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 12px;
-}
-.sec-hd-t {
-  font-family: 'Nunito', sans-serif;
-  font-weight: 800; font-size: 15px; color: var(--t1);
-}
-.sec-hd-link { font-size: 12px; font-weight: 700; color: var(--primary); }
-
-/* Chips */
-.chip-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.chip {
-  padding: 6px 14px;
-  border-radius: 100px;
-  border: 1px solid var(--border2);
-  background: var(--surf2);
-  font-size: 12px; font-weight: 700; color: var(--t2);
-  cursor: pointer; white-space: nowrap;
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; gap: 3px;
+  cursor: pointer; padding: 4px 2px;
   transition: all .15s;
 }
-.chip.sel { border-color: var(--primary); background: rgba(77,158,255,.15); color: var(--primary); }
-.chip:active { opacity: .7; }
-
-/* Subject pills */
-.s-phy  { background: rgba(77,158,255,.15);  border-color: rgba(77,158,255,.4);  color: var(--phy-m); }
-.s-chem { background: rgba(255,112,67,.15);  border-color: rgba(255,112,67,.4);  color: var(--chem-m); }
-.s-math { background: rgba(38,201,135,.15);  border-color: rgba(38,201,135,.4);  color: var(--math-m); }
-.s-eng  { background: rgba(185,112,255,.15); border-color: rgba(185,112,255,.4); color: var(--eng-m); }
-.s-cs   { background: rgba(255,204,2,.15);   border-color: rgba(255,204,2,.4);   color: var(--cs-m); }
-
-/* Buttons */
-.btn {
-  padding: 11px 20px; border-radius: var(--r);
-  border: none; cursor: pointer;
-  font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700;
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-  transition: all .15s; width: 100%;
+.nav-icon { font-size: 20px; line-height: 1; }
+.nav-label {
+  font-size: 9px; font-weight: 600;
+  color: var(--ink-4); letter-spacing: .04em;
+  text-transform: uppercase;
 }
-.btn-primary { background: var(--primary); color: #fff; }
-.btn-primary:active { background: var(--primary-d); transform: scale(.98); }
-.btn-outline { background: transparent; border: 1px solid var(--border2); color: var(--t1); }
-.btn-outline:active { background: var(--surf2); }
-.btn-sm { padding: 8px 14px; font-size: 12px; width: auto; border-radius: 8px; }
-.btn:disabled { opacity: .4; cursor: not-allowed; }
-.btn.loading { animation: pulse 1.2s ease-in-out infinite; }
-@keyframes pulse { 0%,100%{opacity:1}50%{opacity:.5} }
+.nav-item.active .nav-label { color: var(--ink); }
+.nav-dot {
+  width: 3px; height: 3px; border-radius: 50%;
+  background: var(--ink); opacity: 0;
+}
+.nav-item.active .nav-dot { opacity: 1; }
 
-/* Progress bar */
-.prog-bar { height: 6px; background: var(--surf3); border-radius: 3px; overflow: hidden; }
-.prog-fill { height: 100%; border-radius: 3px; transition: width .5s ease; }
+/* ── SECTION HELPERS ────────────────── */
+.pad { padding: 16px; }
+.pad-t { padding: 16px 16px 0; }
+.gap-10 { display: flex; flex-direction: column; gap: 10px; }
+.gap-12 { display: flex; flex-direction: column; gap: 12px; }
+.divider { height: 1px; background: var(--border); margin: 0 16px; }
+.section-label {
+  font-size: 10px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-4);
+  display: flex; align-items: center; gap: 8px;
+}
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-/* Score badge */
-.score-ring {
-  width: 56px; height: 56px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  flex-direction: column;
-  font-family: 'Nunito', sans-serif; font-weight: 900;
+/* ── CARD ──────────────────────────── */
+.card {
+  background: var(--paper-1);
+  border: 1px solid var(--border);
+  border-radius: var(--rl); overflow: hidden;
+}
+.card-body { padding: 14px; }
+.card-white {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: var(--rl); overflow: hidden;
 }
 
-/* Select & Input */
-select, input[type=number], input[type=text] {
-  width: 100%;
-  padding: 11px 14px;
-  border-radius: var(--r);
-  border: 1px solid var(--border2);
-  background: var(--surf2);
-  color: var(--t1);
-  font-family: 'Nunito Sans', sans-serif;
-  font-size: 13.5px;
-  outline: none;
-  appearance: none;
-  -webkit-appearance: none;
-}
-select:focus, input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(77,158,255,.15); }
-textarea.ta {
-  width: 100%; padding: 11px 14px;
-  border-radius: var(--r); border: 1px solid var(--border2);
-  background: var(--surf2); color: var(--t1);
-  font-family: 'Nunito Sans', sans-serif; font-size: 13.5px;
-  resize: vertical; outline: none; min-height: 70px;
-}
-textarea.ta:focus { border-color: var(--primary); }
-.field-label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--t3); margin-bottom: 6px; display: block; }
-
-/* Thinking indicator */
-.thinking {
-  display: flex; align-items: center; gap: 10px;
-  padding: 16px; background: var(--surf2);
-  border-radius: var(--rl); border: 1px solid var(--border);
-  font-size: 13px; color: var(--t2);
-}
-.dots { display: flex; gap: 5px; }
-.dots span {
-  width: 7px; height: 7px; border-radius: 50%; background: var(--primary);
-  animation: db .8s ease-in-out infinite;
-}
-.dots span:nth-child(2){animation-delay:.16s}
-.dots span:nth-child(3){animation-delay:.32s}
-@keyframes db { 0%,80%,100%{transform:scale(.5);opacity:.4} 40%{transform:scale(1);opacity:1} }
-
-/* Error */
-.err-card { background: rgba(255,82,82,.12); border: 1px solid rgba(255,82,82,.3); border-radius: var(--r); padding: 14px; font-size: 13px; color: #ff8f8f; }
-
-/* Divider */
-.div { height: 1px; background: var(--border); margin: 12px 0; }
-
-/* Toggle */
-.toggle-row { display: flex; gap: 6px; }
-.toggle-btn {
-  flex: 1; padding: 9px 6px;
-  border-radius: var(--r); border: 1px solid var(--border2);
-  background: var(--surf2); cursor: pointer;
-  font-size: 12px; font-weight: 700; color: var(--t2);
-  text-align: center; transition: all .15s;
-}
-.toggle-btn.on { background: var(--primary-c); border-color: var(--primary); color: var(--primary); }
-
-/* ═══════════════════════════════════════════
-   SCREEN 1 — HOME / DASHBOARD
-═══════════════════════════════════════════ */
-.hero {
-  background: linear-gradient(160deg, #0d2b4a 0%, #0f1923 60%);
-  padding: 20px 16px 24px;
+/* ── HOME SCREEN ───────────────────── */
+.home-hero {
+  padding: 16px;
   border-bottom: 1px solid var(--border);
 }
-.hero-greet { font-size: 13px; color: var(--t3); margin-bottom: 2px; }
-.hero-name {
-  font-family: 'Nunito', sans-serif;
-  font-weight: 900; font-size: 22px; color: var(--t1);
-  margin-bottom: 14px;
+.hero-row1 { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.hero-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--ink); display: flex; align-items: center;
+  justify-content: center; font-weight: 700; font-size: 16px;
+  color: var(--paper); flex-shrink: 0; letter-spacing: -1px;
 }
-.hero-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-.stat-card {
-  background: var(--surf1);
-  border-radius: var(--r); border: 1px solid var(--border);
-  padding: 12px; text-align: center;
+.hero-greet { font-size: 11px; color: var(--ink-4); }
+.hero-name  { font-size: 16px; font-weight: 700; color: var(--ink); letter-spacing: -.4px; }
+.streak-pill {
+  margin-left: auto; display: flex; align-items: center; gap: 5px;
+  background: var(--paper-2); border: 1px solid var(--border-2);
+  border-radius: 100px; padding: 5px 10px;
 }
-.stat-val { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 22px; color: var(--t1); }
-.stat-lbl { font-size: 10px; color: var(--t3); font-weight: 700; margin-top: 2px; }
+.streak-fire { font-size: 14px; }
+.streak-num  { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: var(--ink); }
+.streak-lbl  { font-size: 9px; color: var(--ink-4); font-weight: 600; letter-spacing: .05em; }
 
-/* Today schedule */
-.today-slot {
-  display: flex; gap: 12px; align-items: flex-start;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--border);
+/* Countdown + goal row */
+.hero-row2 { display: flex; gap: 10px; margin-bottom: 16px; }
+.countdown-box {
+  flex: 1; background: var(--ink);
+  border-radius: var(--r); padding: 12px 14px;
 }
-.today-slot:last-child { border-bottom: none; }
-.ts-time { font-size: 11px; color: var(--t3); font-weight: 700; min-width: 52px; padding-top: 2px; }
-.ts-bar { width: 3px; border-radius: 3px; flex-shrink: 0; min-height: 36px; }
-.ts-info { flex: 1; }
-.ts-subj { font-size: 13px; font-weight: 700; color: var(--t1); }
-.ts-ch { font-size: 11.5px; color: var(--t2); margin-top: 1px; }
-.ts-tag {
-  font-size: 10px; font-weight: 700; padding: 2px 8px;
-  border-radius: 100px; display: inline-block; margin-top: 4px;
+.cd-days { font-family: 'JetBrains Mono', monospace; font-size: 36px; font-weight: 600; color: var(--paper); line-height: 1; }
+.cd-lbl  { font-size: 9px; color: rgba(255,255,255,.5); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; margin-top: 4px; }
+.cd-exam { font-size: 10px; color: rgba(255,255,255,.35); margin-top: 2px; }
+
+.goal-box {
+  width: 90px; background: var(--paper-1);
+  border: 1px solid var(--border); border-radius: var(--r);
+  padding: 10px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 6px;
+}
+.goal-ring-wrap { position: relative; width: 52px; height: 52px; }
+.goal-ring { transform: rotate(-90deg); }
+.goal-ring-track { fill: none; stroke: var(--border-2); stroke-width: 5; }
+.goal-ring-fill  { fill: none; stroke: var(--ink); stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset .6s ease; }
+.goal-center {
+  position: absolute; inset: 0; display: flex;
+  flex-direction: column; align-items: center; justify-content: center;
+}
+.goal-done { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1; }
+.goal-total { font-size: 9px; color: var(--ink-4); }
+.goal-lbl { font-size: 9px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-4); }
+
+/* Score dashboard */
+.score-dash { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+.score-main { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.score-big { font-family: 'JetBrains Mono', monospace; font-size: 44px; font-weight: 500; color: var(--ink); line-height: 1; }
+.score-meta { flex: 1; }
+.score-target { font-size: 11px; color: var(--ink-4); margin-bottom: 4px; }
+.score-gap-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--chem-l); border-radius: 100px;
+  padding: 3px 9px; font-size: 11px; font-weight: 700; color: var(--chem);
+}
+.subj-bars { display: flex; flex-direction: column; gap: 7px; }
+.sbar-row { display: flex; align-items: center; gap: 8px; }
+.sbar-icon { font-size: 12px; width: 16px; text-align: center; flex-shrink: 0; }
+.sbar-name { font-size: 11px; font-weight: 500; color: var(--ink-2); width: 58px; flex-shrink: 0; }
+.sbar-track { flex: 1; height: 4px; background: var(--paper-2); border-radius: 2px; overflow: hidden; }
+.sbar-fill  { height: 100%; border-radius: 2px; transition: width .6s ease; }
+.sbar-pct   { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; color: var(--ink-2); width: 32px; text-align: right; flex-shrink: 0; }
+
+/* Smart Focus CTA */
+.focus-cta {
+  margin: 14px 16px;
+  background: var(--ink); border-radius: var(--rl);
+  padding: 16px; cursor: pointer; transition: opacity .15s;
+}
+.focus-cta:active { opacity: .9; }
+.focus-tag { font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: 6px; }
+.focus-title { font-size: 15px; font-weight: 700; color: var(--paper); letter-spacing: -.3px; margin-bottom: 3px; }
+.focus-sub { font-size: 11px; color: rgba(255,255,255,.5); margin-bottom: 12px; }
+.focus-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--paper); border-radius: 100px;
+  padding: 7px 14px; font-size: 12px; font-weight: 700;
+  color: var(--ink); letter-spacing: -.2px;
 }
 
-/* Countdown */
-.countdown-card {
-  background: linear-gradient(135deg, rgba(77,158,255,.18) 0%, rgba(124,58,237,.18) 100%);
-  border: 1px solid rgba(77,158,255,.3);
-  border-radius: var(--rl); padding: 18px;
-  display: flex; align-items: center; gap: 14px;
+/* Today's plan */
+.plan-items { padding: 0 16px; display: flex; flex-direction: column; gap: 8px; }
+.plan-item {
+  display: flex; gap: 10px; align-items: center;
+  padding: 11px 13px;
+  background: var(--paper-1); border: 1px solid var(--border);
+  border-radius: var(--r); cursor: pointer; transition: background .15s;
 }
-.cd-num {
-  font-family: 'Nunito', sans-serif; font-weight: 900;
-  font-size: 36px; color: var(--primary); line-height: 1;
-}
-.cd-info h3 { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 15px; color: var(--t1); }
-.cd-info p { font-size: 12px; color: var(--t2); margin-top: 2px; }
+.plan-item:active { background: var(--paper-2); }
+.plan-time { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-4); width: 44px; flex-shrink: 0; }
+.plan-accent { width: 3px; height: 28px; border-radius: 2px; flex-shrink: 0; }
+.plan-info { flex: 1; }
+.plan-subj { font-size: 12px; font-weight: 600; color: var(--ink); }
+.plan-ch   { font-size: 10px; color: var(--ink-4); margin-top: 1px; }
+.plan-dur  { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-4); }
 
-/* Quick access */
-.qa-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.qa-card {
-  border-radius: var(--rl); border: 1px solid var(--border);
-  padding: 16px 14px; cursor: pointer; transition: all .2s;
-  position: relative; overflow: hidden;
-}
-.qa-card:active { transform: scale(.97); }
-.qa-icon { font-size: 26px; margin-bottom: 8px; display: block; }
-.qa-title { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 14px; color: var(--t1); }
-.qa-desc { font-size: 11px; color: var(--t2); margin-top: 2px; }
-
-/* Subject overview */
-.subj-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.subj-ov {
-  border-radius: var(--rl); border: 1px solid var(--border);
-  background: var(--surf1); padding: 14px;
-  cursor: pointer; transition: all .2s;
-}
-.subj-ov:active { transform: scale(.97); }
-.subj-ov-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-.subj-ov-icon { font-size: 20px; }
-.subj-ov-name { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 13px; color: var(--t1); }
-.subj-ov-pct { font-size: 11px; color: var(--t2); margin-bottom: 5px; }
-
-/* ═══════════════════════════════════════════
-   SCREEN 2 — STUDY PLAN
-═══════════════════════════════════════════ */
-.week-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; margin-bottom: 16px; }
-.day-chip {
-  padding: 8px 2px; border-radius: var(--r);
-  border: 1px solid var(--border); background: var(--surf2);
-  text-align: center; cursor: pointer; transition: all .15s;
-}
-.day-chip.today { border-color: var(--primary); background: rgba(77,158,255,.15); }
-.day-chip.today .dc-d { color: var(--primary); }
-.dc-d { font-size: 9px; font-weight: 700; color: var(--t3); letter-spacing: .05em; text-transform: uppercase; }
-.dc-n { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 15px; color: var(--t1); margin-top: 1px; }
-.dc-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--primary); margin: 3px auto 0; }
-
-/* Schedule timeline */
-.timeline { display: flex; flex-direction: column; gap: 0; }
-.tl-item { display: flex; gap: 12px; position: relative; }
-.tl-left { width: 52px; flex-shrink: 0; text-align: right; padding-top: 12px; }
-.tl-time { font-size: 11px; font-weight: 700; color: var(--t3); }
-.tl-line { display: flex; flex-direction: column; align-items: center; gap: 0; }
-.tl-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 15px; }
-.tl-vert { width: 2px; flex: 1; background: var(--border); min-height: 30px; }
-.tl-content {
-  flex: 1; padding: 10px 12px;
-  border-radius: var(--r); border: 1px solid var(--border);
-  background: var(--surf1); margin: 8px 0; margin-left: 0;
-}
-.tl-subj { font-size: 13px; font-weight: 700; color: var(--t1); }
-.tl-detail { font-size: 11.5px; color: var(--t2); margin-top: 2px; }
-.tl-badge {
-  font-size: 10px; font-weight: 700; padding: 2px 8px;
-  border-radius: 100px; display: inline-flex; align-items: center; gap: 4px;
-  margin-top: 5px;
-}
-.tl-break {
-  display: flex; gap: 12px; align-items: center;
-  padding: 6px 0;
-}
-.tl-break-label { font-size: 11px; color: var(--t3); font-style: italic; }
-
-/* Chapter plan table */
-.ch-plan-item {
+/* Recent tests */
+.recent-items { padding: 0 16px; display: flex; flex-direction: column; gap: 1px; }
+.recent-item {
   display: flex; align-items: center; gap: 10px;
   padding: 10px 0; border-bottom: 1px solid var(--border);
 }
-.ch-plan-item:last-child { border-bottom: none; }
-.ch-num { font-size: 11px; font-weight: 700; color: var(--t3); min-width: 28px; }
-.ch-name { flex: 1; font-size: 13px; color: var(--t1); font-weight: 600; }
-.ch-days { font-size: 11px; color: var(--t2); }
-.ch-priority {
-  font-size: 10px; font-weight: 700; padding: 2px 8px;
-  border-radius: 100px;
-}
-.pri-h { background: rgba(255,82,82,.15); color: #ff8f8f; }
-.pri-m { background: rgba(255,204,2,.12); color: #ffe166; }
-.pri-l { background: rgba(38,201,135,.12); color: var(--math-m); }
+.recent-item:last-child { border: none; }
+.ri-icon { font-size: 16px; width: 28px; text-align: center; flex-shrink: 0; }
+.ri-info { flex: 1; }
+.ri-name { font-size: 12px; font-weight: 600; color: var(--ink); }
+.ri-meta { font-size: 10px; color: var(--ink-4); margin-top: 1px; }
+.ri-score { font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 600; }
 
-/* ═══════════════════════════════════════════
-   SCREEN 3 — TEST SERIES (AI)
-═══════════════════════════════════════════ */
-.subj-tab-row { display: flex; gap: 0; border-bottom: 1px solid var(--border); padding: 0 16px; overflow-x: auto; }
-.subj-tab {
-  padding: 12px 14px; font-size: 13px; font-weight: 700;
-  color: var(--t3); cursor: pointer; border-bottom: 2.5px solid transparent;
-  white-space: nowrap; flex-shrink: 0; transition: all .15s;
+/* ── ONBOARDING ─────────────────────── */
+.onboard-overlay {
+  position: fixed; inset: 0; background: var(--paper);
+  z-index: 9000; display: flex; flex-direction: column;
+  justify-content: flex-end;
 }
-.subj-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
-
-/* Question card */
-.q-card {
-  background: var(--surf1); border-radius: var(--rl);
-  border: 1px solid var(--border); overflow: hidden;
-  margin-bottom: 12px;
+.onboard-screen {
+  flex: 1; display: none; flex-direction: column;
+  padding: 32px 24px 24px; justify-content: center;
 }
-.q-card-head {
-  padding: 10px 14px 0;
-  display: flex; align-items: center; gap: 8px;
+.onboard-screen.active { display: flex; }
+.ob-step  { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-4); margin-bottom: 8px; }
+.ob-title { font-size: 28px; font-weight: 800; color: var(--ink); letter-spacing: -1px; line-height: 1.2; margin-bottom: 8px; }
+.ob-sub   { font-size: 14px; color: var(--ink-3); line-height: 1.6; margin-bottom: 32px; }
+.ob-input {
+  width: 100%; padding: 14px 16px; border-radius: var(--r);
+  border: 2px solid var(--border-2); background: var(--paper-1);
+  font-family: 'Sora', sans-serif; font-size: 16px; color: var(--ink);
+  outline: none; transition: border-color .2s; margin-bottom: 12px;
 }
-.q-type-badge {
-  font-size: 10px; font-weight: 700; letter-spacing: .08em;
-  text-transform: uppercase; padding: 3px 9px;
-  border-radius: 100px;
+.ob-input:focus { border-color: var(--ink); }
+.ob-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+.ob-option {
+  padding: 13px 16px; border-radius: var(--r);
+  border: 2px solid var(--border); background: var(--paper-1);
+  font-size: 14px; font-weight: 500; color: var(--ink-2);
+  cursor: pointer; transition: all .15s; display: flex;
+  align-items: center; gap: 10px;
 }
-.q-card-body { padding: 12px 14px; }
-.q-text { font-size: 14px; line-height: 1.75; font-weight: 600; color: var(--t1); margin-bottom: 12px; }
-
-/* MCQ options */
-.mcq-opts { display: flex; flex-direction: column; gap: 7px; }
-.mcq-opt {
-  padding: 10px 13px; border-radius: var(--r);
-  border: 1px solid var(--border2); background: var(--surf2);
-  cursor: pointer; font-size: 13px; color: var(--t1);
-  display: flex; align-items: flex-start; gap: 8px;
-  transition: all .15s;
-}
-.mcq-opt:active { background: var(--surf3); }
-.mcq-opt.correct { background: rgba(38,201,135,.15); border-color: var(--green); color: var(--math-m); }
-.mcq-opt.wrong { background: rgba(255,82,82,.12); border-color: var(--red); color: #ff8f8f; }
-.mcq-opt.revealed { background: rgba(38,201,135,.1); border-color: rgba(38,201,135,.4); color: var(--math-m); }
-.opt-letter {
-  width: 22px; height: 22px; border-radius: 50%;
-  border: 1.5px solid currentColor; display: flex;
-  align-items: center; justify-content: center;
-  font-size: 10px; font-weight: 800; flex-shrink: 0; margin-top: 1px;
-}
-
-/* Assertion */
-.assert-box { background: var(--surf2); border-radius: var(--r); padding: 10px 12px; margin-bottom: 8px; }
-.assert-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--t3); margin-bottom: 3px; }
-
-/* Answer reveal */
-.ans-reveal {
-  display: none; margin-top: 10px; padding: 11px 13px;
-  background: var(--surf2); border-radius: var(--r);
-  border-left: 3px solid var(--primary);
-}
-.ans-reveal.show { display: block; }
-.ans-reveal-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--primary); margin-bottom: 4px; }
-.ans-reveal-text { font-size: 13px; color: var(--t2); line-height: 1.65; }
-
-.reveal-btn {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-size: 12px; font-weight: 700; color: var(--t3);
-  padding: 6px 10px; border-radius: 8px;
-  border: 1px solid var(--border2); background: var(--surf2);
-  cursor: pointer; margin-top: 6px; transition: all .15s;
-}
-.reveal-btn:active { background: var(--surf3); }
-
-/* Formula table */
-.formula-row {
-  display: flex; gap: 8px; align-items: flex-start;
-  padding: 9px 0; border-bottom: 1px solid var(--border);
-}
-.formula-row:last-child { border-bottom: none; }
-.formula-name { font-size: 12.5px; font-weight: 700; color: var(--t1); min-width: 110px; }
-.formula-expr {
+.ob-option.sel { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+.ob-option:active { transform: scale(.98); }
+.ob-score-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.ob-score-btn {
+  padding: 13px 8px; border-radius: var(--r);
+  border: 2px solid var(--border); background: var(--paper-1);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 12px; color: var(--primary);
-  background: rgba(77,158,255,.1); padding: 2px 8px;
-  border-radius: 6px; display: inline-block;
-  border: 1px solid rgba(77,158,255,.2);
+  font-size: 15px; font-weight: 600; color: var(--ink-2);
+  cursor: pointer; transition: all .15s; text-align: center;
 }
-.formula-desc { font-size: 11px; color: var(--t3); margin-top: 3px; }
+.ob-score-btn.sel { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+.ob-cta {
+  width: 100%; padding: 15px; border-radius: var(--r);
+  background: var(--ink); border: none; cursor: pointer;
+  font-family: 'Sora', sans-serif; font-size: 15px;
+  font-weight: 700; color: var(--paper); letter-spacing: -.2px;
+  transition: opacity .15s;
+}
+.ob-cta:active { opacity: .85; }
+.ob-progress {
+  display: flex; gap: 6px; padding: 16px 24px 32px;
+}
+.ob-prog-dot { flex: 1; height: 3px; border-radius: 2px; background: var(--border-2); transition: background .3s; }
+.ob-prog-dot.done { background: var(--ink); }
 
-/* Score bar */
+/* ── SUBJ TABS ─────────────────────── */
+.subj-tab-row {
+  display: flex; overflow-x: auto; padding: 0 16px;
+  gap: 4px; border-bottom: 1px solid var(--border);
+  background: var(--paper); flex-shrink: 0;
+}
+.subj-tab-row::-webkit-scrollbar { display: none; }
+.subj-tab {
+  padding: 10px 12px; font-size: 12px; font-weight: 600;
+  color: var(--ink-4); white-space: nowrap; cursor: pointer;
+  border-bottom: 2px solid transparent; flex-shrink: 0;
+  transition: all .15s; margin-bottom: -1px;
+}
+.subj-tab.active { color: var(--ink); border-bottom-color: var(--ink); }
+
+/* ── BUTTONS ────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 16px; border-radius: var(--r); border: none;
+  font-family: 'Sora', sans-serif; font-size: 13px;
+  font-weight: 600; cursor: pointer; transition: all .15s;
+  text-align: center; justify-content: center;
+}
+.btn-primary { background: var(--ink); color: var(--paper); width: 100%; }
+.btn-primary:active { opacity: .85; }
+.btn-outline {
+  background: transparent; color: var(--ink-2);
+  border: 1px solid var(--border-2);
+}
+.btn-outline:active { background: var(--paper-2); }
+.btn-sm { padding: 7px 12px; font-size: 12px; }
+.btn.loading { opacity: .6; pointer-events: none; }
+
+/* ── FORM ELEMENTS ─────────────────── */
+.field-label { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-4); margin-bottom: 6px; }
+select, input[type="number"], textarea {
+  width: 100%; padding: 10px 12px;
+  border: 1px solid var(--border-2); border-radius: var(--r);
+  background: var(--paper-1); color: var(--ink);
+  font-family: 'Sora', sans-serif; font-size: 13px;
+  outline: none; appearance: none; transition: border-color .2s;
+}
+select:focus, input:focus, textarea:focus { border-color: var(--ink-2); }
+textarea { resize: none; }
+
+/* ── TOGGLE ROW ─────────────────────── */
+.toggle-row { display: flex; gap: 4px; }
+.toggle-btn {
+  flex: 1; padding: 8px 6px; border-radius: 8px;
+  border: 1px solid var(--border-2); background: var(--paper-1);
+  font-size: 11px; font-weight: 600; color: var(--ink-3);
+  cursor: pointer; text-align: center; transition: all .15s;
+}
+.toggle-btn.on { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+
+/* ── CHIPS ──────────────────────────── */
+.chip-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip {
+  padding: 6px 12px; border-radius: 100px;
+  border: 1px solid var(--border-2); background: var(--paper-1);
+  font-size: 12px; font-weight: 500; color: var(--ink-3);
+  cursor: pointer; transition: all .15s; white-space: nowrap;
+}
+.chip.sel { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+
+/* ── PROGRESS BAR ───────────────────── */
+.prog-bar { height: 4px; background: var(--paper-2); border-radius: 2px; overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 2px; transition: width .5s ease; }
+
+/* ── SCORE BAR ──────────────────────── */
 .score-bar-wrap {
-  background: var(--surf1); border-top: 1px solid var(--border);
-  padding: 12px 16px; display: flex; align-items: center; gap: 12px;
+  background: var(--paper); border-top: 1px solid var(--border);
+  padding: 10px 16px; display: flex; align-items: center; gap: 12px;
   position: sticky; bottom: var(--nav-h); z-index: 30;
 }
-.sb-val { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 18px; }
+.sb-val { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 18px; }
 .sb-c { color: var(--green); }
 .sb-w { color: var(--red); }
-.sb-pct {
-  margin-left: auto; font-size: 12px; font-weight: 700;
-  padding: 4px 12px; border-radius: 100px;
+
+/* ── TEST AREA ──────────────────────── */
+.test-area { padding: 16px; }
+.q-card {
+  background: var(--paper-1); border: 1px solid var(--border);
+  border-radius: var(--rl); margin-bottom: 12px; overflow: hidden;
 }
-.sb-pct.g { background: rgba(38,201,135,.15); color: var(--math-m); }
-.sb-pct.o { background: rgba(255,204,2,.12); color: var(--cs-m); }
-.sb-pct.r { background: rgba(255,82,82,.12); color: #ff8f8f; }
-
-/* ═══════════════════════════════════════════
-   SCREEN 4 — SAMPLE PAPERS
-═══════════════════════════════════════════ */
-.config-section { background: var(--surf1); border-radius: var(--rl); border: 1px solid var(--border); padding: 16px; margin-bottom: 12px; }
-.marks-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-.marks-item { background: var(--surf2); border-radius: var(--r); padding: 9px 10px; border: 1px solid var(--border); }
-.marks-item-l { font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--t3); margin-bottom: 4px; }
-.marks-item input { padding: 5px 8px; font-size: 13px; }
-.total-badge { text-align: center; font-size: 12px; color: var(--t2); margin-top: 8px; }
-.total-badge strong { color: var(--t1); font-family: 'Nunito', sans-serif; font-weight: 900; }
-
-/* Paper preview */
-.paper-preview {
-  background: #fff; border-radius: var(--rl);
-  overflow: hidden; color: #1a1a1a;
-  border: 1px solid rgba(255,255,255,.15);
-  margin-bottom: 12px;
+.q-card-head {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 14px; border-bottom: 1px solid var(--border);
+  background: var(--paper);
 }
-.pp-head { padding: 20px 18px 14px; border-bottom: 2px solid #1a1a1a; text-align: center; }
-.pp-school { font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: #666; margin-bottom: 2px; }
-.pp-title { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 18px; color: #1a1a1a; margin-bottom: 2px; }
-.pp-subj { font-size: 14px; font-weight: 700; margin-bottom: 12px; }
-.pp-meta { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px; font-size: 11.5px; padding-top: 10px; border-top: 1px solid #e5e5e5; }
-.pp-meta-item { display: flex; gap: 3px; }
-.pp-meta-l { color: #888; }
-.pp-meta-v { font-weight: 700; color: #1a1a1a; }
-
-.pp-instr { padding: 12px 18px; background: #f9f9f9; border-bottom: 1px solid #e5e5e5; font-size: 12px; color: #444; line-height: 1.65; }
-.pp-instr-t { font-weight: 700; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: #888; margin-bottom: 5px; }
-.pp-instr ol { padding-left: 16px; }
-.pp-instr li { padding: 2px 0; }
-
-.pp-section { padding: 14px 18px; border-bottom: 1px solid #e5e5e5; }
-.pp-section:last-child { border-bottom: none; }
-.pp-sec-head {
-  background: #1a1a1a; color: #fff;
-  margin: -14px -18px 14px; padding: 8px 18px;
-  display: flex; align-items: center; gap: 10px;
+.q-type-badge {
+  font-size: 9px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; padding: 3px 8px; border-radius: 100px;
 }
-.pp-sec-t { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 14px; }
-.pp-sec-m { font-size: 10px; font-weight: 700; background: rgba(255,255,255,.15); padding: 2px 9px; border-radius: 100px; }
-.pp-sec-d { font-size: 11px; color: #aaa; margin-left: auto; }
-
-.pp-q { display: flex; gap: 8px; margin-bottom: 12px; }
-.pp-qn { font-weight: 700; font-size: 13px; min-width: 24px; color: #666; flex-shrink: 0; padding-top: 1px; }
-.pp-qc { flex: 1; }
-.pp-qt { font-size: 13px; line-height: 1.7; color: #1a1a1a; margin-bottom: 6px; }
-.pp-mb { float: right; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 100px; margin-left: 6px; margin-top: 2px; }
-.pp-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 12px; margin-top: 4px; }
-.pp-opt { font-size: 12px; color: #333; padding: 2px 0; display: flex; gap: 4px; }
-.pp-opt-l { font-weight: 700; color: #888; min-width: 18px; }
-.pp-assert { background: #f5f5f5; border-radius: 6px; padding: 8px 11px; margin-bottom: 6px; font-size: 12.5px; color: #333; line-height: 1.6; }
-.pp-al { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #888; margin-bottom: 2px; }
-.pp-case { background: #fffbeb; border: 1px solid #fde68a; border-left: 4px solid #f59e0b; border-radius: 6px; padding: 11px; margin-bottom: 8px; font-size: 12.5px; color: #333; line-height: 1.7; }
-.pp-cl { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #92400e; margin-bottom: 4px; }
-.aline { height: 20px; border-bottom: 1px solid #ddd; margin-bottom: 3px; }
-.blank { display: inline-block; min-width: 60px; border-bottom: 1.5px solid #1a1a1a; margin: 0 3px; vertical-align: bottom; height: 16px; }
-
-/* Answer key */
-.ak-wrap { background: #1a1a1a; border-radius: var(--rl); padding: 16px; margin-bottom: 12px; }
-.ak-title { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 16px; color: #fff; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-.ak-badge { font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; background: var(--red); padding: 2px 9px; border-radius: 100px; color: #fff; }
-.ak-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.ak-item { background: rgba(255,255,255,.07); border-radius: var(--r); padding: 8px 11px; border: 1px solid rgba(255,255,255,.1); }
-.ak-q { font-size: 10px; color: #666; margin-bottom: 2px; font-weight: 700; }
-.ak-a { font-size: 12px; color: #e2e8f0; }
-.ak-a .cor { color: #4ade80; font-weight: 700; }
-
-/* ═══════════════════════════════════════════
-   SCREEN 5 — PROGRESS
-═══════════════════════════════════════════ */
-.prog-hero {
-  background: linear-gradient(160deg, #0d2e4a 0%, #0f1923 70%);
-  padding: 20px 16px; border-bottom: 1px solid var(--border);
+.q-card-body { padding: 14px; }
+.q-text { font-size: 14px; color: var(--ink); line-height: 1.65; margin-bottom: 14px; font-weight: 500; }
+.mcq-opts { display: flex; flex-direction: column; gap: 7px; }
+.mcq-opt {
+  padding: 11px 13px; border-radius: var(--r);
+  border: 1px solid var(--border-2); background: var(--paper);
+  font-size: 13px; color: var(--ink-2); cursor: pointer;
+  transition: all .15s; display: flex; gap: 8px; align-items: flex-start;
 }
-.overall-score {
-  display: flex; align-items: center; gap: 16px;
-  margin-bottom: 16px;
+.mcq-opt:active { background: var(--paper-2); }
+.mcq-opt.correct { background: var(--math-l); border-color: var(--math); color: var(--math-m); font-weight: 600; }
+.mcq-opt.wrong   { background: var(--chem-l);  border-color: var(--chem);  color: var(--chem-m);  }
+.mcq-opt.disabled { pointer-events: none; }
+.opt-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; flex-shrink: 0; }
+.exp-box {
+  margin-top: 12px; padding: 12px; border-radius: var(--r);
+  background: var(--paper-2); border-left: 3px solid var(--ink);
 }
-.big-score {
-  font-family: 'Nunito', sans-serif; font-weight: 900;
-  font-size: 52px; color: var(--primary); line-height: 1;
-}
-.big-score-info { flex: 1; }
-.big-score-label { font-size: 12px; color: var(--t2); margin-bottom: 3px; }
-.big-score-sub { font-size: 11px; color: var(--t3); }
-
-.subj-prog-item { margin-bottom: 14px; }
-.spi-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-.spi-icon { font-size: 16px; }
-.spi-name { font-size: 13px; font-weight: 700; color: var(--t1); flex: 1; }
-.spi-pct { font-size: 12px; font-weight: 700; color: var(--t2); }
-
-/* Activity heatmap-style */
-.week-activity { display: flex; gap: 4px; margin-top: 8px; }
-.act-day {
-  flex: 1; height: 28px; border-radius: 5px;
-  background: var(--surf2); border: 1px solid var(--border);
-  display: flex; align-items: flex-end; overflow: hidden;
-}
-.act-fill { width: 100%; border-radius: 5px; transition: height .4s ease; }
-
-/* Achievements */
-.ach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.ach-item {
-  background: var(--surf1); border-radius: var(--rl); border: 1px solid var(--border);
-  padding: 14px 12px; text-align: center;
-}
-.ach-icon { font-size: 28px; margin-bottom: 6px; display: block; }
-.ach-name { font-size: 12px; font-weight: 700; color: var(--t1); }
-.ach-desc { font-size: 10.5px; color: var(--t3); margin-top: 2px; }
-.ach-item.locked { opacity: .35; filter: grayscale(1); }
-
-/* ═══════════════════════════════════════════
-   MODAL
-═══════════════════════════════════════════ */
-.modal-overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,.7);
-  z-index: 200; display: flex; align-items: flex-end;
-  opacity: 0; pointer-events: none; transition: opacity .2s;
-}
-.modal-overlay.open { opacity: 1; pointer-events: all; }
-.modal-sheet {
-  background: var(--surf1); border-radius: 20px 20px 0 0;
-  padding: 0 0 24px; width: 100%;
-  max-height: 85vh; overflow-y: auto;
-  transform: translateY(100%); transition: transform .3s cubic-bezier(.32,.72,0,1);
-}
-.modal-overlay.open .modal-sheet { transform: translateY(0); }
-.modal-handle { width: 36px; height: 4px; background: var(--border2); border-radius: 2px; margin: 14px auto 6px; }
-.modal-head { padding: 10px 18px 16px; border-bottom: 1px solid var(--border); }
-.modal-title { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 17px; color: var(--t1); }
-.modal-sub { font-size: 12px; color: var(--t2); margin-top: 2px; }
-.modal-body { padding: 16px; }
-
-
-/* ═══════════════════════════════════════════
-   PWA INSTALL PROMPT
-═══════════════════════════════════════════ */
-.install-banner {
-  position: fixed; bottom: calc(var(--nav-h) + 8px); left: 8px; right: 8px;
-  background: linear-gradient(135deg, #1d2b3f, #233148);
-  border: 1px solid rgba(77,158,255,.35);
-  border-radius: var(--rl); padding: 14px 16px;
-  display: none; align-items: center; gap: 12px;
-  z-index: 100; box-shadow: 0 8px 32px rgba(0,0,0,.5);
-  transform: translateY(120%); transition: transform .4s cubic-bezier(.32,.72,0,1);
-}
-.install-banner.show { display: flex; transform: translateY(0); }
-.install-icon { font-size: 26px; flex-shrink: 0; }
-.install-info { flex: 1; min-width: 0; }
-.install-title { font-family: "Nunito", sans-serif; font-weight: 800; font-size: 13px; color: var(--t1); }
-.install-sub { font-size: 11px; color: var(--t3); margin-top: 1px; }
-.install-actions { display: flex; gap: 7px; flex-shrink: 0; }
-.install-btn {
-  padding: 7px 13px; border-radius: 8px; border: none;
-  font-family: "Nunito", sans-serif; font-size: 12px; font-weight: 700;
+.exp-lbl { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-4); margin-bottom: 4px; }
+.exp-text { font-size: 12px; color: var(--ink-2); line-height: 1.6; }
+.reveal-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 13px; border-radius: var(--r);
+  border: 1px solid var(--border-2); background: var(--paper);
+  font-size: 12px; font-weight: 600; color: var(--ink-3);
   cursor: pointer; transition: all .15s;
 }
-.install-btn-yes { background: var(--primary); color: #fff; }
-.install-btn-no  { background: var(--surf3); color: var(--t3); }
-.install-btn:active { transform: scale(.95); }
+.ans-reveal { display: none; margin-top: 10px; }
+.ans-reveal.open { display: block; }
+.ans-reveal-lbl { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-4); margin-bottom: 4px; }
+.ans-reveal-text { font-size: 13px; color: var(--ink-2); line-height: 1.65; }
 
-
-
-/* ═══════════════════════════════════════════
-   UPDATE BANNER
-═══════════════════════════════════════════ */
-.update-bar {
-  position: fixed; top: var(--top-h); left: 0; right: 0;
-  background: rgba(77,158,255,.95); backdrop-filter: blur(8px);
-  padding: 10px 16px; display: flex; align-items: center; gap: 10px;
-  font-size: 12px; font-weight: 700; color: #fff;
-  z-index: 61; transform: translateY(-100%);
-  transition: transform .3s ease; cursor: pointer;
+/* ── THINKING ────────────────────────── */
+.thinking {
+  padding: 40px 16px; display: flex; flex-direction: column;
+  align-items: center; gap: 16px; color: var(--ink-3);
 }
-.update-bar.show { transform: translateY(0); }
+.thinking .dots { display: flex; gap: 6px; }
+.thinking .dots span {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--ink-3); animation: pulse .9s ease-in-out infinite;
+}
+.thinking .dots span:nth-child(2) { animation-delay: .15s; }
+.thinking .dots span:nth-child(3) { animation-delay: .3s; }
+@keyframes pulse { 0%,100%{opacity:.2;transform:scale(.8)} 50%{opacity:1;transform:scale(1)} }
 
-/* iOS safe area inset support */
+/* ── ERR CARD ────────────────────────── */
+.err-card {
+  margin: 16px; padding: 14px; border-radius: var(--r);
+  background: var(--chem-l); border: 1px solid var(--chem);
+  color: var(--chem-m); font-size: 13px; line-height: 1.5;
+}
+
+/* ── PAPER OUTPUT ───────────────────── */
+.paper-output { padding: 16px; font-size: 13px; line-height: 1.7; }
+.paper-header { text-align: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 2px solid var(--ink); }
+.paper-school { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+.paper-title  { font-size: 18px; font-weight: 800; color: var(--ink); margin: 4px 0; letter-spacing: -.5px; }
+.paper-meta   { font-size: 11px; color: var(--ink-3); }
+.paper-section-title {
+  font-size: 11px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-4);
+  margin: 20px 0 10px; padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.paper-q { margin-bottom: 14px; }
+.paper-q-text { color: var(--ink); margin-bottom: 6px; }
+.paper-q-opts { padding-left: 14px; color: var(--ink-3); font-size: 12px; }
+.paper-ans {
+  margin-top: 10px; padding: 10px 12px; border-radius: var(--r);
+  background: var(--math-l); border-left: 3px solid var(--math);
+  font-size: 12px; color: var(--math-m);
+}
+
+/* ── PROGRESS SCREEN ────────────────── */
+.prog-hero {
+  padding: 16px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.overall-score { flex: 1; }
+.big-score {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 52px; font-weight: 500; color: var(--ink);
+  line-height: 1; letter-spacing: -2px;
+}
+.big-score-label { font-size: 11px; color: var(--ink-4); margin-top: 4px; }
+.week-activity  { display: flex; gap: 4px; height: 40px; align-items: flex-end; }
+.act-day { flex: 1; display: flex; align-items: flex-end; }
+.act-fill { width: 100%; border-radius: 2px 2px 0 0; min-height: 4px; }
+.subj-prog-item { margin-bottom: 10px; }
+.spi-head { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+.spi-icon { font-size: 13px; }
+.spi-name { font-size: 12px; font-weight: 600; color: var(--ink-2); flex: 1; }
+.spi-pct  { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; }
+
+/* ── KPI GRID ────────────────────────── */
+.kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.kpi-card {
+  background: var(--paper-1); border: 1px solid var(--border);
+  border-radius: var(--rl); padding: 13px 12px;
+}
+.kpi-val { font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 500; color: var(--ink); line-height: 1; margin-bottom: 3px; }
+.kpi-lbl { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--ink-4); }
+.kpi-trend { font-size: 10px; margin-top: 4px; }
+
+/* ── STREAK SECTION ─────────────────── */
+.streak-card {
+  margin: 0 16px 10px; padding: 16px;
+  background: var(--ink); border-radius: var(--rl);
+  display: flex; align-items: center; gap: 12px;
+}
+.streak-icon { font-size: 28px; }
+.streak-info { flex: 1; }
+.streak-big  { font-family: 'JetBrains Mono', monospace; font-size: 32px; font-weight: 600; color: var(--paper); line-height: 1; }
+.streak-sub  { font-size: 11px; color: rgba(255,255,255,.5); margin-top: 2px; }
+.streak-milestones { display: flex; gap: 6px; margin-top: 10px; }
+.s-mile {
+  flex: 1; padding: 7px; border-radius: 8px;
+  border: 1px solid rgba(255,255,255,.12);
+  text-align: center; font-size: 10px; font-weight: 600;
+  color: rgba(255,255,255,.4);
+}
+.s-mile.done { border-color: rgba(255,255,255,.3); color: rgba(255,255,255,.9); }
+
+/* ── WEAKNESS SCREEN ─────────────────── */
+.wa-hero { padding: 20px 16px; border-bottom: 1px solid var(--border); }
+.wa-hero-title { font-size: 20px; font-weight: 800; color: var(--ink); letter-spacing: -.5px; margin-bottom: 4px; }
+.wa-hero-sub { font-size: 12px; color: var(--ink-4); margin-bottom: 14px; }
+.weakness-ring-row { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; }
+.weakness-ring-row::-webkit-scrollbar { display: none; }
+.w-ring-card {
+  flex-shrink: 0; width: 70px; text-align: center;
+  background: var(--paper-1); border: 1px solid var(--border);
+  border-radius: var(--rl); padding: 10px 6px;
+}
+.w-ring-pct  { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 18px; line-height: 1; margin-bottom: 2px; }
+.w-ring-subj { font-size: 9px; font-weight: 700; color: var(--ink-4); text-transform: uppercase; letter-spacing: .06em; }
+.w-ring-icon { font-size: 14px; margin-bottom: 3px; display: block; }
+.wk-card {
+  background: var(--paper-1); border: 1px solid var(--border);
+  border-radius: var(--rl); margin-bottom: 8px; overflow: hidden;
+}
+.wk-card-head { padding: 12px 14px 10px; display: flex; align-items: center; gap: 10px; }
+.wk-severity  { width: 3px; border-radius: 2px; align-self: stretch; flex-shrink: 0; }
+.wk-main { flex: 1; min-width: 0; }
+.wk-chapter { font-size: 13px; font-weight: 700; color: var(--ink); }
+.wk-subject { font-size: 11px; color: var(--ink-3); margin-top: 1px; }
+.wk-pct-badge { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 18px; flex-shrink: 0; }
+.wk-stats-row { display: flex; border-top: 1px solid var(--border); }
+.wk-stat { flex: 1; padding: 8px; text-align: center; border-right: 1px solid var(--border); }
+.wk-stat:last-child { border-right: none; }
+.wk-stat-v { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: var(--ink); }
+.wk-stat-l { font-size: 9px; color: var(--ink-4); font-weight: 700; text-transform: uppercase; margin-top: 1px; }
+.wk-action-row { padding: 10px 14px; display: flex; gap: 8px; border-top: 1px solid var(--border); background: var(--paper); }
+.plan-card {
+  background: var(--paper-1); border: 1px solid var(--border);
+  border-radius: var(--rl); padding: 16px; margin-bottom: 10px;
+}
+.plan-card-title { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+.plan-card-sub { font-size: 11px; color: var(--ink-4); margin-bottom: 14px; }
+.plan-step { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.plan-step:last-child { border-bottom: none; }
+.plan-step-num {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--paper-2); border: 1px solid var(--border-2);
+  font-size: 11px; font-weight: 700; color: var(--ink-3);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+}
+.plan-step-text { font-size: 13px; color: var(--ink); line-height: 1.5; }
+.plan-step-sub  { font-size: 11px; color: var(--ink-4); margin-top: 2px; }
+.wa-sec-title {
+  font-size: 10px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-4);
+  margin: 18px 0 8px; display: flex; align-items: center; gap: 6px;
+}
+.wa-section { padding: 0 16px 16px; }
+.subj-deep-tabs { display: flex; overflow-x: auto; gap: 0; border-bottom: 1px solid var(--border); margin: 0 -16px; padding: 0 16px; }
+.subj-deep-tabs::-webkit-scrollbar { display: none; }
+.sdt { padding: 9px 12px; font-size: 11px; font-weight: 600; color: var(--ink-4); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; flex-shrink: 0; transition: all .15s; }
+.sdt.on { color: var(--ink); border-bottom-color: var(--ink); }
+.ch-analysis-item { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); }
+.ch-analysis-item:last-child { border-bottom: none; }
+.ch-an-bar { flex: 1; }
+.ch-an-label { display: flex; justify-content: space-between; margin-bottom: 3px; }
+.ch-an-name { font-size: 12px; font-weight: 600; color: var(--ink); }
+.ch-an-pct  { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; }
+.ch-an-meta { font-size: 10px; color: var(--ink-4); margin-top: 2px; }
+.no-data-chip { font-size: 10px; color: var(--ink-4); background: var(--paper-2); border: 1px solid var(--border); border-radius: 100px; padding: 2px 8px; }
+.empty-state { text-align: center; padding: 28px 16px; color: var(--ink-4); }
+.empty-icon { font-size: 32px; margin-bottom: 8px; }
+.empty-msg  { font-size: 13px; font-weight: 600; color: var(--ink-3); }
+.empty-sub  { font-size: 11px; margin-top: 4px; }
+
+/* ── PYQ SCREEN ─────────────────────── */
+.pyq-hero { padding: 20px 16px; border-bottom: 1px solid var(--border); }
+.pyq-hero-title { font-size: 20px; font-weight: 800; color: var(--ink); letter-spacing: -.5px; margin-bottom: 4px; }
+.pyq-hero-sub { font-size: 12px; color: var(--ink-4); margin-bottom: 10px; }
+.pyq-source-note { background: var(--paper-2); border-radius: var(--r); padding: 8px 12px; font-size: 11px; color: var(--ink-3); display: flex; gap: 6px; }
+.pyq-subj-tabs { display: flex; overflow-x: auto; padding: 0 16px; gap: 0; border-bottom: 1px solid var(--border); background: var(--paper); }
+.pyq-subj-tabs::-webkit-scrollbar { display: none; }
+.pyq-tab { padding: 10px 12px; font-size: 12px; font-weight: 600; color: var(--ink-4); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; flex-shrink: 0; transition: all .15s; margin-bottom: -1px; }
+.pyq-tab.on { color: var(--ink); border-bottom-color: var(--ink); }
+.pyq-year-card { background: var(--paper-1); border: 1px solid var(--border); border-radius: var(--rl); margin-bottom: 10px; overflow: hidden; }
+.pyq-year-head { padding: 14px 16px; display: flex; align-items: center; gap: 12px; cursor: pointer; }
+.pyq-year-head:active { background: var(--paper-2); }
+.pyq-year-badge { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 20px; color: var(--ink); line-height: 1; flex-shrink: 0; }
+.pyq-year-info { flex: 1; }
+.pyq-year-name { font-size: 13px; font-weight: 700; color: var(--ink); }
+.pyq-year-meta { font-size: 10px; color: var(--ink-4); margin-top: 1px; }
+.pyq-latest-badge { font-size: 9px; font-weight: 700; padding: 3px 8px; border-radius: 100px; background: var(--math-l); color: var(--math-m); flex-shrink: 0; }
+.pyq-expand-icon { font-size: 14px; color: var(--ink-4); transition: transform .2s; }
+.pyq-year-card.open .pyq-expand-icon { transform: rotate(180deg); }
+.pyq-body { display: none; border-top: 1px solid var(--border); }
+.pyq-year-card.open .pyq-body { display: block; }
+.pyq-stats-row { display: flex; }
+.pyq-stat { flex: 1; padding: 10px 8px; text-align: center; border-right: 1px solid var(--border); }
+.pyq-stat:last-child { border-right: none; }
+.pyq-stat-v { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 14px; color: var(--ink); }
+.pyq-stat-l { font-size: 9px; color: var(--ink-4); font-weight: 700; text-transform: uppercase; margin-top: 2px; }
+.pyq-highlights { padding: 12px 16px; background: var(--paper); border-bottom: 1px solid var(--border); }
+.pyq-hl-title { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-4); margin-bottom: 6px; }
+.pyq-hl-list { display: flex; flex-wrap: wrap; gap: 5px; }
+.pyq-hl-chip { font-size: 11px; padding: 3px 9px; border-radius: 100px; background: var(--paper-2); border: 1px solid var(--border-2); color: var(--ink-3); }
+.pyq-actions { padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; }
+.pyq-action-btn { display: flex; align-items: center; gap: 10px; padding: 11px 13px; border-radius: var(--r); border: 1px solid var(--border-2); background: var(--paper); cursor: pointer; text-decoration: none; transition: background .15s; }
+.pyq-action-btn:active { background: var(--paper-2); }
+.pyq-action-icon { font-size: 18px; flex-shrink: 0; }
+.pyq-action-info { flex: 1; }
+.pyq-action-title { font-size: 13px; font-weight: 700; color: var(--ink); }
+.pyq-action-sub   { font-size: 10px; color: var(--ink-4); margin-top: 1px; }
+.pyq-action-arrow { font-size: 14px; color: var(--ink-4); }
+.primary-action  { background: var(--paper-1); }
+.ms-action       { background: var(--paper-1); }
+.practice-action { background: var(--paper-1); }
+.pyq-live-badge  { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 100px; background: var(--math-l); border: 1px solid var(--math); font-size: 10px; font-weight: 700; color: var(--math-m); }
+.pyq-live-dot    { width: 5px; height: 5px; border-radius: 50%; background: var(--math); animation: livePulse 1.5s ease-in-out infinite; }
+@keyframes livePulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+.pyq-year-new    { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 100px; background: var(--phy-l); color: var(--phy); margin-left: 5px; }
+.pyq-info-banner { background: var(--paper-2); border-radius: var(--r); padding: 12px 13px; font-size: 11px; color: var(--ink-3); margin-bottom: 10px; display: flex; gap: 7px; align-items: flex-start; line-height: 1.6; }
+
+/* ── CHAPTER SELECTOR ───────────────── */
+.ch-selector-modal { position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 400; display: flex; align-items: flex-end; }
+.ch-selector-sheet { background: var(--paper); border-radius: 20px 20px 0 0; width: 100%; max-height: 88vh; display: flex; flex-direction: column; }
+.ch-sheet-handle { width: 36px; height: 3px; background: var(--border-2); border-radius: 2px; margin: 12px auto 0; }
+.ch-sheet-head { padding: 12px 16px 10px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+.ch-sheet-title { font-size: 16px; font-weight: 700; color: var(--ink); flex: 1; letter-spacing: -.3px; }
+.ch-sheet-close { width: 28px; height: 28px; border-radius: 50%; background: var(--paper-2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 13px; cursor: pointer; color: var(--ink-3); }
+.ch-quick-row { display: flex; gap: 6px; padding: 10px 16px; border-bottom: 1px solid var(--border); overflow-x: auto; }
+.ch-quick-row::-webkit-scrollbar { display: none; }
+.ch-quick-btn { padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 600; border: 1px solid var(--border-2); background: var(--paper-1); color: var(--ink-3); cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+.ch-list-scroll { flex: 1; overflow-y: auto; padding: 8px 16px 16px; }
+.ch-list-item { display: flex; align-items: center; gap: 10px; padding: 10px 10px; border-radius: var(--r); margin-bottom: 3px; cursor: pointer; border: 1px solid transparent; transition: all .15s; }
+.ch-list-item.selected { background: var(--paper-2); border-color: var(--border-2); }
+.ch-list-check { width: 20px; height: 20px; border-radius: 6px; border: 1.5px solid var(--border-2); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all .15s; font-size: 11px; font-weight: 700; color: var(--paper); }
+.ch-list-item.selected .ch-list-check { background: var(--ink); border-color: var(--ink); }
+.ch-list-ch-num  { font-size: 10px; color: var(--ink-4); font-weight: 600; flex-shrink: 0; min-width: 28px; }
+.ch-list-ch-name { font-size: 13px; color: var(--ink); flex: 1; line-height: 1.4; }
+.ch-list-score   { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 100px; flex-shrink: 0; }
+.ch-score-g { background: var(--math-l); color: var(--math-m); }
+.ch-score-y { background: var(--cs-l);   color: var(--cs-m);   }
+.ch-score-r { background: var(--chem-l); color: var(--chem-m); }
+.ch-score-none { background: var(--paper-2); color: var(--ink-4); }
+.ch-sheet-footer { padding: 12px 16px; border-top: 1px solid var(--border); display: flex; gap: 8px; align-items: center; }
+.ch-selected-count { font-size: 12px; font-weight: 600; color: var(--ink-3); flex: 1; }
+.ch-selector-btn { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: var(--paper-1); border: 1px solid var(--border-2); border-radius: var(--r); cursor: pointer; width: 100%; transition: all .15s; }
+.ch-selector-btn:active { background: var(--paper-2); }
+.ch-selector-btn-text { flex: 1; font-size: 13px; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ch-selector-btn-count { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 100px; background: var(--paper-2); border: 1px solid var(--border-2); color: var(--ink-2); }
+.subj-multi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-bottom: 10px; }
+.subj-multi-card { background: var(--paper-1); border: 1px solid var(--border); border-radius: var(--r); padding: 9px 11px; cursor: pointer; transition: all .15s; display: flex; align-items: center; gap: 8px; }
+.subj-multi-card.on { border-color: var(--ink-2); background: var(--paper-2); }
+.subj-multi-card:active { transform: scale(.97); }
+.subj-multi-icon { font-size: 16px; }
+.subj-multi-name  { font-size: 12px; font-weight: 600; color: var(--ink); }
+.subj-multi-count { font-size: 10px; color: var(--ink-4); margin-top: 1px; }
+.subj-multi-check { margin-left: auto; width: 17px; height: 17px; border-radius: 50%; border: 1.5px solid var(--border-2); display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--paper); }
+.subj-multi-card.on .subj-multi-check { background: var(--ink); border-color: var(--ink); }
+
+/* ── SOURCE SELECTOR ────────────────── */
+.item-chip { font-size: 10px; padding: 2px 8px; border-radius: 100px; background: var(--paper-2); border: 1px solid var(--border); color: var(--ink-4); }
+
+/* ── TIMER ──────────────────────────── */
+.timer-bar { display: none; align-items: center; gap: 10px; padding: 10px 16px; background: var(--paper-1); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 40; }
+.timer-bar.active { display: flex; }
+.timer-circle { width: 46px; height: 46px; border-radius: 50%; border: 3px solid var(--border-2); display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; flex-shrink: 0; transition: border-color .5s, color .5s; }
+.timer-circle.ok  { border-color: var(--math); color: var(--math); }
+.timer-circle.mid { border-color: var(--yellow); color: var(--yellow); }
+.timer-circle.low { border-color: var(--red); color: var(--red); animation: timerPulse .6s ease-in-out infinite; }
+@keyframes timerPulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+.timer-info { flex: 1; }
+.timer-title { font-size: 12px; font-weight: 700; color: var(--ink); }
+.timer-sub   { font-size: 10px; color: var(--ink-4); margin-top: 1px; }
+.timer-prog  { height: 3px; background: var(--paper-2); border-radius: 2px; margin-top: 5px; overflow: hidden; }
+.timer-prog-fill { height: 100%; border-radius: 2px; transition: width 1s linear, background .5s; }
+.timer-stop-btn { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border-2); background: var(--paper); font-size: 11px; font-weight: 700; color: var(--ink-3); cursor: pointer; }
+
+/* ── EXAM RECORDS ───────────────────── */
+.rec-filter-row { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 10px; }
+.rec-filter-row::-webkit-scrollbar { display: none; }
+.rec-chip { padding: 5px 12px; border-radius: 100px; font-size: 12px; font-weight: 600; border: 1px solid var(--border-2); background: var(--paper-1); color: var(--ink-3); cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+.rec-chip.on { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.rec-item { background: var(--paper-1); border-radius: var(--r); border: 1px solid var(--border); padding: 12px 14px; margin-bottom: 8px; cursor: pointer; }
+.rec-item:active { background: var(--paper-2); }
+.rec-item-head { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+.rec-subj-name { font-size: 13px; font-weight: 700; color: var(--ink); flex: 1; }
+.rec-score-badge { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 14px; padding: 2px 10px; border-radius: 100px; }
+.rec-score-g { background: var(--math-l); color: var(--math-m); }
+.rec-score-y { background: var(--cs-l); color: var(--cs-m); }
+.rec-score-r { background: var(--chem-l); color: var(--chem-m); }
+.rec-meta { display: flex; gap: 10px; flex-wrap: wrap; }
+.rec-meta-item { font-size: 10px; color: var(--ink-4); font-weight: 600; }
+.rec-detail-row { display: flex; gap: 8px; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+.rec-detail-stat { flex: 1; text-align: center; }
+.rec-detail-val { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 14px; }
+.rec-detail-lbl { font-size: 9px; color: var(--ink-4); font-weight: 700; text-transform: uppercase; }
+
+/* ── INTEGRITY / ANTI-CHEAT ─────────── */
+.focus-lost-banner { position: fixed; top: var(--top-h); left: 0; right: 0; background: var(--red); padding: 10px 16px; display: none; align-items: center; gap: 10px; z-index: 60; }
+.focus-lost-banner.show { display: flex; }
+.flb-text { font-size: 12px; font-weight: 700; color: #fff; flex: 1; }
+.flb-count { font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 100px; background: rgba(255,255,255,.2); color: #fff; }
+.flb-close { font-size: 14px; color: rgba(255,255,255,.7); cursor: pointer; }
+.screenshot-guard { position: fixed; inset: 0; background: rgba(0,0,0,.97); z-index: 99999; display: none; align-items: center; justify-content: center; flex-direction: column; gap: 16px; text-align: center; padding: 32px; }
+.screenshot-guard.show { display: flex; }
+.exit-dialog-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); backdrop-filter: blur(8px); z-index: 9999; display: none; align-items: center; justify-content: center; padding: 24px; opacity: 0; transition: opacity .2s; pointer-events: none; }
+.exit-dialog-overlay.show { display: flex; opacity: 1; pointer-events: all; }
+.exit-dialog { background: var(--paper); border: 1px solid var(--border-2); border-radius: var(--rx); padding: 28px 24px 20px; width: 100%; max-width: 320px; transform: scale(.92); transition: transform .25s cubic-bezier(.32,.72,0,1); text-align: center; }
+.exit-dialog-overlay.show .exit-dialog { transform: scale(1); }
+.exit-dialog-icon  { font-size: 36px; margin-bottom: 12px; }
+.exit-dialog-title { font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+.exit-dialog-msg   { font-size: 13px; color: var(--ink-4); line-height: 1.6; margin-bottom: 20px; }
+.exit-dialog-btns  { display: flex; gap: 10px; }
+.exit-btn-stay  { flex: 1; padding: 12px; border-radius: var(--r); background: var(--ink); color: var(--paper); font-family: 'Sora', sans-serif; font-weight: 700; font-size: 14px; border: none; cursor: pointer; }
+.exit-btn-leave { flex: 1; padding: 12px; border-radius: var(--r); background: var(--paper-1); color: var(--ink-3); font-family: 'Sora', sans-serif; font-weight: 600; font-size: 14px; border: 1px solid var(--border-2); cursor: pointer; }
+
+/* ── ERROR LOG ──────────────────────── */
+.errlog-item { display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.errlog-item:last-child { border-bottom: none; }
+.errlog-q   { font-size: 12px; color: var(--ink); }
+.errlog-meta { font-size: 10px; color: var(--ink-4); margin-top: 3px; }
+.errlog-ans { font-size: 11px; color: var(--red); margin-top: 2px; }
+.errlog-cor { font-size: 11px; color: var(--math); margin-top: 1px; }
+.err-count-badge { min-width: 20px; height: 20px; border-radius: 10px; background: var(--red); color: #fff; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+/* ── ADAPTIVE ALERTS ────────────────── */
+.adapt-alert { background: var(--phy-l); border: 1px solid var(--phy); border-radius: var(--r); padding: 10px 13px; font-size: 12px; color: var(--ink-2); display: flex; gap: 8px; align-items: flex-start; margin-bottom: 8px; }
+
+/* ── INSTALL BANNER ─────────────────── */
+.install-banner { position: fixed; bottom: calc(var(--nav-h) + 8px); left: 8px; right: 8px; background: var(--paper); border: 1px solid var(--border-2); border-radius: var(--rl); padding: 14px 16px; display: none; align-items: center; gap: 12px; z-index: 100; box-shadow: 0 4px 24px rgba(0,0,0,.1); transform: translateY(120%); transition: transform .4s cubic-bezier(.32,.72,0,1); }
+.install-banner.show { display: flex; transform: translateY(0); }
+.install-icon  { font-size: 24px; flex-shrink: 0; }
+.install-info  { flex: 1; min-width: 0; }
+.install-title { font-size: 13px; font-weight: 700; color: var(--ink); }
+.install-sub   { font-size: 11px; color: var(--ink-4); margin-top: 1px; }
+.install-actions { display: flex; gap: 7px; flex-shrink: 0; }
+.install-btn { padding: 7px 13px; border-radius: 8px; border: none; font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer; }
+.install-btn-yes { background: var(--ink); color: var(--paper); }
+.install-btn-no  { background: var(--paper-2); color: var(--ink-3); }
+
+/* ── PAPER GENERATOR ────────────────── */
+.marks-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.marks-item { background: var(--paper-1); border-radius: var(--r); padding: 9px 10px; border: 1px solid var(--border); }
+.marks-item-l { font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-4); margin-bottom: 4px; }
+.marks-item input { padding: 5px 8px; font-size: 13px; }
+.total-badge { text-align: center; font-size: 12px; color: var(--ink-3); margin-top: 8px; }
+.total-badge strong { color: var(--ink); font-family: 'JetBrains Mono', monospace; font-weight: 700; }
+.config-section { margin-bottom: 12px; }
+
+/* ── STUDY PLAN ─────────────────────── */
+.week-grid { display: flex; gap: 6px; }
+.wg-day { flex: 1; border-radius: 10px; border: 1px solid var(--border); background: var(--paper-1); padding: 8px 4px; text-align: center; }
+.wg-day.today { background: var(--ink); border-color: var(--ink); }
+.wg-d  { font-size: 9px; font-weight: 700; letter-spacing: .04em; color: var(--ink-4); text-transform: uppercase; }
+.wg-day.today .wg-d  { color: rgba(255,255,255,.5); }
+.wg-n  { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: var(--ink); margin: 4px 0; }
+.wg-day.today .wg-n  { color: var(--paper); }
+.wg-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--math); margin: 0 auto; }
+.wg-day.today .wg-dot { background: rgba(255,255,255,.5); }
+.tl-item { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.tl-item:last-child { border-bottom: none; }
+.tl-time { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-4); width: 48px; flex-shrink: 0; padding-top: 2px; }
+.tl-accent { width: 3px; border-radius: 2px; flex-shrink: 0; }
+.tl-body { flex: 1; }
+.tl-subj { font-size: 13px; font-weight: 700; color: var(--ink); }
+.tl-ch   { font-size: 11px; color: var(--ink-4); margin-top: 2px; }
+.tl-dur  { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-4); margin-top: 3px; }
+.ch-plan-item { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); }
+.ch-plan-item:last-child { border-bottom: none; }
+.ch-plan-icon { font-size: 16px; flex-shrink: 0; }
+.ch-plan-name { font-size: 12px; font-weight: 600; color: var(--ink); flex: 1; }
+.ch-plan-days { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-4); }
+.pri-badge { font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 100px; }
+.pri-h { background: var(--chem-l); color: var(--chem-m); }
+.pri-m { background: var(--cs-l);   color: var(--cs-m);   }
+.pri-l { background: var(--math-l); color: var(--math-m); }
+
+/* ── SAFE AREA (iOS) ────────────────── */
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
-  .nav {
-    padding-bottom: env(safe-area-inset-bottom);
-    height: calc(var(--nav-h) + env(safe-area-inset-bottom));
-  }
+  .nav  { padding-bottom: env(safe-area-inset-bottom); height: calc(var(--nav-h) + env(safe-area-inset-bottom)); }
   .screen { padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + 16px); }
   .score-bar-wrap { bottom: calc(var(--nav-h) + env(safe-area-inset-bottom)); }
 }
 @supports (padding-top: env(safe-area-inset-top)) {
-  .topbar {
-    padding-top: max(0px, env(safe-area-inset-top));
-    height: calc(var(--top-h) + env(safe-area-inset-top));
-  }
+  .topbar { padding-top: max(0px, env(safe-area-inset-top)); height: calc(var(--top-h) + env(safe-area-inset-top)); }
 }
 
+/* ── OFFLINE BAR ─────────────────────── */
+.offline-bar { position: fixed; top: var(--top-h); left: 0; right: 0; background: rgba(220,38,38,.9); backdrop-filter: blur(8px); padding: 8px 16px; text-align: center; font-size: 12px; font-weight: 700; color: #fff; z-index: 60; transform: translateY(-100%); transition: transform .3s ease; }
+.offline-bar.show { transform: translateY(0); }
 
-/* ═══════════════════════════════════════════
-   EXAM TIMER
-═══════════════════════════════════════════ */
-.timer-bar {
-  display:none; align-items:center; gap:10px;
-  padding:10px 16px; background:var(--surf1);
-  border-bottom:1px solid var(--border);
-  position:sticky; top:0; z-index:40;
-}
-.timer-bar.active { display:flex; }
-.timer-circle {
-  width:48px; height:48px; border-radius:50%;
-  border:3px solid var(--border2);
-  display:flex; align-items:center; justify-content:center;
-  font-family:'Nunito',sans-serif; font-weight:900;
-  font-size:13px; flex-shrink:0;
-  transition:border-color .5s, color .5s;
-}
-.timer-circle.ok  { border-color:var(--green); color:var(--green); }
-.timer-circle.mid { border-color:var(--yellow); color:var(--yellow); }
-.timer-circle.low { border-color:var(--red); color:var(--red); animation:timerPulse .6s ease-in-out infinite; }
-@keyframes timerPulse { 0%,100%{opacity:1} 50%{opacity:.5} }
-.timer-info { flex:1; }
-.timer-title { font-size:12px; font-weight:700; color:var(--t1); }
-.timer-sub { font-size:10px; color:var(--t3); margin-top:1px; }
-.timer-prog { height:4px; background:var(--surf3); border-radius:2px; margin-top:5px; overflow:hidden; }
-.timer-prog-fill { height:100%; border-radius:2px; transition:width 1s linear, background .5s; }
-.timer-stop-btn {
-  padding:6px 12px; border-radius:8px;
-  border:1px solid var(--border2); background:var(--surf2);
-  font-size:11px; font-weight:700; color:var(--t3);
-  cursor:pointer;
-}
-.timed-badge {
-  font-size:10px; font-weight:700; padding:2px 8px;
-  border-radius:100px; background:rgba(255,82,82,.15);
-  color:#ff8f8f; display:inline-flex; align-items:center; gap:4px;
-}
+/* ── UPDATE BAR ──────────────────────── */
+.update-bar { position: fixed; top: var(--top-h); left: 0; right: 0; background: var(--phy); padding: 10px 16px; display: none; align-items: center; gap: 10px; font-size: 12px; font-weight: 700; color: #fff; z-index: 61; cursor: pointer; }
+.update-bar.show { display: flex; }
 
-/* ═══════════════════════════════════════════
-   ERROR LOG
-═══════════════════════════════════════════ */
-.errlog-item {
-  display:flex; gap:10px; align-items:flex-start;
-  padding:10px 0; border-bottom:1px solid var(--border);
-}
-.errlog-item:last-child { border-bottom:none; }
-.errlog-q { flex:1; font-size:13px; color:var(--t1); }
-.errlog-meta { font-size:10px; color:var(--t3); margin-top:3px; }
-.errlog-ans { font-size:11px; color:#ff8f8f; margin-top:2px; }
-.errlog-cor { font-size:11px; color:var(--math-m); margin-top:1px; }
-.err-count-badge {
-  min-width:20px; height:20px; border-radius:10px;
-  background:var(--red); color:#fff;
-  font-size:10px; font-weight:800;
-  display:flex; align-items:center; justify-content:center;
-  flex-shrink:0;
-}
-
-/* ═══════════════════════════════════════════
-   PYQ MODE BADGE
-═══════════════════════════════════════════ */
-.pyq-badge {
-  background:rgba(255,204,2,.15); border:1px solid rgba(255,204,2,.3);
-  border-radius:var(--r); padding:8px 12px;
-  display:flex; align-items:center; gap:8px;
-  margin-bottom:10px;
-}
-.pyq-badge-icon { font-size:18px; }
-.pyq-badge-text { font-size:12px; color:var(--cs-m); font-weight:700; }
-.pyq-badge-sub { font-size:10px; color:var(--t3); margin-top:1px; }
-
-/* ═══════════════════════════════════════════
-   ADAPTIVE PLAN
-═══════════════════════════════════════════ */
-.adapt-alert {
-  background:rgba(77,158,255,.1); border:1px solid rgba(77,158,255,.25);
-  border-radius:var(--r); padding:10px 13px;
-  font-size:12px; color:var(--phy-m);
-  display:flex; gap:8px; align-items:flex-start;
-  margin-bottom:8px;
-}
-
-
-/* ═══════════════════════════════════════════
-   EXAM RECORDS & KPI DASHBOARD
-═══════════════════════════════════════════ */
-.kpi-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
-.kpi-card {
-  background:var(--surf1); border-radius:var(--rl);
-  border:1px solid var(--border); padding:14px 12px;
-}
-.kpi-val {
-  font-family:'Nunito',sans-serif; font-weight:900;
-  font-size:26px; line-height:1; margin-bottom:3px;
-}
-.kpi-lbl { font-size:10px; font-weight:700; color:var(--t3); letter-spacing:.06em; text-transform:uppercase; }
-.kpi-trend { font-size:10px; margin-top:4px; }
-.kpi-trend.up { color:var(--green); }
-.kpi-trend.dn { color:var(--red); }
-.kpi-trend.nt { color:var(--t3); }
-
-.rec-filter-row { display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; margin-bottom:12px; }
-.rec-filter-row::-webkit-scrollbar { display:none; }
-.rec-chip {
-  padding:5px 12px; border-radius:100px; font-size:12px; font-weight:700;
-  border:1px solid var(--border2); background:var(--surf2); color:var(--t2);
-  cursor:pointer; white-space:nowrap; flex-shrink:0; transition:all .15s;
-}
-.rec-chip.on { background:rgba(77,158,255,.15); border-color:var(--primary); color:var(--primary); }
-
-.rec-item {
-  background:var(--surf1); border-radius:var(--r);
-  border:1px solid var(--border); padding:12px 14px;
-  margin-bottom:8px; cursor:pointer; transition:all .15s;
-}
-.rec-item:active { transform:scale(.98); }
-.rec-item-head { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
-.rec-subj-icon { font-size:16px; }
-.rec-subj-name { font-size:13px; font-weight:700; color:var(--t1); flex:1; }
-.rec-score-badge {
-  font-family:'Nunito',sans-serif; font-weight:900;
-  font-size:15px; padding:3px 10px;
-  border-radius:100px;
-}
-.rec-score-g { background:rgba(38,201,135,.15); color:var(--math-m); }
-.rec-score-y { background:rgba(255,204,2,.12); color:var(--cs-m); }
-.rec-score-r { background:rgba(255,82,82,.12); color:#ff8f8f; }
-.rec-meta { display:flex; gap:10px; flex-wrap:wrap; }
-.rec-meta-item { font-size:10px; color:var(--t3); font-weight:600; display:flex; align-items:center; gap:3px; }
-.rec-detail-row { display:flex; gap:8px; margin-top:8px; padding-top:8px; border-top:1px solid var(--border); }
-.rec-detail-stat { flex:1; text-align:center; }
-.rec-detail-val { font-family:'Nunito',sans-serif; font-weight:800; font-size:14px; }
-.rec-detail-lbl { font-size:9px; color:var(--t3); font-weight:700; text-transform:uppercase; }
-
-.trend-mini { display:flex; align-items:flex-end; gap:3px; height:32px; margin-top:6px; }
-.trend-bar-mini { flex:1; border-radius:2px; min-height:3px; transition:height .3s; }
-
-.empty-state { text-align:center; padding:32px 16px; color:var(--t3); }
-.empty-icon { font-size:36px; margin-bottom:8px; }
-.empty-msg { font-size:13px; font-weight:700; color:var(--t2); }
-.empty-sub { font-size:11px; margin-top:4px; }
-
-
-/* ═══════════════════════════════════════════
-   WEAKNESS ANALYSIS SCREEN
-═══════════════════════════════════════════ */
-.wa-hero {
-  background: linear-gradient(160deg, #2d0a0a 0%, #0f1923 60%);
-  padding: 20px 16px 24px;
-  border-bottom: 1px solid var(--border);
-}
-.wa-hero-title {
-  font-family: 'Nunito', sans-serif; font-weight: 900;
-  font-size: 20px; color: var(--t1); margin-bottom: 4px;
-}
-.wa-hero-sub { font-size: 12px; color: var(--t3); margin-bottom: 16px; }
-
-.weakness-ring-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; }
-.weakness-ring-row::-webkit-scrollbar { display: none; }
-.w-ring-card {
-  flex-shrink: 0; width: 80px; text-align: center;
-  background: var(--surf1); border-radius: var(--rl);
-  border: 1px solid var(--border); padding: 12px 8px;
-}
-.w-ring-pct {
-  font-family: 'Nunito', sans-serif; font-weight: 900;
-  font-size: 20px; line-height: 1; margin-bottom: 3px;
-}
-.w-ring-subj { font-size: 9px; font-weight: 700; color: var(--t3); text-transform: uppercase; letter-spacing: .06em; }
-.w-ring-icon { font-size: 16px; margin-bottom: 4px; display: block; }
-
-.wa-section { padding: 0 16px 16px; }
-.wa-sec-title {
-  font-size: 11px; font-weight: 700; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--t3);
-  margin: 20px 0 10px; display: flex; align-items: center; gap: 6px;
-}
-
-/* Weakness cards */
-.wk-card {
-  background: var(--surf1); border-radius: var(--rl);
-  border: 1px solid var(--border); margin-bottom: 10px;
-  overflow: hidden;
-}
-.wk-card-head {
-  padding: 12px 14px 10px;
-  display: flex; align-items: center; gap: 10px;
-}
-.wk-severity {
-  width: 4px; border-radius: 2px; align-self: stretch; flex-shrink: 0;
-}
-.wk-main { flex: 1; min-width: 0; }
-.wk-chapter { font-size: 13px; font-weight: 700; color: var(--t1); }
-.wk-subject { font-size: 11px; color: var(--t2); margin-top: 1px; }
-.wk-pct-badge {
-  font-family: 'Nunito', sans-serif; font-weight: 900;
-  font-size: 18px; flex-shrink: 0;
-}
-.wk-stats-row {
-  display: flex; gap: 0;
-  border-top: 1px solid var(--border);
-}
-.wk-stat {
-  flex: 1; padding: 8px 10px; text-align: center;
-  border-right: 1px solid var(--border);
-}
-.wk-stat:last-child { border-right: none; }
-.wk-stat-v { font-size: 13px; font-weight: 700; color: var(--t1); }
-.wk-stat-l { font-size: 9px; color: var(--t3); font-weight: 700; text-transform: uppercase; margin-top: 1px; }
-.wk-action-row {
-  padding: 10px 14px; display: flex; gap: 8px;
-  border-top: 1px solid var(--border);
-  background: var(--surf2);
-}
-
-/* AI Plan card */
-.plan-card {
-  background: linear-gradient(135deg, rgba(77,158,255,.12) 0%, rgba(124,58,237,.12) 100%);
-  border: 1px solid rgba(77,158,255,.25);
-  border-radius: var(--rl); padding: 16px;
-  margin-bottom: 10px;
-}
-.plan-card-title {
-  font-family: 'Nunito', sans-serif; font-weight: 900;
-  font-size: 15px; color: var(--t1); margin-bottom: 4px;
-  display: flex; align-items: center; gap: 8px;
-}
-.plan-card-sub { font-size: 11px; color: var(--t2); margin-bottom: 14px; }
-.plan-step {
-  display: flex; gap: 10px; align-items: flex-start;
-  padding: 8px 0; border-bottom: 1px solid var(--border);
-}
-.plan-step:last-child { border-bottom: none; }
-.plan-step-num {
-  width: 22px; height: 22px; border-radius: 50%;
-  background: rgba(77,158,255,.2); border: 1px solid rgba(77,158,255,.35);
-  font-size: 11px; font-weight: 800; color: var(--primary);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; margin-top: 1px;
-}
-.plan-step-text { font-size: 13px; color: var(--t1); line-height: 1.5; flex: 1; }
-.plan-step-sub { font-size: 11px; color: var(--t3); margin-top: 2px; }
-
-/* Subject deep dive */
-.subj-deep-tabs {
-  display: flex; gap: 0; border-bottom: 1px solid var(--border);
-  overflow-x: auto; margin: 0 -16px; padding: 0 16px;
-}
-.subj-deep-tabs::-webkit-scrollbar { display: none; }
-.sdt {
-  padding: 10px 13px; font-size: 12px; font-weight: 700;
-  color: var(--t3); cursor: pointer;
-  border-bottom: 2px solid transparent;
-  white-space: nowrap; flex-shrink: 0; transition: all .15s;
-}
-.sdt.on { color: var(--primary); border-bottom-color: var(--primary); }
-
-.ch-analysis-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 9px 0; border-bottom: 1px solid var(--border);
-}
-.ch-analysis-item:last-child { border-bottom: none; }
-.ch-an-bar { flex: 1; }
-.ch-an-label { display: flex; justify-content: space-between; margin-bottom: 3px; }
-.ch-an-name { font-size: 12px; font-weight: 700; color: var(--t1); }
-.ch-an-pct { font-size: 11px; font-weight: 700; }
-.ch-an-meta { font-size: 10px; color: var(--t3); margin-top: 2px; }
-.no-data-chip {
-  font-size: 10px; color: var(--t3); background: var(--surf2);
-  border: 1px solid var(--border); border-radius: 100px;
-  padding: 2px 8px; white-space: nowrap;
-}
-
-
-/* ═══════════════════════════════════════════
-   PREVIOUS YEAR PAPERS SCREEN
-═══════════════════════════════════════════ */
-.pyq-hero {
-  background: linear-gradient(160deg, #1a0d2e 0%, #0f1923 60%);
-  padding: 20px 16px 20px;
-  border-bottom: 1px solid var(--border);
-}
-.pyq-hero-title {
-  font-family: 'Nunito', sans-serif; font-weight: 900;
-  font-size: 20px; color: var(--t1); margin-bottom: 3px;
-}
-.pyq-hero-sub { font-size: 12px; color: var(--t3); margin-bottom: 14px; }
-.pyq-source-note {
-  background: rgba(185,112,255,.1); border: 1px solid rgba(185,112,255,.25);
-  border-radius: var(--r); padding: 8px 12px;
-  font-size: 11px; color: var(--eng-m);
-  display: flex; align-items: center; gap: 6px;
-}
-
-.pyq-subj-tabs {
-  display: flex; gap: 0; border-bottom: 1px solid var(--border);
-  overflow-x: auto; padding: 0 16px;
-}
-.pyq-subj-tabs::-webkit-scrollbar { display: none; }
-.pyq-tab {
-  padding: 11px 13px; font-size: 12px; font-weight: 700;
-  color: var(--t3); cursor: pointer;
-  border-bottom: 2.5px solid transparent;
-  white-space: nowrap; flex-shrink: 0; transition: all .15s;
-}
-.pyq-tab.on { border-bottom-color: var(--eng); color: var(--eng-m); }
-
-.pyq-year-card {
-  background: var(--surf1); border-radius: var(--rl);
-  border: 1px solid var(--border); margin-bottom: 12px;
-  overflow: hidden; transition: all .2s;
-}
-.pyq-year-head {
-  padding: 14px 16px; display: flex;
-  align-items: center; gap: 12px;
-  cursor: pointer;
-}
-.pyq-year-head:active { background: var(--surf2); }
-.pyq-year-badge {
-  font-family: 'Nunito', sans-serif; font-weight: 900;
-  font-size: 22px; color: var(--eng-m); line-height: 1;
-  flex-shrink: 0;
-}
-.pyq-year-info { flex: 1; }
-.pyq-year-name { font-size: 13px; font-weight: 700; color: var(--t1); }
-.pyq-year-meta { font-size: 11px; color: var(--t3); margin-top: 2px; }
-.pyq-latest-badge {
-  font-size: 9px; font-weight: 700; padding: 3px 8px;
-  border-radius: 100px; background: rgba(38,201,135,.15);
-  color: var(--math-m); flex-shrink: 0;
-}
-.pyq-expand-icon { font-size: 14px; color: var(--t3); transition: transform .2s; }
-.pyq-year-card.open .pyq-expand-icon { transform: rotate(180deg); }
-
-.pyq-body {
-  display: none; border-top: 1px solid var(--border);
-}
-.pyq-year-card.open .pyq-body { display: block; }
-
-.pyq-highlights {
-  padding: 12px 16px; background: var(--surf2);
-  border-bottom: 1px solid var(--border);
-}
-.pyq-hl-title {
-  font-size: 10px; font-weight: 700; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--t3); margin-bottom: 6px;
-}
-.pyq-hl-list { display: flex; flex-wrap: wrap; gap: 5px; }
-.pyq-hl-chip {
-  font-size: 11px; padding: 3px 10px; border-radius: 100px;
-  background: rgba(185,112,255,.1); border: 1px solid rgba(185,112,255,.2);
-  color: var(--eng-m);
-}
-
-.pyq-actions { padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
-.pyq-action-btn {
-  display: flex; align-items: center; gap: 10px;
-  padding: 12px 14px; border-radius: var(--r);
-  border: 1px solid var(--border2); background: var(--surf2);
-  cursor: pointer; transition: all .15s; text-decoration: none;
-}
-.pyq-action-btn:active { background: var(--surf3); transform: scale(.98); }
-.pyq-action-icon { font-size: 20px; flex-shrink: 0; }
-.pyq-action-info { flex: 1; }
-.pyq-action-title { font-size: 13px; font-weight: 700; color: var(--t1); }
-.pyq-action-sub { font-size: 11px; color: var(--t3); margin-top: 1px; }
-.pyq-action-arrow { font-size: 14px; color: var(--t3); }
-
-.pyq-action-btn.primary-action {
-  background: rgba(77,158,255,.12);
-  border-color: rgba(77,158,255,.3);
-}
-.pyq-action-btn.ms-action {
-  background: rgba(38,201,135,.08);
-  border-color: rgba(38,201,135,.25);
-}
-.pyq-action-btn.practice-action {
-  background: rgba(255,204,2,.08);
-  border-color: rgba(255,204,2,.2);
-}
-
-.pyq-stats-row {
-  display: flex; gap: 0;
-  border-top: 1px solid var(--border);
-}
-.pyq-stat {
-  flex: 1; padding: 10px 8px; text-align: center;
-  border-right: 1px solid var(--border);
-}
-.pyq-stat:last-child { border-right: none; }
-.pyq-stat-v {
-  font-family: 'Nunito', sans-serif; font-weight: 900;
-  font-size: 15px; color: var(--t1);
-}
-.pyq-stat-l { font-size: 9px; color: var(--t3); font-weight: 700; text-transform: uppercase; margin-top: 2px; }
-
-.pyq-info-banner {
-  background: rgba(77,158,255,.08); border: 1px solid rgba(77,158,255,.2);
-  border-radius: var(--r); padding: 12px 14px;
-  font-size: 12px; color: var(--phy-m); margin-bottom: 12px;
-  display: flex; gap: 8px; align-items: flex-start; line-height: 1.6;
-}
-
-
-/* ═══════════════════════════════════════════
-   SMART CHAPTER SELECTOR
-═══════════════════════════════════════════ */
-.ch-selector-modal {
-  position: fixed; inset: 0; background: rgba(0,0,0,.75);
-  z-index: 400; display: flex; align-items: flex-end;
-}
-.ch-selector-sheet {
-  background: var(--surf1); border-radius: 20px 20px 0 0;
-  width: 100%; max-height: 90vh; display: flex; flex-direction: column;
-}
-.ch-sheet-handle {
-  width: 36px; height: 4px; background: var(--border2);
-  border-radius: 2px; margin: 12px auto 0;
-}
-.ch-sheet-head {
-  padding: 12px 16px 10px;
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; gap: 10px;
-}
-.ch-sheet-title {
-  font-family: 'Nunito', sans-serif; font-weight: 900;
-  font-size: 16px; color: var(--t1); flex: 1;
-}
-.ch-sheet-close {
-  width: 30px; height: 30px; border-radius: 50%;
-  background: var(--surf2); border: 1px solid var(--border2);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 14px; cursor: pointer; color: var(--t3);
-}
-
-/* Quick select row */
-.ch-quick-row {
-  display: flex; gap: 6px; padding: 10px 16px;
-  border-bottom: 1px solid var(--border);
-  overflow-x: auto;
-}
-.ch-quick-row::-webkit-scrollbar { display: none; }
-.ch-quick-btn {
-  padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 700;
-  border: 1px solid var(--border2); background: var(--surf2); color: var(--t2);
-  cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: all .15s;
-}
-.ch-quick-btn:active { transform: scale(.95); }
-.ch-quick-btn.all-btn { background: rgba(77,158,255,.15); border-color: rgba(77,158,255,.3); color: var(--primary); }
-.ch-quick-btn.weak-btn { background: rgba(255,82,82,.12); border-color: rgba(255,82,82,.25); color: #ff8f8f; }
-.ch-quick-btn.strong-btn { background: rgba(38,201,135,.1); border-color: rgba(38,201,135,.25); color: var(--math-m); }
-
-/* Chapter list */
-.ch-list-scroll { flex: 1; overflow-y: auto; padding: 8px 16px 16px; }
-.ch-list-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 12px; border-radius: var(--r);
-  margin-bottom: 4px; cursor: pointer;
-  border: 1px solid transparent; transition: all .15s;
-}
-.ch-list-item:active { background: var(--surf2); }
-.ch-list-item.selected {
-  background: rgba(77,158,255,.1);
-  border-color: rgba(77,158,255,.3);
-}
-.ch-list-check {
-  width: 20px; height: 20px; border-radius: 6px;
-  border: 2px solid var(--border2); flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  transition: all .15s;
-}
-.ch-list-item.selected .ch-list-check {
-  background: var(--primary); border-color: var(--primary);
-  color: #fff; font-size: 12px; font-weight: 800;
-}
-.ch-list-ch-num { font-size: 10px; color: var(--t3); font-weight: 700; flex-shrink: 0; min-width: 28px; }
-.ch-list-ch-name { font-size: 13px; color: var(--t1); flex: 1; line-height: 1.4; }
-.ch-list-score {
-  font-size: 11px; font-weight: 700; padding: 2px 7px;
-  border-radius: 100px; flex-shrink: 0;
-}
-.ch-score-g { background: rgba(38,201,135,.12); color: var(--math-m); }
-.ch-score-y { background: rgba(255,204,2,.1); color: var(--cs-m); }
-.ch-score-r { background: rgba(255,82,82,.1); color: #ff8f8f; }
-.ch-score-none { background: var(--surf2); color: var(--t3); }
-
-/* Footer */
-.ch-sheet-footer {
-  padding: 12px 16px; border-top: 1px solid var(--border);
-  display: flex; gap: 8px; align-items: center;
-}
-.ch-selected-count {
-  font-size: 12px; font-weight: 700; color: var(--t2); flex: 1;
-}
-
-/* Chapter display button (replaces dropdown) */
-.ch-selector-btn {
-  display: flex; align-items: center; gap: 8px;
-  padding: 9px 12px; background: var(--surf2);
-  border: 1px solid var(--border2); border-radius: var(--r);
-  cursor: pointer; width: 100%; text-align: left;
-  transition: all .15s;
-}
-.ch-selector-btn:active { background: var(--surf3); }
-.ch-selector-btn-text {
-  flex: 1; font-size: 13px; color: var(--t1);
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-}
-.ch-selector-btn-count {
-  font-size: 11px; font-weight: 700; padding: 2px 8px;
-  border-radius: 100px; background: rgba(77,158,255,.15);
-  color: var(--primary); flex-shrink: 0;
-}
-
-/* Subject multi-select */
-.subj-multi-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
-  margin-bottom: 10px;
-}
-.subj-multi-card {
-  background: var(--surf2); border: 1px solid var(--border);
-  border-radius: var(--r); padding: 10px 12px;
-  cursor: pointer; transition: all .15s;
-  display: flex; align-items: center; gap: 8px;
-}
-.subj-multi-card.on {
-  border-color: rgba(77,158,255,.4);
-  background: rgba(77,158,255,.1);
-}
-.subj-multi-card:active { transform: scale(.97); }
-.subj-multi-icon { font-size: 18px; }
-.subj-multi-name { font-size: 12px; font-weight: 700; color: var(--t1); }
-.subj-multi-count { font-size: 10px; color: var(--t3); margin-top: 1px; }
-.subj-multi-check {
-  margin-left: auto; width: 18px; height: 18px;
-  border-radius: 50%; border: 2px solid var(--border2);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 10px; color: #fff; flex-shrink: 0;
-}
-.subj-multi-card.on .subj-multi-check {
-  background: var(--primary); border-color: var(--primary);
-}
-
-/* PYQ live feed */
-.pyq-live-badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 4px 10px; border-radius: 100px;
-  background: rgba(38,201,135,.1); border: 1px solid rgba(38,201,135,.25);
-  font-size: 11px; font-weight: 700; color: var(--math-m);
-}
-.pyq-live-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--green); animation: livePulse 1.5s ease-in-out infinite;
-}
-@keyframes livePulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
-.pyq-year-new {
-  font-size: 9px; font-weight: 700; padding: 2px 7px;
-  border-radius: 100px; background: rgba(77,158,255,.15);
-  color: var(--primary); margin-left: 6px;
-}
-
-
-/* ═══════════════════════════════════════════
-   EXIT CONFIRM DIALOG
-═══════════════════════════════════════════ */
-.exit-dialog-overlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,.7);
-  backdrop-filter: blur(8px);
-  z-index: 9999;
-  display: flex; align-items: center; justify-content: center;
-  padding: 24px;
-  opacity: 0; transition: opacity .2s;
-  pointer-events: none;
-}
-.exit-dialog-overlay.show {
-  opacity: 1; pointer-events: all;
-}
-.exit-dialog {
-  background: var(--surf1);
-  border: 1px solid var(--border2);
-  border-radius: var(--rx);
-  padding: 28px 24px 20px;
-  width: 100%; max-width: 320px;
-  transform: scale(.92) translateY(20px);
-  transition: transform .25s cubic-bezier(.32,.72,0,1);
-  text-align: center;
-}
-.exit-dialog-overlay.show .exit-dialog {
-  transform: scale(1) translateY(0);
-}
-.exit-dialog-icon { font-size: 40px; margin-bottom: 12px; }
-.exit-dialog-title {
-  font-family: 'Nunito', sans-serif; font-weight: 900;
-  font-size: 18px; color: var(--t1); margin-bottom: 8px;
-}
-.exit-dialog-msg { font-size: 13px; color: var(--t3); line-height: 1.6; margin-bottom: 20px; }
-.exit-dialog-btns { display: flex; gap: 10px; }
-.exit-btn-stay {
-  flex: 1; padding: 12px; border-radius: var(--r);
-  background: var(--primary); color: #fff;
-  font-family: 'Nunito', sans-serif; font-weight: 800;
-  font-size: 14px; border: none; cursor: pointer;
-  transition: all .15s;
-}
-.exit-btn-stay:active { transform: scale(.97); }
-.exit-btn-leave {
-  flex: 1; padding: 12px; border-radius: var(--r);
-  background: var(--surf3); color: var(--t2);
-  font-family: 'Nunito', sans-serif; font-weight: 700;
-  font-size: 14px; border: 1px solid var(--border2);
-  cursor: pointer; transition: all .15s;
-}
-.exit-btn-leave:active { transform: scale(.97); }
-
-/* ═══════════════════════════════════════════
-   ANTI-CHEAT SHIELD
-═══════════════════════════════════════════ */
-/* Disable text selection during tests */
-.test-active .q-text,
-.test-active .mcq-opt,
-.test-active .q-card {
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-/* Screenshot overlay warning */
-.screenshot-guard {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,.95);
-  z-index: 99999;
-  display: none;
-  align-items: center; justify-content: center;
-  flex-direction: column; gap: 16px;
-  text-align: center; padding: 32px;
-}
-.screenshot-guard.show { display: flex; }
-.sg-icon { font-size: 48px; }
-.sg-title {
-  font-family: 'Nunito', sans-serif; font-weight: 900;
-  font-size: 22px; color: #fff;
-}
-.sg-msg { font-size: 14px; color: rgba(255,255,255,.6); line-height: 1.6; }
-
-/* Tab-switch warning banner */
-.focus-lost-banner {
-  position: fixed; top: var(--top-h); left: 0; right: 0;
-  background: rgba(255,82,82,.95);
-  backdrop-filter: blur(8px);
-  padding: 10px 16px;
-  display: flex; align-items: center; gap: 10px;
-  z-index: 60;
-  transform: translateY(-100%);
-  transition: transform .3s ease;
-}
-.focus-lost-banner.show { transform: translateY(0); }
-.flb-text { font-size: 12px; font-weight: 700; color: #fff; flex: 1; }
-.flb-count {
-  font-size: 11px; font-weight: 800; padding: 3px 10px;
-  border-radius: 100px; background: rgba(255,255,255,.2); color: #fff;
-}
-.flb-close { font-size: 14px; color: rgba(255,255,255,.7); cursor: pointer; }
-
-/* Integrity badge */
-.integrity-badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 3px 10px; border-radius: 100px;
-  background: rgba(38,201,135,.1);
-  border: 1px solid rgba(38,201,135,.2);
-  font-size: 10px; font-weight: 700; color: var(--math-m);
-  margin-left: auto;
-}
-
-/* Cheat log card */
-.cheat-log-item {
-  display: flex; gap: 8px; padding: 8px 0;
-  border-bottom: 1px solid var(--border);
-  font-size: 12px;
-}
-.cheat-log-item:last-child { border-bottom: none; }
-.cheat-log-icon { font-size: 14px; flex-shrink: 0; }
-.cheat-log-text { flex: 1; color: var(--t2); }
-.cheat-log-time { font-size: 10px; color: var(--t3); flex-shrink: 0; }
-
-/* Print */
+/* ── PRINT ───────────────────────────── */
 @media print {
-  .app > *:not(#screen-papers) { display: none !important; }
-  .paper-preview { color: #000; border: none; }
-  .ak-wrap { display: none; }
-  body { background: white; color: black; }
+  .topbar, .nav, .score-bar-wrap, .btn-primary, .timer-bar { display: none !important; }
+  .screen { display: block !important; position: static !important; overflow: visible !important; padding: 0 !important; }
 }
+
+/* ── ANIMATIONS ──────────────────────── */
+@keyframes slideUp   { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeIn    { from{opacity:0} to{opacity:1} }
+.anim-up  { animation: slideUp .3s ease both; }
+.anim-fade{ animation: fadeIn .4s ease both; }
 </style>
-</head>
+
 <body>
 
-<div class="app">
+  <!-- ═══════════════════════════════════
+       ONBOARDING FLOW (3 screens)
+  ════════════════════════════════════ -->
+  <div class="onboard-overlay" id="onboardOverlay" style="display:none">
 
-  <!-- TOP BAR -->
-  <div class="topbar">
-    <div class="tb-logo">12</div>
-    <div class="tb-info">
-      <div class="tb-title">CBSE Board Prep</div>
-      <div class="tb-sub">Grade 12 · Science · 2026–27</div>
+    <!-- Screen 1: Name -->
+    <div class="onboard-screen active" id="ob1">
+      <div class="ob-step">Step 1 of 3</div>
+      <div class="ob-title">What's your name?</div>
+      <div class="ob-sub">We'll personalise your prep journey just for you.</div>
+      <input class="ob-input" id="obName" placeholder="Enter your name" maxlength="30" oninput="obNameCheck()">
+      <button class="ob-cta" id="obCta1" onclick="goOnboard(2)" disabled>Continue →</button>
     </div>
-    <div class="tb-actions">
-      <div class="tb-btn" onclick="openNotif()">🔔</div>
-      <div class="tb-btn" onclick="openSettings()">⚙️</div>
+
+    <!-- Screen 2: Target Score -->
+    <div class="onboard-screen" id="ob2">
+      <div class="ob-step">Step 2 of 3</div>
+      <div class="ob-title">What's your target score?</div>
+      <div class="ob-sub">Set an ambitious but achievable goal for your board exams.</div>
+      <div class="ob-score-row">
+        <div class="ob-score-btn" onclick="selectTarget('75%',this)">75%</div>
+        <div class="ob-score-btn" onclick="selectTarget('80%',this)">80%</div>
+        <div class="ob-score-btn sel" onclick="selectTarget('87%',this)">87%</div>
+        <div class="ob-score-btn" onclick="selectTarget('90%',this)">90%</div>
+        <div class="ob-score-btn" onclick="selectTarget('95%',this)">95%</div>
+        <div class="ob-score-btn" onclick="selectTarget('99%',this)">99%</div>
+      </div>
+      <button class="ob-cta" onclick="goOnboard(3)">Continue →</button>
+    </div>
+
+    <!-- Screen 3: Weakest Subject -->
+    <div class="onboard-screen" id="ob3">
+      <div class="ob-step">Step 3 of 3</div>
+      <div class="ob-title">Which subject needs the most work?</div>
+      <div class="ob-sub">We'll prioritise this in your study plan and daily focus.</div>
+      <div class="ob-options">
+        <div class="ob-option" onclick="selectWeakest('physics',this)">⚡ Physics</div>
+        <div class="ob-option" onclick="selectWeakest('chemistry',this)">🧪 Chemistry</div>
+        <div class="ob-option" onclick="selectWeakest('mathematics',this)">📐 Mathematics</div>
+        <div class="ob-option" onclick="selectWeakest('english',this)">📖 English</div>
+        <div class="ob-option" onclick="selectWeakest('cs',this)">💻 Computer Science</div>
+      </div>
+      <button class="ob-cta" id="obCta3" onclick="finishOnboard()" disabled>Let's begin →</button>
+    </div>
+
+    <!-- Progress dots -->
+    <div class="ob-progress">
+      <div class="ob-prog-dot done" id="obDot1"></div>
+      <div class="ob-prog-dot" id="obDot2"></div>
+      <div class="ob-prog-dot" id="obDot3"></div>
     </div>
   </div>
 
-  <!-- SCREENS -->
-  <div class="screens">
 
-    <!-- ── SCREEN 1: HOME ── -->
+  <!-- EXIT CONFIRM DIALOG -->
+  <div class="exit-dialog-overlay" id="exitDialog">
+    <div class="exit-dialog">
+      <div class="exit-dialog-icon">👋</div>
+      <div class="exit-dialog-title">Leave CBSE Prep?</div>
+      <div class="exit-dialog-msg">Your session data is saved. Continue from where you left off.</div>
+      <div class="exit-dialog-btns">
+        <button class="exit-btn-stay" onclick="stayInApp()">Stay</button>
+        <button class="exit-btn-leave" onclick="leaveApp()">Exit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREENSHOT GUARD -->
+  <div class="screenshot-guard" id="screenshotGuard">
+    <div style="font-size:48px">🚫</div>
+    <div style="font-size:20px;font-weight:700;color:#fff">Screen Capture Detected</div>
+    <div style="font-size:13px;color:rgba(255,255,255,.6);max-width:260px;line-height:1.6">Screenshots are not allowed during tests. Return to the app to continue.</div>
+    <button class="btn btn-primary" onclick="dismissScreenshotGuard()" style="max-width:200px;margin-top:8px">Resume Test</button>
+  </div>
+
+  <!-- FOCUS LOST BANNER -->
+  <div class="focus-lost-banner" id="focusLostBanner">
+    <span>⚠️</span>
+    <div class="flb-text">Tab switched during test! <span id="focusLostCount">1</span> warning(s)</div>
+    <div class="flb-count" id="focusLostBadge">×1</div>
+    <span class="flb-close" onclick="dismissFocusBanner()">✕</span>
+  </div>
+
+  <!-- PWA INSTALL BANNER -->
+  <div class="install-banner" id="installBanner">
+    <div class="install-icon">📲</div>
+    <div class="install-info">
+      <div class="install-title">Install CBSE12 App</div>
+      <div class="install-sub">Add to home screen for offline access</div>
+    </div>
+    <div class="install-actions">
+      <button class="install-btn install-btn-no" onclick="dismissInstall()">Not now</button>
+      <button class="install-btn install-btn-yes" onclick="triggerInstall()">Install</button>
+    </div>
+  </div>
+
+  <div class="app" id="app">
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div class="tb-logo">12</div>
+      <div class="tb-info">
+        <div class="tb-title">CBSE Board Prep</div>
+        <div class="tb-sub" id="tbSub">Grade 12 · Science · 2026–27</div>
+      </div>
+      <div class="tb-actions">
+        <div class="tb-btn" onclick="openNotif()">🔔</div>
+        <div class="tb-btn" onclick="openSettings()">⚙️</div>
+      </div>
+    </div>
+
+<div class="screens">
+
+        <!-- ── SCREEN 1: HOME ── -->
     <div class="screen active" id="screen-home">
 
-      <!-- Hero -->
-      <div class="hero">
-        <div class="hero-greet">Good morning, Student 👋</div>
-        <div class="hero-name">Ready for today's prep?</div>
-        <div class="hero-stats">
-          <div class="stat-card">
-            <div class="stat-val" id="dayCount">178</div>
-            <div class="stat-lbl">Days Left</div>
+      <!-- Zone 1: Identity + Urgency -->
+      <div class="home-hero">
+        <div class="hero-row1">
+          <div class="hero-avatar" id="heroAvatar">G</div>
+          <div>
+            <div class="hero-greet" id="heroGreet">Good morning 👋</div>
+            <div class="hero-name" id="heroName">Ready for today's prep?</div>
           </div>
-          <div class="stat-card">
-            <div class="stat-val" style="color:var(--green)">62%</div>
-            <div class="stat-lbl">Syllabus Done</div>
+          <div class="streak-pill" onclick="goTab('progress')">
+            <span class="streak-fire">🔥</span>
+            <span class="streak-num" id="streakNum">0</span>
+            <span class="streak-lbl">day streak</span>
           </div>
-          <div class="stat-card">
-            <div class="stat-val" style="color:var(--yellow)">74%</div>
-            <div class="stat-lbl">Mock Avg</div>
+        </div>
+        <div class="hero-row2">
+          <div class="countdown-box">
+            <div class="cd-days mono" id="dayCount">—</div>
+            <div class="cd-lbl">Days to Boards</div>
+            <div class="cd-exam" id="examDateLbl">March 2027</div>
+          </div>
+          <div class="goal-box" onclick="openGoalSetter()">
+            <div class="goal-ring-wrap">
+              <svg class="goal-ring" width="52" height="52" viewBox="0 0 52 52">
+                <circle class="goal-ring-track" cx="26" cy="26" r="22"/>
+                <circle class="goal-ring-fill" id="goalRingFill" cx="26" cy="26" r="22"
+                  stroke-dasharray="138" stroke-dashoffset="138"/>
+              </svg>
+              <div class="goal-center">
+                <div class="goal-done mono" id="goalDone">0</div>
+                <div class="goal-total" id="goalTotal">/20</div>
+              </div>
+            </div>
+            <div class="goal-lbl">Today's Goal</div>
           </div>
         </div>
       </div>
 
-      <div class="section-pad gap-12">
-
-        <!-- Countdown -->
-        <div class="countdown-card">
-          <div class="cd-num" id="cdNum">178</div>
-          <div class="cd-info">
-            <h3>Days to Board Exams</h3>
-            <p>March 2027 · Target 87%+</p>
-            <div style="margin-top:8px">
-              <div class="prog-bar" style="height:5px">
-                <div class="prog-fill" style="width:38%;background:var(--primary)"></div>
-              </div>
-              <div style="font-size:10px;color:var(--t3);margin-top:3px">38% of prep year done</div>
-            </div>
+      <!-- Zone 2: Score Dashboard -->
+      <div class="score-dash">
+        <div class="score-main">
+          <div class="score-big mono" id="homeOverallPct">—%</div>
+          <div class="score-meta">
+            <div class="score-target" id="homeTargetLine">Target: 87%+</div>
+            <div class="score-gap-pill" id="homeGapPill">Complete a test to start</div>
           </div>
         </div>
-
-        <!-- Quick Access -->
-        <div>
-          <div class="sec-hd"><span class="sec-hd-t">Quick Access</span></div>
-          <div class="qa-grid">
-            <div class="qa-card" style="background:rgba(77,158,255,.1);border-color:rgba(77,158,255,.25)" onclick="goTab('tests')">
-              <span class="qa-icon">🧠</span>
-              <div class="qa-title">Practice Quiz</div>
-              <div class="qa-desc">AI-powered MCQ & Q&A</div>
-            </div>
-            <div class="qa-card" style="background:rgba(38,201,135,.1);border-color:rgba(38,201,135,.25)" onclick="goTab('papers')">
-              <span class="qa-icon">📄</span>
-              <div class="qa-title">Mock Paper</div>
-              <div class="qa-desc">Generate test paper</div>
-            </div>
-            <div class="qa-card" style="background:rgba(185,112,255,.1);border-color:rgba(185,112,255,.25)" onclick="goTab('plan')">
-              <span class="qa-icon">📅</span>
-              <div class="qa-title">Study Plan</div>
-              <div class="qa-desc">Today's schedule</div>
-            </div>
-            <div class="qa-card" style="background:rgba(255,204,2,.1);border-color:rgba(255,204,2,.25)" onclick="goTab('progress')">
-              <span class="qa-icon">📈</span>
-              <div class="qa-title">Progress</div>
-              <div class="qa-desc">Track your scores</div>
-            </div>
-          </div>
+        <div class="subj-bars" id="homeSubjBars">
+          <div class="sbar-row"><span class="sbar-icon">⚡</span><span class="sbar-name">Physics</span><div class="sbar-track"><div class="sbar-fill" style="width:0%;background:var(--phy)"></div></div><span class="sbar-pct mono">—%</span></div>
+          <div class="sbar-row"><span class="sbar-icon">🧪</span><span class="sbar-name">Chemistry</span><div class="sbar-track"><div class="sbar-fill" style="width:0%;background:var(--chem)"></div></div><span class="sbar-pct mono">—%</span></div>
+          <div class="sbar-row"><span class="sbar-icon">📐</span><span class="sbar-name">Maths</span><div class="sbar-track"><div class="sbar-fill" style="width:0%;background:var(--math)"></div></div><span class="sbar-pct mono">—%</span></div>
+          <div class="sbar-row"><span class="sbar-icon">📖</span><span class="sbar-name">English</span><div class="sbar-track"><div class="sbar-fill" style="width:0%;background:var(--eng)"></div></div><span class="sbar-pct mono">—%</span></div>
+          <div class="sbar-row"><span class="sbar-icon">💻</span><span class="sbar-name">CS</span><div class="sbar-track"><div class="sbar-fill" style="width:0%;background:var(--cs)"></div></div><span class="sbar-pct mono">—%</span></div>
         </div>
-
-        <!-- Today's Schedule -->
-        <div class="card">
-          <div class="card-body">
-            <div class="sec-hd">
-              <span class="sec-hd-t">Today's Schedule</span>
-              <span class="sec-hd-link" onclick="goTab('plan')">View Full →</span>
-            </div>
-            <div>
-              <div class="today-slot">
-                <div class="ts-time">9–11 AM</div>
-                <div class="ts-bar" style="background:var(--math)"></div>
-                <div class="ts-info">
-                  <div class="ts-subj" style="color:var(--math-m)">📐 Mathematics</div>
-                  <div class="ts-ch">Integrals — Ch 7 · NCERT Exercises</div>
-                  <div class="ts-tag" style="background:rgba(38,201,135,.15);color:var(--math-m)">▶ In Progress</div>
-                </div>
-              </div>
-              <div class="today-slot">
-                <div class="ts-time">11–1 PM</div>
-                <div class="ts-bar" style="background:var(--phy)"></div>
-                <div class="ts-info">
-                  <div class="ts-subj" style="color:var(--phy-m)">⚡ Physics</div>
-                  <div class="ts-ch">Electromagnetic Induction — Ch 6</div>
-                  <div class="ts-tag" style="background:rgba(77,158,255,.1);color:var(--phy-m)">⏳ Upcoming</div>
-                </div>
-              </div>
-              <div class="today-slot">
-                <div class="ts-time">2–4 PM</div>
-                <div class="ts-bar" style="background:var(--chem)"></div>
-                <div class="ts-info">
-                  <div class="ts-subj" style="color:var(--chem-m)">🧪 Chemistry</div>
-                  <div class="ts-ch">Coordination Compounds — Ch 9</div>
-                  <div class="ts-tag" style="background:rgba(255,112,67,.1);color:var(--chem-m)">⏳ Upcoming</div>
-                </div>
-              </div>
-              <div class="today-slot">
-                <div class="ts-time">9:30–11 PM</div>
-                <div class="ts-bar" style="background:var(--cs)"></div>
-                <div class="ts-info">
-                  <div class="ts-subj" style="color:var(--cs-m)">💻 Comp. Science</div>
-                  <div class="ts-ch">SQL Queries + Python Programs</div>
-                  <div class="ts-tag" style="background:rgba(255,204,2,.1);color:var(--cs-m)">⏳ Evening</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Subject Overview -->
-        <div>
-          <div class="sec-hd"><span class="sec-hd-t">Subject Progress</span></div>
-          <div class="subj-cards">
-            <div class="subj-ov" onclick="setTestSubj('physics')">
-              <div class="subj-ov-head"><span class="subj-ov-icon">⚡</span><span class="subj-ov-name" style="color:var(--phy-m)">Physics</span></div>
-              <div class="subj-ov-pct">9 / 14 chapters</div>
-              <div class="prog-bar"><div class="prog-fill" style="width:64%;background:var(--phy)"></div></div>
-            </div>
-            <div class="subj-ov" onclick="setTestSubj('chemistry')">
-              <div class="subj-ov-head"><span class="subj-ov-icon">🧪</span><span class="subj-ov-name" style="color:var(--chem-m)">Chemistry</span></div>
-              <div class="subj-ov-pct">10 / 16 chapters</div>
-              <div class="prog-bar"><div class="prog-fill" style="width:62%;background:var(--chem)"></div></div>
-            </div>
-            <div class="subj-ov" onclick="setTestSubj('mathematics')">
-              <div class="subj-ov-head"><span class="subj-ov-icon">📐</span><span class="subj-ov-name" style="color:var(--math-m)">Mathematics</span></div>
-              <div class="subj-ov-pct">8 / 13 chapters</div>
-              <div class="prog-bar"><div class="prog-fill" style="width:62%;background:var(--math)"></div></div>
-            </div>
-            <div class="subj-ov" onclick="setTestSubj('english')">
-              <div class="subj-ov-head"><span class="subj-ov-icon">📖</span><span class="subj-ov-name" style="color:var(--eng-m)">English</span></div>
-              <div class="subj-ov-pct">18 / 26 topics</div>
-              <div class="prog-bar"><div class="prog-fill" style="width:69%;background:var(--eng)"></div></div>
-            </div>
-            <div class="subj-ov" onclick="setTestSubj('cs')">
-              <div class="subj-ov-head"><span class="subj-ov-icon">💻</span><span class="subj-ov-name" style="color:var(--cs-m)">Comp. Sci</span></div>
-              <div class="subj-ov-pct">6 / 9 chapters</div>
-              <div class="prog-bar"><div class="prog-fill" style="width:67%;background:var(--cs)"></div></div>
-            </div>
-          </div>
-        </div>
-
       </div>
+
+      <!-- Zone 3: Smart Focus CTA -->
+      <div class="focus-cta" id="focusCTA" onclick="startFocusSession()">
+        <div class="focus-tag">⚡ AI-Picked Focus</div>
+        <div class="focus-title" id="focusTitle">Start your first practice test</div>
+        <div class="focus-sub"  id="focusSub">Tap to begin — we'll track your progress</div>
+        <div class="focus-btn">Practice now →</div>
+      </div>
+
+      <!-- Zone 4: Today's Plan -->
+      <div class="pad-t">
+        <div class="section-label" style="margin-bottom:12px">Today's Schedule</div>
+      </div>
+      <div class="plan-items" id="homePlanItems"></div>
+
+      <!-- Zone 5: Recent Tests -->
+      <div class="pad-t" style="margin-top:16px">
+        <div class="section-label" style="margin-bottom:8px">Recent Tests</div>
+      </div>
+      <div class="recent-items" id="homeRecentTests">
+        <div style="padding:16px;text-align:center;color:var(--ink-4);font-size:12px">
+          No tests yet — complete a practice quiz to see results here
+        </div>
+      </div>
+      <div style="height:8px"></div>
+
     </div><!-- /screen-home -->
 
     <!-- ── SCREEN 2: STUDY PLAN ── -->
@@ -1810,13 +1266,24 @@ textarea.ta:focus { border-color: var(--primary); }
             </select>
           </div>
         </div>
+        <div style="margin-bottom:10px">
+          <div class="field-label" style="display:flex;align-items:center;gap:8px">
+            <span>Reference Sources</span>
+            <span id="srcSelBadge" class="ch-selector-btn-count" style="display:none">1 source</span>
+          </div>
+          <div class="ch-selector-btn" onclick="openSourceSelector()">
+            <span style="font-size:14px">📚</span>
+            <span class="ch-selector-btn-text" id="srcSelectorLabel">NCERT Textbook (default)</span>
+            <span style="font-size:12px;color:var(--t3)">▾</span>
+          </div>
+        </div>
         <div style="display:flex;gap:8px;margin-bottom:10px">
           <div style="flex:1">
-            <div class="field-label">Source</div>
+            <div class="field-label">Special Source</div>
             <div class="toggle-row">
-              <div class="toggle-btn on" onclick="pickTestSource('ncert',this)">NCERT</div>
-              <div class="toggle-btn" onclick="pickTestSource('exemplar',this)">Exemplar</div>
-              <div class="toggle-btn" onclick="pickTestSource('pyq',this)">PYQ</div>
+              <div class="toggle-btn on" onclick="pickTestSource('books',this)">📚 Books</div>
+              <div class="toggle-btn" onclick="pickTestSource('pyq',this)">📜 PYQ</div>
+              <div class="toggle-btn" onclick="pickTestSource('mixed',this)">🔀 Mixed</div>
             </div>
           </div>
           <div style="flex:0 0 90px">
@@ -2189,91 +1656,400 @@ textarea.ta:focus { border-color: var(--primary); }
 
   </div><!-- /screens -->
 
-  <!-- BOTTOM NAV -->
   <div class="nav">
     <div class="nav-item active" id="nav-home" onclick="goTab('home')">
       <div class="nav-icon">🏠</div>
+      <div class="nav-dot"></div>
       <div class="nav-label">Home</div>
-    </div>
-    <div class="nav-item" id="nav-plan" onclick="goTab('plan')">
-      <div class="nav-icon">📅</div>
-      <div class="nav-label">Study Plan</div>
     </div>
     <div class="nav-item" id="nav-tests" onclick="goTab('tests')">
       <div class="nav-icon">🧠</div>
-      <div class="nav-label">Test Series</div>
+      <div class="nav-dot"></div>
+      <div class="nav-label">Practice</div>
     </div>
     <div class="nav-item" id="nav-papers" onclick="goTab('papers')">
       <div class="nav-icon">📄</div>
+      <div class="nav-dot"></div>
       <div class="nav-label">Papers</div>
-    </div>
-    <div class="nav-item" id="nav-progress" onclick="goTab('progress')">
-      <div class="nav-icon">📈</div>
-      <div class="nav-label">Progress</div>
     </div>
     <div class="nav-item" id="nav-pyq" onclick="goTab('pyq')">
       <div class="nav-icon">📜</div>
+      <div class="nav-dot"></div>
       <div class="nav-label">PYQ</div>
     </div>
-    <div class="nav-item" id="nav-weakness" onclick="goTab('weakness')">
-      <div class="nav-icon">🎯</div>
-      <div class="nav-label">Improve</div>
+    <div class="nav-item" id="nav-progress" onclick="goTab('progress')">
+      <div class="nav-icon">📈</div>
+      <div class="nav-dot"></div>
+      <div class="nav-label">Progress</div>
     </div>
-  </div>
+  </div><!-- /nav -->
 
-
-  <!-- EXIT CONFIRM DIALOG -->
-  <div class="exit-dialog-overlay" id="exitDialog">
-    <div class="exit-dialog">
-      <div class="exit-dialog-icon">👋</div>
-      <div class="exit-dialog-title">Leave CBSE Prep?</div>
-      <div class="exit-dialog-msg">Your session data is saved locally. You can continue from where you left off.</div>
-      <div class="exit-dialog-btns">
-        <button class="exit-btn-stay" onclick="stayInApp()">Stay</button>
-        <button class="exit-btn-leave" onclick="leaveApp()">Exit</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREENSHOT GUARD -->
-  <div class="screenshot-guard" id="screenshotGuard">
-    <div class="sg-icon">🚫</div>
-    <div class="sg-title">Screen Capture Detected</div>
-    <div class="sg-msg">Screenshots are not allowed during tests. This incident has been logged. Return to the app to continue.</div>
-    <button class="btn btn-primary" onclick="dismissScreenshotGuard()" style="margin-top:8px">Resume Test</button>
-  </div>
-
-  <!-- FOCUS LOST BANNER -->
-  <div class="focus-lost-banner" id="focusLostBanner">
-    <span>⚠️</span>
-    <div class="flb-text">Tab switched during test! <span id="focusLostCount">1</span> warning(s) logged.</div>
-    <div class="flb-count" id="focusLostBadge">×1</div>
-    <span class="flb-close" onclick="dismissFocusBanner()">✕</span>
-  </div>
-
-  <!-- PWA INSTALL BANNER -->
-  <!-- PWA INSTALL BANNER -->
-  <div class="install-banner" id="installBanner">
-    <div class="install-icon">📲</div>
-    <div class="install-info">
-      <div class="install-title">Install CBSE12 App</div>
-      <div class="install-sub">Add to home screen for offline access</div>
-    </div>
-    <div class="install-actions">
-      <button class="install-btn install-btn-no" onclick="dismissInstall()">Not now</button>
-      <button class="install-btn install-btn-yes" onclick="triggerInstall()">Install</button>
-    </div>
-  </div>
-
-
-  <!-- UPDATE BAR -->
-  <div class="update-bar" id="updateBar" onclick="applyUpdate()" style="display:none">
-    <span>🔄</span><span>New version available</span><span style="margin-left:auto;text-decoration:underline">Update now</span>
-  </div>
-
-</div><!-- /app -->
+  </div><!-- /app -->
 
 <script>
+
+/* ══════════════════════════════════════════════
+   ONBOARDING SYSTEM
+══════════════════════════════════════════════ */
+let obTarget = '87%';
+let obWeakest = '';
+let obStep = 1;
+
+function checkOnboarding() {
+  const done = localStorage.getItem('cbse12_onboard_done');
+  if (!done) {
+    document.getElementById('onboardOverlay').style.display = 'flex';
+  } else {
+    loadUserProfile();
+    initHome();
+  }
+}
+
+function obNameCheck() {
+  const val = document.getElementById('obName').value.trim();
+  document.getElementById('obCta1').disabled = val.length < 2;
+}
+
+function goOnboard(step) {
+  document.querySelectorAll('.onboard-screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('ob' + step).classList.add('active');
+  for (let i = 1; i <= 3; i++) {
+    const dot = document.getElementById('obDot' + i);
+    if (dot) dot.classList.toggle('done', i <= step);
+  }
+  obStep = step;
+}
+
+function selectTarget(val, el) {
+  obTarget = val;
+  document.querySelectorAll('.ob-score-btn').forEach(b => b.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+function selectWeakest(subj, el) {
+  obWeakest = subj;
+  document.querySelectorAll('.ob-option').forEach(o => o.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('obCta3').disabled = false;
+}
+
+function finishOnboard() {
+  const name = document.getElementById('obName').value.trim() || 'Student';
+  localStorage.setItem('cbse12_onboard_done', '1');
+  localStorage.setItem('cbse12_name', name);
+  localStorage.setItem('cbse12_target', obTarget);
+  localStorage.setItem('cbse12_weakest', obWeakest);
+  localStorage.setItem('cbse12_goal_daily', '20');
+  document.getElementById('onboardOverlay').style.display = 'none';
+  loadUserProfile();
+  initHome();
+  if (obWeakest) {
+    testSubj = obWeakest;
+    renderTestChapters();
+  }
+}
+
+function loadUserProfile() {
+  const name    = localStorage.getItem('cbse12_name') || 'Student';
+  const target  = localStorage.getItem('cbse12_target') || '87%';
+  const initials = name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+  const hour = new Date().getHours();
+  const greet = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+
+  const avatarEl = document.getElementById('heroAvatar');
+  const greetEl  = document.getElementById('heroGreet');
+  const nameEl   = document.getElementById('heroName');
+  const tbSubEl  = document.getElementById('tbSub');
+
+  if (avatarEl) avatarEl.textContent = initials;
+  if (greetEl)  greetEl.textContent  = greet + ' 👋';
+  if (nameEl)   nameEl.textContent   = name + ', ready to prep?';
+  if (tbSubEl)  tbSubEl.textContent  = name + ' · Grade 12 · 2026–27';
+}
+
+/* ══════════════════════════════════════════════
+   STREAK SYSTEM
+══════════════════════════════════════════════ */
+function getStreak() {
+  const data = JSON.parse(localStorage.getItem('cbse12_streak') || '{"count":0,"lastDate":""}');
+  return data;
+}
+
+function updateStreak() {
+  const today = new Date().toLocaleDateString('en-IN');
+  const streak = getStreak();
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yStr = yesterday.toLocaleDateString('en-IN');
+
+  if (streak.lastDate === today) return streak.count; // already updated today
+  if (streak.lastDate === yStr) {
+    // Consecutive day
+    streak.count++;
+  } else if (streak.lastDate !== today) {
+    // Streak broken
+    streak.count = 1;
+  }
+  streak.lastDate = today;
+  localStorage.setItem('cbse12_streak', JSON.stringify(streak));
+  return streak.count;
+}
+
+function renderStreakBadge() {
+  const streak = getStreak();
+  const el = document.getElementById('streakNum');
+  if (el) el.textContent = streak.count;
+}
+
+/* ══════════════════════════════════════════════
+   DAILY GOAL SYSTEM
+══════════════════════════════════════════════ */
+function getDailyGoalData() {
+  const today = new Date().toLocaleDateString('en-IN');
+  const raw = localStorage.getItem('cbse12_daily_' + today);
+  return raw ? JSON.parse(raw) : { done: 0 };
+}
+
+function addToDailyGoal(count) {
+  const today = new Date().toLocaleDateString('en-IN');
+  const data = getDailyGoalData();
+  data.done += count;
+  localStorage.setItem('cbse12_daily_' + today, JSON.stringify(data));
+  renderGoalRing();
+  // Update streak when goal is hit
+  const goal = parseInt(localStorage.getItem('cbse12_goal_daily') || '20');
+  if (data.done >= goal) {
+    updateStreak();
+    renderStreakBadge();
+  }
+}
+
+function renderGoalRing() {
+  const goal = parseInt(localStorage.getItem('cbse12_goal_daily') || '20');
+  const done = getDailyGoalData().done;
+  const pct  = Math.min(done / goal, 1);
+  const circumference = 2 * Math.PI * 22; // r=22
+  const offset = circumference * (1 - pct);
+
+  const fill   = document.getElementById('goalRingFill');
+  const doneEl = document.getElementById('goalDone');
+  const totEl  = document.getElementById('goalTotal');
+
+  if (fill)   fill.style.strokeDashoffset = offset;
+  if (doneEl) doneEl.textContent = done;
+  if (totEl)  totEl.textContent  = '/' + goal;
+}
+
+function openGoalSetter() {
+  const current = localStorage.getItem('cbse12_goal_daily') || '20';
+  const val = prompt('Set daily question goal:', current);
+  if (val && !isNaN(val) && parseInt(val) > 0) {
+    localStorage.setItem('cbse12_goal_daily', parseInt(val).toString());
+    renderGoalRing();
+    showToast('Daily goal set to ' + val + ' questions');
+  }
+}
+
+/* ══════════════════════════════════════════════
+   SMART HOME SCREEN — LIVE KPIs
+══════════════════════════════════════════════ */
+function initHome() {
+  computeCountdown();
+  renderStreakBadge();
+  renderGoalRing();
+  renderHomeScoreDash();
+  renderFocusCTA();
+  renderHomePlan();
+  renderHomeRecentTests();
+}
+
+function renderHomeScoreDash() {
+  if (!examHistory.length) return;
+  const target = parseInt(localStorage.getItem('cbse12_target') || '87');
+  const allPct = examHistory.map(r => r.pct);
+  const avg = Math.round(allPct.reduce((a,b)=>a+b,0)/allPct.length);
+  const gap = target - avg;
+
+  const bigEl = document.getElementById('homeOverallPct');
+  const gapEl = document.getElementById('homeGapPill');
+  const tgtEl = document.getElementById('homeTargetLine');
+
+  if (bigEl) bigEl.textContent = avg + '%';
+  if (tgtEl) tgtEl.textContent = 'Target: ' + target + '%';
+  if (gapEl) {
+    if (gap > 0) {
+      gapEl.textContent = '−' + gap + '% from target';
+      gapEl.style.background = 'var(--chem-l)';
+      gapEl.style.color = 'var(--chem)';
+    } else {
+      gapEl.textContent = '🎉 Target achieved!';
+      gapEl.style.background = 'var(--math-l)';
+      gapEl.style.color = 'var(--math)';
+    }
+  }
+
+  // Subject bars
+  const subjects = ['physics','chemistry','mathematics','english','cs'];
+  const icons    = ['⚡','🧪','📐','📖','💻'];
+  const cols     = ['var(--phy)','var(--chem)','var(--math)','var(--eng)','var(--cs)'];
+  const names    = ['Physics','Chemistry','Maths','English','CS'];
+  const container = document.getElementById('homeSubjBars');
+  if (!container) return;
+
+  container.innerHTML = subjects.map((s, i) => {
+    const recs = examHistory.filter(r => r.subject === SL[s] || r.subject.toLowerCase() === s);
+    const avg2 = recs.length ? Math.round(recs.reduce((a,r)=>a+r.pct,0)/recs.length) : null;
+    const w = avg2 !== null ? avg2 : 0;
+    return `<div class="sbar-row">
+      <span class="sbar-icon">${icons[i]}</span>
+      <span class="sbar-name">${names[i]}</span>
+      <div class="sbar-track"><div class="sbar-fill" style="width:${w}%;background:${cols[i]}"></div></div>
+      <span class="sbar-pct mono">${avg2 !== null ? avg2+'%' : '—%'}</span>
+    </div>`;
+  }).join('');
+}
+
+function renderFocusCTA() {
+  const titleEl = document.getElementById('focusTitle');
+  const subEl   = document.getElementById('focusSub');
+  if (!titleEl) return;
+
+  // Find weakest chapter from exam history or use onboarding weakest
+  const weakest = localStorage.getItem('cbse12_weakest') || 'physics';
+
+  if (!examHistory.length) {
+    titleEl.textContent = 'Start your first practice test';
+    subEl.textContent   = "Tap to begin — we'll build your personalised plan";
+    return;
+  }
+
+  // Find weakest chapter
+  const chMap = {};
+  examHistory.forEach(r => {
+    const key = r.subject + '::' + r.chapter;
+    if (!chMap[key]) chMap[key] = { subject:r.subject, chapter:r.chapter, scores:[] };
+    chMap[key].scores.push(r.pct);
+  });
+  const sorted = Object.values(chMap)
+    .map(c => ({ ...c, avg: Math.round(c.scores.reduce((a,b)=>a+b,0)/c.scores.length) }))
+    .sort((a,b) => a.avg - b.avg);
+
+  if (sorted.length) {
+    const w = sorted[0];
+    titleEl.textContent = w.chapter + ' needs attention';
+    subEl.textContent   = w.subject + ' · ' + w.avg + '% avg · Tap to practice now';
+    document.getElementById('focusCTA').setAttribute('data-weaksubj', Object.keys(SL).find(k=>SL[k]===w.subject)||'physics');
+    document.getElementById('focusCTA').setAttribute('data-weakch', w.chapter);
+  }
+}
+
+function startFocusSession() {
+  const cta = document.getElementById('focusCTA');
+  const weakSubj = cta?.getAttribute('data-weaksubj') || localStorage.getItem('cbse12_weakest') || 'physics';
+  const weakCh   = cta?.getAttribute('data-weakch') || '';
+  testSubj = weakSubj;
+  goTab('tests');
+  renderTestChapters();
+  if (weakCh) {
+    selectedChapters = [{ subj: weakSubj, chapter: weakCh, idx: 0 }];
+    updateChSelectorLabel();
+  }
+}
+
+function renderHomePlan() {
+  const el = document.getElementById('homePlanItems');
+  if (!el) return;
+  // Build today's plan from chapter plan data
+  const subjects = ['physics','chemistry','mathematics','english','cs'];
+  const icons    = ['⚡','🧪','📐','📖','💻'];
+  const cols     = ['var(--phy)','var(--chem)','var(--math)','var(--eng)','var(--cs)'];
+  const times    = ['6:00 AM','8:00 AM','4:00 PM','6:00 PM','8:00 PM'];
+  const weakest  = localStorage.getItem('cbse12_weakest') || 'physics';
+
+  // Pick 3 sessions: weakest subject first, then rotate
+  const day = new Date().getDay();
+  const rotation = [(subjects.indexOf(weakest)+day)%5, (subjects.indexOf(weakest)+day+1)%5, (subjects.indexOf(weakest)+day+2)%5];
+  const sessions = rotation.slice(0,3).map((si, ti) => {
+    const s = subjects[si];
+    const chs = CH[s] || [];
+    const ch  = chs[Math.floor((day * (si+1)) % chs.length)] || 'Revision';
+    return { time: times[ti], icon: icons[si], col: cols[si], subj: s === 'cs' ? 'Computer Science' : SL[s] || s, ch, dur: '45 min' };
+  });
+
+  el.innerHTML = sessions.map(s => `
+    <div class="plan-item" onclick="goTab('tests')">
+      <div class="plan-time">${s.time}</div>
+      <div class="plan-accent" style="background:${s.col}"></div>
+      <div class="plan-info">
+        <div class="plan-subj">${s.subj}</div>
+        <div class="plan-ch">${s.ch}</div>
+      </div>
+      <div class="plan-dur">${s.dur}</div>
+    </div>`).join('');
+}
+
+function renderHomeRecentTests() {
+  const el = document.getElementById('homeRecentTests');
+  if (!el || !examHistory.length) return;
+  const recent = examHistory.slice(0,3);
+  const sk = s => Object.keys(SL).find(k=>SL[k]===s)||s.toLowerCase();
+  const icons = { physics:'⚡', chemistry:'🧪', mathematics:'📐', english:'📖', cs:'💻' };
+  el.innerHTML = recent.map(r => {
+    const s = sk(r.subject);
+    const scoreCls = r.pct >= 70 ? 'rec-score-g' : r.pct >= 50 ? 'rec-score-y' : 'rec-score-r';
+    return `<div class="recent-item">
+      <div class="ri-icon">${icons[s]||'📚'}</div>
+      <div class="ri-info">
+        <div class="ri-name">${esc(r.subject)} — ${esc(r.chapter)}</div>
+        <div class="ri-meta">${esc(r.date)} · ${esc(r.type.toUpperCase())} · ${r.total} Qs</div>
+      </div>
+      <div class="ri-score ${scoreCls}">${r.pct}%</div>
+    </div>`;
+  }).join('');
+}
+
+/* ══════════════════════════════════════════════
+   SETTINGS (name/target/goal)
+══════════════════════════════════════════════ */
+function openSettings() {
+  const name   = localStorage.getItem('cbse12_name') || '';
+  const target = localStorage.getItem('cbse12_target') || '87%';
+  const goal   = localStorage.getItem('cbse12_goal_daily') || '20';
+  const modal  = document.createElement('div');
+  modal.id = 'settingsModal';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:500;display:flex;align-items:flex-end';
+  modal.innerHTML = `<div style="background:var(--paper);border-radius:20px 20px 0 0;width:100%;padding:20px 20px 32px">
+    <div style="font-size:16px;font-weight:700;color:var(--ink);margin-bottom:16px">⚙️ Settings</div>
+    <div class="field-label">Your Name</div>
+    <input class="ob-input" id="setName" value="${esc(name)}" style="margin-bottom:12px">
+    <div class="field-label">Target Score</div>
+    <input class="ob-input" id="setTarget" value="${esc(target)}" placeholder="e.g. 87%" style="margin-bottom:12px">
+    <div class="field-label">Daily Question Goal</div>
+    <input class="ob-input" id="setGoal" type="number" value="${goal}" min="5" max="100" style="margin-bottom:16px">
+    <button class="btn btn-primary" onclick="saveSettings()">Save Changes</button>
+    <button class="btn btn-outline" onclick="document.getElementById('settingsModal').remove()" style="margin-top:8px">Cancel</button>
+  </div>`;
+  document.body.appendChild(modal);
+}
+
+function saveSettings() {
+  const name   = document.getElementById('setName').value.trim() || 'Student';
+  const target = document.getElementById('setTarget').value.trim() || '87%';
+  const goal   = document.getElementById('setGoal').value || '20';
+  localStorage.setItem('cbse12_name', name);
+  localStorage.setItem('cbse12_target', target);
+  localStorage.setItem('cbse12_goal_daily', goal);
+  document.getElementById('settingsModal').remove();
+  loadUserProfile();
+  renderGoalRing();
+  renderHomeScoreDash();
+  showToast('Settings saved!');
+}
+
+function openNotif() {
+  showToast('Notifications coming soon');
+}
+
 /* ══════════════════════════════════════════════
    DATA
 ══════════════════════════════════════════════ */
@@ -2350,6 +2126,7 @@ function goTab(tab) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   const screenMap = {home:'home',plan:'plan',tests:'tests',papers:'papers',progress:'progress',pyq:'pyq',weakness:'weakness'};
+  if (tab === 'home') { renderHomeScoreDash(); renderFocusCTA(); renderHomeRecentTests(); renderStreakBadge(); renderGoalRing(); }
   const sid = screenMap[tab]||'home';
   document.getElementById('screen-'+sid).classList.add('active');
   document.getElementById('nav-'+sid).classList.add('active');
@@ -2504,8 +2281,19 @@ async function generateTest() {
 
   area.innerHTML = `<div class="thinking"><div class="dots"><span></span><span></span><span></span></div><div>Creating ${SL[testSubj]} questions…</div></div>`;
 
-  const sourceMap = { ncert:'NCERT textbook', exemplar:'NCERT Exemplar Problems book', pyq:'Previous Year CBSE Board Questions (2015-2024)' };
-  const sourceLabel = sourceMap[testSource] || 'NCERT';
+  // Build source from selected reference books
+  const subjsForSource = selectedSubjects.length > 0 ? selectedSubjects : [testSubj || 'physics'];
+  let sourceLabel, sourcePromptDetail;
+  if (testSource === 'pyq') {
+    sourceLabel = 'Previous Year CBSE Board Questions (2015-2024)';
+    sourcePromptDetail = 'Generate questions in the style of actual CBSE board exam papers. Mention year if known.';
+  } else if (testSource === 'mixed') {
+    sourceLabel = buildSourceLabel(subjsForSource) + ' + CBSE PYQ';
+    sourcePromptDetail = buildSourcePrompt(subjsForSource) + '\nAlso include some questions from CBSE Previous Year Papers (2015-2024).';
+  } else {
+    sourceLabel = buildSourceLabel(subjsForSource);
+    sourcePromptDetail = buildSourcePrompt(subjsForSource);
+  }
 
   const sys = `You are a CBSE Grade 12 expert tutor and examiner. Return ONLY valid JSON, no markdown, no fences, no extra text.
 For MCQ: {"type":"mcq","questions":[{"q":"...","opts":["(a)...","(b)...","(c)...","(d)..."],"correct":0,"exp":"...","source":"NCERT Ch X / PYQ 2023"},...]}
@@ -2515,9 +2303,9 @@ For formula: {"type":"formula","formulas":[{"name":"...","formula":"ASCII notati
 For short: {"type":"short","questions":[{"q":"...","a":"...","marks":2,"ncert_ref":"..."},...]}
 For long: {"type":"long","questions":[{"q":"...","a":"...","marks":5,"ncert_ref":"..."},...]}
 For fill: {"type":"fill","questions":[{"q":"sentence with ___ blank","answer":"...","hint":"..."},...]}
-correct is 0-indexed. All content must be accurate for CBSE Class 12. Source: ${sourceLabel}. Difficulty: ${diff}.
-For PYQ source, mention the actual year the question appeared if known.
-For HOTS, questions must require analysis/evaluation/application — not simple recall.`;
+correct is 0-indexed. All content must be accurate for CBSE Class 12. Difficulty: ${diff}.
+For HOTS, questions must require analysis/evaluation/application — not simple recall.
+Always mention the source book/reference in each question's explanation field.`;
 
   const typeNames = {mcq:'Multiple Choice Questions',assertion:'Assertion & Reason questions',hots:'HOTS (Higher Order Thinking) questions',formula:'a Formula Bank',short:'Short Answer Questions',long:'Long Answer Questions (5 marks)',fill:'Fill in the Blank questions'};
   const chapterLabel = isFullSyllabus
@@ -2526,13 +2314,22 @@ For HOTS, questions must require analysis/evaluation/application — not simple 
   const subjLabel = isMultiSubj
     ? [...new Set(chaptersForTest.map(c=>SL[c.subj]))].join(' + ')
     : SL[subjsForTest[0]];
+  const srcInstructions = testSource === 'pyq'
+    ? 'Source: CBSE Previous Year Board Questions (2015-2024). Mention year if known.'
+    : 'Sources to draw questions from:\n' + sourcePromptDetail;
+
   const usr = `Generate ${type==='formula'?'all key formulas':count+' '+typeNames[type]} for CBSE Grade 12 ${subjLabel}.
 Coverage: ${chapterLabel}
-Source: ${sourceLabel}
 Difficulty: ${diff}
 ${isMultiSubj?'Mix questions across all listed subjects proportionally.':''}
-${isFullSyllabus?'Cover a wide variety of chapters from the syllabus.':'Focus specifically on the listed chapters.'}
-Board exam style. Include NCERT references.${testSource==='pyq'?' Mention year for PYQ questions.':''}${type==='hots'?' Tag each question with cognitive skill (Analysis/Evaluation/Application).':''}`;
+${isFullSyllabus?'Cover wide variety of chapters from the syllabus.':'Focus on the listed chapters.'}
+
+${srcInstructions}
+
+- Board exam style, syllabus accurate
+- In explanation field, cite source (e.g. NCERT Ex 2.3, H.C. Verma Q.15, PYQ 2022)
+${type==='hots'?'- Tag cognitive skill: Analysis / Evaluation / Application':''}
+`;
 
   try {
     const r = await fetch('https://api.anthropic.com/v1/messages',{
@@ -2544,6 +2341,13 @@ Board exam style. Include NCERT references.${testSource==='pyq'?' Mention year f
     let raw = d.content[0].text.trim().replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/\s*```$/,'').trim();
     const data = JSON.parse(raw);
     renderTestQuestions(data, chapter, diff, timerMins);
+    // Activate anti-cheat AFTER questions are rendered and visible
+    // Small delay lets browser settle after API response
+    setTimeout(() => {
+      activateAntiCheat();
+      startDevToolsMonitor();
+      startQuestionTimer();
+    }, 1500);
   } catch(e) {
     area.innerHTML = `<div class="err-card">Error: ${e.message}. Please try again.</div>`;
   }
@@ -2933,13 +2737,21 @@ Schema:
 {"paperTitle":"string","examDate":"string","totalMarks":number,"duration":"string","generalInstructions":["string",...],"sections":[{"sectionName":"string","sectionDesc":"string","totalMarks":number,"qType":"mcq|assertion|vsa|sa|la|casebased|fill","questions":[{"qNum":number,"qText":"string","marks":number,"opts":["(a)...","(b)...","(c)...","(d)..."],"assertion":"string","reason":"string","passage":"string","subQuestions":["string"],"answerKey":"string","answerExplanation":"string"}]}]}
 Rules: opts only for mcq/assertion. assertion+reason only for assertion. passage+subQuestions only for casebased. All NCERT Class 12 accurate. Question numbers sequential across sections.`;
 
-  const _srcLabels = {'ncert':'NCERT textbook only','exemplar':'NCERT + NCERT Exemplar Problems','pyq':'NCERT + Previous Year Board Questions (2015-2024 style)'};
-  const _srcLabel = _srcLabels[paperSrc] || 'NCERT';
+  const _subjsForPaper = [paperSubj];
+  let _srcLabel;
+  if (paperSrc === 'pyq') {
+    _srcLabel = 'NCERT + Previous Year Board Questions (2015-2024)';
+  } else if (paperSrc === 'exemplar') {
+    _srcLabel = buildSourceLabel(_subjsForPaper) + ' + NCERT Exemplar';
+  } else {
+    _srcLabel = buildSourceLabel(_subjsForPaper);
+  }
+  const _srcDetail = paperSrc === 'pyq' ? '' : buildSourcePrompt(_subjsForPaper);
   const _choiceNote = paperChoice==='yes' ? 'IMPORTANT: Provide internal choice (OR) in all SA and LA questions. Format as the question followed by a line break, "OR", then alternate question.' : '';
   const usr = `Generate a ${typeMap[ptype]} for CBSE Grade 12 ${SL[paperSubj]} (Code: ${SC[paperSubj]}).
 Coverage: ${chapters.join(', ')}
 Duration: ${dur}, Total: ${total} marks, Difficulty: ${paperDiff}
-Source: ${_srcLabel}
+Sources: ${_srcLabel}\n${_srcDetail ? 'Source detail: ' + _srcDetail.slice(0,300) : ''}
 ${_choiceNote}
 Sections:
 ${m1>0?`Section A: ${m1} MCQ x1 mark = ${m1}M`:''}
@@ -4064,6 +3876,7 @@ let exitDialogShowing = false;
 function showExitDialog() {
   if (exitDialogShowing) return;
   exitDialogShowing = true;
+  document.getElementById('exitDialog').style.display = 'flex';
   // Update message based on context
   const inTest = scoreTot > 0;
   const dialog = document.getElementById('exitDialog');
@@ -4082,7 +3895,9 @@ function showExitDialog() {
 
 function stayInApp() {
   exitDialogShowing = false;
-  document.getElementById('exitDialog').classList.remove('show');
+  const d = document.getElementById('exitDialog');
+  d.classList.remove('show');
+  setTimeout(() => { d.style.display = 'none'; }, 200);
 }
 
 function leaveApp() {
@@ -4134,30 +3949,49 @@ function activateAntiCheat() {
   antiCheat.screenshotAttempts = 0;
   antiCheat.copyAttempts = 0;
   antiCheat.integrity = 'clean';
+  antiCheat.wasVisible = false; // Will be set true after page is confirmed visible
   document.getElementById('screen-tests').classList.add('test-active');
+  // Mark as visible after short delay (lets page settle)
+  setTimeout(() => { antiCheat.wasVisible = !document.hidden; }, 3000);
   logAntiCheatEvent('test_start', 'Test session started');
 }
 
 function deactivateAntiCheat() {
   releaseWakeLock();
   antiCheat.isTestActive = false;
+  antiCheat.wasVisible = false;
   document.getElementById('screen-tests').classList.remove('test-active');
+  // Always dismiss the focus banner when test ends
+  document.getElementById('focusLostBanner')?.classList.remove('show');
 }
 
 // ── TAB VISIBILITY DETECTION ──────────────────
 document.addEventListener('visibilitychange', () => {
   if (!antiCheat.isTestActive) return;
+  // Grace period: ignore visibility changes within 3 seconds of test start
+  // This prevents false triggers from page load, screen dim, system notifications
+  const elapsed = Date.now() - (antiCheat.testStartTime || Date.now());
+  if (elapsed < 5000) return;
+  // Only count as tab switch if page was visible before (not first load)
+  if (!antiCheat.wasVisible) return;
   if (document.hidden) {
     antiCheat.tabSwitches++;
-    logAntiCheatEvent('tab_switch', `Tab hidden (switch #${antiCheat.tabSwitches})`);
+    logAntiCheatEvent('tab_switch', `Tab switched away (${antiCheat.tabSwitches}x)`);
     showFocusLostBanner();
     if (antiCheat.tabSwitches >= 3) {
       antiCheat.integrity = 'flagged';
-      logAntiCheatEvent('flagged', 'Multiple tab switches — integrity flagged');
     } else if (antiCheat.tabSwitches >= 1) {
       antiCheat.integrity = 'warning';
     }
+  } else {
+    // Page came back into view — mark as visible
+    antiCheat.wasVisible = true;
   }
+});
+
+// Track when page becomes genuinely visible after test loads
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) antiCheat.wasVisible = true;
 });
 
 function showFocusLostBanner() {
@@ -4167,13 +4001,17 @@ function showFocusLostBanner() {
   if (count) count.textContent = antiCheat.tabSwitches;
   if (badge) badge.textContent = '×' + antiCheat.tabSwitches;
   if (banner) {
-    banner.classList.add('show');
+    banner.style.display = 'flex';
+    setTimeout(() => banner.classList.add('show'), 10);
     if ('vibrate' in navigator) navigator.vibrate([100,50,100]);
   }
 }
 
 function dismissFocusBanner() {
-  document.getElementById('focusLostBanner')?.classList.remove('show');
+  const b = document.getElementById('focusLostBanner');
+  if (!b) return;
+  b.classList.remove('show');
+  setTimeout(() => { b.style.display = 'none'; }, 300);
 }
 
 // ── SCREENSHOT / SCREEN CAPTURE DETECTION ─────
@@ -4339,27 +4177,8 @@ function renderIntegrityBadge(container) {
 }
 
 // ── HOOK INTO TEST LIFECYCLE ───────────────────
-// Activate when test generates
-const _origGenerateTest = generateTest;
-async function generateTest() {
-  activateAntiCheat();
-  startDevToolsMonitor();
-  startQuestionTimer();
-  await _origGenerateTest();
-}
-
-// Deactivate when score reset
-const _origResetScore = resetScore;
-function resetScore() {
-  // Show integrity report before resetting
-  const report = getIntegrityReport();
-  if (report.summary.totalEvents > 0) {
-    renderCheatSummary(report);
-  }
-  deactivateAntiCheat();
-  stopDevToolsMonitor();
-  _origResetScore();
-}
+// Anti-cheat is activated directly inside generateTest and resetScore
+// (no override needed — hooks injected directly into those functions)
 
 function renderCheatSummary(report) {
   const area = document.getElementById('testArea');
@@ -4416,6 +4235,486 @@ async function requestWakeLock() {
 }
 async function releaseWakeLock() {
   if (wakeLock) { await wakeLock.release(); wakeLock = null; }
+}
+
+
+/* ══════════════════════════════════════════════
+   REFERENCE BOOKS & SOURCES DATABASE
+══════════════════════════════════════════════ */
+const REF_BOOKS = {
+  physics: [
+    {
+      id: 'ncert_phy',
+      name: 'NCERT Physics Part I & II',
+      author: 'NCERT',
+      type: 'textbook',
+      icon: '📗',
+      color: 'var(--phy)',
+      isDefault: true,
+      prompt: 'NCERT Class 12 Physics textbook (Part I & II). Follow exact NCERT definitions, derivations, solved examples and exercise questions. Reference chapter and section numbers.',
+      focus: ['Definitions','Derivations','NCERT Exercises','Solved Examples']
+    },
+    {
+      id: 'hc_verma',
+      name: 'Concepts of Physics — H.C. Verma',
+      author: 'H.C. Verma (Vol 1 & 2)',
+      type: 'reference',
+      icon: '📙',
+      color: 'var(--phy)',
+      prompt: 'H.C. Verma Concepts of Physics Vol 1 & 2. Include objective questions, short answer questions, exercises and worked examples from HCV. These questions are deeper than NCERT and widely used for board + JEE preparation.',
+      focus: ['Objective Qs','Short Answers','Deeper Numericals','Conceptual Qs']
+    },
+    {
+      id: 'dc_pandey',
+      name: 'Problems in Physics — D.C. Pandey',
+      author: 'D.C. Pandey (Arihant)',
+      type: 'reference',
+      icon: '📕',
+      color: 'var(--phy)',
+      prompt: 'D.C. Pandey Problems in Physics (Arihant). Focus on level 1 and level 2 problems relevant to CBSE board, numerical problems, assertion-reason questions and MCQs with detailed solutions.',
+      focus: ['Numericals','MCQ Bank','Assertion-Reason','Level-wise Qs']
+    },
+    {
+      id: 'pradeep_phy',
+      name: 'Pradeep's Fundamental Physics',
+      author: 'K.L. Gomber & K.L. Gogia',
+      type: 'reference',
+      icon: '📒',
+      color: 'var(--phy)',
+      prompt: 'Pradeep's Fundamental Physics Class 12. Include very short answer questions (1 mark), short answer questions (2-3 marks), long answer questions (5 marks), and value-based questions. Pradeep style is comprehensive for CBSE boards.',
+      focus: ['VSA (1M)','SA (2-3M)','LA (5M)','Value-based Qs']
+    },
+    {
+      id: 'ncert_exemplar_phy',
+      name: 'NCERT Exemplar Physics',
+      author: 'NCERT',
+      type: 'exemplar',
+      icon: '📘',
+      color: 'var(--phy)',
+      prompt: 'NCERT Exemplar Problems in Physics Class 12. Include MCQs with one correct answer, MCQs with multiple correct answers, very short answer, short answer, and long answer exemplar problems. These are application-based and frequently appear in board exams.',
+      focus: ['Single Correct MCQ','Multiple Correct MCQ','Application-based','Tricky Concepts']
+    },
+    {
+      id: 'cbse_notes_phy',
+      name: 'CBSE Revision Notes & Mind Maps',
+      author: 'CBSE Board',
+      type: 'notes',
+      icon: '📋',
+      color: 'var(--phy)',
+      prompt: 'CBSE Physics revision notes, mind maps, and important points. Focus on quick revision questions, key formulas, important diagrams that must be drawn in board exams, and commonly tested one-liners.',
+      focus: ['Key Formulas','Important Diagrams','One-liners','Quick Revision']
+    }
+  ],
+  chemistry: [
+    {
+      id: 'ncert_chem',
+      name: 'NCERT Chemistry Part I & II',
+      author: 'NCERT',
+      type: 'textbook',
+      icon: '📗',
+      color: 'var(--chem)',
+      isDefault: true,
+      prompt: 'NCERT Class 12 Chemistry textbook (Part I & II). Follow NCERT definitions, reactions, mechanisms, intext questions and exercise questions. Reference chapter numbers and reaction types.',
+      focus: ['NCERT Reactions','Mechanisms','Intext Qs','Exercise Qs']
+    },
+    {
+      id: 'op_tandon',
+      name: 'A Textbook of Physical Chemistry — O.P. Tandon',
+      author: 'O.P. Tandon (G.R. Bathla)',
+      type: 'reference',
+      icon: '📙',
+      color: 'var(--chem)',
+      prompt: 'O.P. Tandon Physical Chemistry. Include numericals on electrochemistry, chemical kinetics, solutions, thermodynamics. Focus on board-level calculations and theoretical questions from Tandon that are frequently asked.',
+      focus: ['Physical Chem Numericals','Electrochemistry','Kinetics','Thermodynamics']
+    },
+    {
+      id: 'ms_chauhan',
+      name: 'Organic Chemistry — M.S. Chauhan',
+      author: 'M.S. Chauhan (Balaji)',
+      type: 'reference',
+      icon: '📕',
+      color: 'var(--chem)',
+      prompt: 'M.S. Chauhan Organic Chemistry (Balaji Publications). Include reaction mechanism questions, name reactions, distinction tests, conversion problems and functional group analysis relevant to CBSE board exams.',
+      focus: ['Name Reactions','Mechanisms','Conversions','Distinction Tests']
+    },
+    {
+      id: 'vk_jaiswal',
+      name: 'Inorganic Chemistry — V.K. Jaiswal',
+      author: 'V.K. Jaiswal',
+      type: 'reference',
+      icon: '📒',
+      color: 'var(--chem)',
+      prompt: 'V.K. Jaiswal Inorganic Chemistry. Include questions on p-block, d-f block elements, coordination compounds, metallurgy at CBSE board level. Focus on factual MCQs, one-word answers and short explanation questions.',
+      focus: ['p-Block Elements','d-f Block','Coordination Compounds','Metallurgy']
+    },
+    {
+      id: 'ncert_exemplar_chem',
+      name: 'NCERT Exemplar Chemistry',
+      author: 'NCERT',
+      type: 'exemplar',
+      icon: '📘',
+      color: 'var(--chem)',
+      prompt: 'NCERT Exemplar Problems in Chemistry Class 12. Include MCQ, short answer and long answer exemplar problems covering both physical, organic and inorganic chemistry with application-based approach.',
+      focus: ['Application MCQs','Organic Exemplar','Physical Chem','Tricky Reactions']
+    },
+    {
+      id: 'cbse_notes_chem',
+      name: 'CBSE Chemistry Notes & Previous Trends',
+      author: 'CBSE Board',
+      type: 'notes',
+      icon: '📋',
+      color: 'var(--chem)',
+      prompt: 'CBSE Chemistry revision notes and trend analysis. Focus on frequently asked reactions in board exams, important name reactions (list of 15 must-know), electrochemistry formulas, commonly tested organic conversions.',
+      focus: ['Frequently Asked Rxns','Name Reactions List','Organic Conversions','Board Trends']
+    }
+  ],
+  mathematics: [
+    {
+      id: 'ncert_math',
+      name: 'NCERT Mathematics',
+      author: 'NCERT',
+      type: 'textbook',
+      icon: '📗',
+      color: 'var(--math)',
+      isDefault: true,
+      prompt: 'NCERT Class 12 Mathematics textbook. Follow NCERT theorems, proofs, solved examples and exercise questions exactly. Reference exercise numbers and example numbers.',
+      focus: ['NCERT Theorems','Solved Examples','Exercise Qs','Proofs']
+    },
+    {
+      id: 'rd_sharma',
+      name: 'Mathematics — R.D. Sharma',
+      author: 'R.D. Sharma (Dhanpat Rai)',
+      type: 'reference',
+      icon: '📙',
+      color: 'var(--math)',
+      prompt: 'R.D. Sharma Mathematics Class 12 (Dhanpat Rai Publications). Include objective type questions, very short answer questions, short answer questions and long answer questions from RD Sharma. These cover all NCERT topics with additional practice problems at board level.',
+      focus: ['Objective Type','VSA Qs','Board-level Practice','Topic-wise Drills']
+    },
+    {
+      id: 'rs_aggarwal',
+      name: 'Senior Secondary Mathematics — R.S. Aggarwal',
+      author: 'R.S. Aggarwal (S. Chand)',
+      type: 'reference',
+      icon: '📕',
+      color: 'var(--math)',
+      prompt: 'R.S. Aggarwal Senior Secondary Mathematics (S. Chand). Include multiple choice questions, fill in the blanks, true/false and practice exercises from RS Aggarwal that align with CBSE syllabus.',
+      focus: ['MCQ Bank','Fill in Blanks','Practice Sets','Objective Qs']
+    },
+    {
+      id: 'arihant_math',
+      name: 'All in One Mathematics — Arihant',
+      author: 'Arihant Experts',
+      type: 'reference',
+      icon: '📒',
+      color: 'var(--math)',
+      prompt: 'Arihant All in One Mathematics Class 12. Include chapter-wise important questions, case-based questions, assertion-reason questions, and previous year questions organized by topic. Focus on board exam pattern.',
+      focus: ['Case-based Qs','Assertion-Reason','PYQ Chapter-wise','Board Pattern']
+    },
+    {
+      id: 'ncert_exemplar_math',
+      name: 'NCERT Exemplar Mathematics',
+      author: 'NCERT',
+      type: 'exemplar',
+      icon: '📘',
+      color: 'var(--math)',
+      prompt: 'NCERT Exemplar Problems in Mathematics Class 12. Include objective questions with justification, short answer and long answer exemplar problems on calculus, algebra, vectors and probability.',
+      focus: ['Objective with Justification','Calculus Exemplar','Probability','Application Qs']
+    },
+    {
+      id: 'cbse_notes_math',
+      name: 'CBSE Maths Notes & Formula Sheets',
+      author: 'CBSE Board',
+      type: 'notes',
+      icon: '📋',
+      color: 'var(--math)',
+      prompt: 'CBSE Mathematics formula sheets, revision notes and important results. Focus on integration formulas, differentiation rules, vector identities, probability theorems, and 3D geometry formulas that must be memorised for board exams.',
+      focus: ['Integration Formulas','Differentiation Rules','Vector Identities','Board Formula Sheet']
+    }
+  ],
+  english: [
+    {
+      id: 'ncert_eng',
+      name: 'Flamingo & Vistas (NCERT)',
+      author: 'NCERT',
+      type: 'textbook',
+      icon: '📗',
+      color: 'var(--eng)',
+      isDefault: true,
+      prompt: 'NCERT English Class 12 — Flamingo (prose & poetry) and Vistas (supplementary reader). Include comprehension questions, reference to context, character analysis, theme questions and extract-based questions from all chapters.',
+      focus: ['Comprehension','Reference to Context','Character Analysis','Theme Questions']
+    },
+    {
+      id: 'golden_eng',
+      name: 'Golden English Core — A.P. Bhardwaj',
+      author: 'A.P. Bhardwaj (Golden)',
+      type: 'reference',
+      icon: '📙',
+      color: 'var(--eng)',
+      prompt: 'Golden English Core Class 12. Include reading comprehension passages, writing skills (article, speech, letter, report), grammar exercises, and literature questions with value-based questions in board exam format.',
+      focus: ['Reading Comprehension','Writing Skills','Grammar','Literature Qs']
+    },
+    {
+      id: 'together_eng',
+      name: 'Together With English Core',
+      author: 'Rachna Sagar',
+      type: 'reference',
+      icon: '📕',
+      color: 'var(--eng)',
+      prompt: 'Together With English Core Class 12 (Rachna Sagar). Include chapter-wise important questions, unseen passages, writing formats (formal/informal letters, notice, poster, advertisement) and grammar questions.',
+      focus: ['Chapter-wise Qs','Writing Formats','Unseen Passages','Grammar MCQs']
+    },
+    {
+      id: 'arihant_eng',
+      name: 'All in One English Core — Arihant',
+      author: 'Arihant Experts',
+      type: 'reference',
+      icon: '📒',
+      color: 'var(--eng)',
+      prompt: 'Arihant All in One English Core Class 12. Include section-wise questions — Reading (unseen passages with MCQ, SA), Writing (all formats), Literature (extract-based, long answer) and Grammar (gap fill, editing, omission).',
+      focus: ['Extract-based Qs','Writing Section','Grammar Exercises','MCQ Literature']
+    },
+    {
+      id: 'cbse_notes_eng',
+      name: 'CBSE English Notes & Writing Templates',
+      author: 'CBSE Board',
+      type: 'notes',
+      icon: '📋',
+      color: 'var(--eng)',
+      prompt: 'CBSE English Core revision notes including chapter summaries, character sketches, important quotes, writing format templates (article, speech, letter, report, notice), and commonly asked board questions from each chapter.',
+      focus: ['Chapter Summaries','Character Sketches','Writing Templates','Frequently Asked']
+    }
+  ],
+  cs: [
+    {
+      id: 'ncert_cs',
+      name: 'Computer Science with Python — NCERT',
+      author: 'NCERT',
+      type: 'textbook',
+      icon: '📗',
+      color: 'var(--cs)',
+      isDefault: true,
+      prompt: 'NCERT Computer Science with Python Class 12. Include program-based questions, theory questions on OOP, file handling, data structures, networking, databases and societal impacts as per NCERT chapters.',
+      focus: ['Python Programs','OOP Theory','SQL Queries','Networking']
+    },
+    {
+      id: 'sumita_arora',
+      name: 'Computer Science with Python — Sumita Arora',
+      author: 'Sumita Arora (Dhanpat Rai)',
+      type: 'reference',
+      icon: '📙',
+      color: 'var(--cs)',
+      prompt: 'Sumita Arora Computer Science with Python Class 12 (Dhanpat Rai). Include chapter-wise exercises, programming problems, MCQs, fill in the blanks, and theory questions. This is the most widely used CS reference for CBSE boards.',
+      focus: ['Chapter Exercises','Programming Qs','MCQ Bank','Theory Questions']
+    },
+    {
+      id: 'preeti_arora',
+      name: 'Informatics Practices — Preeti Arora',
+      author: 'Preeti Arora (Kataria)',
+      type: 'reference',
+      icon: '📕',
+      color: 'var(--cs)',
+      prompt: 'Preeti Arora Informatics Practices Class 12. Include MySQL queries (DDL, DML, DQL, joins, aggregate functions), Python-MySQL connectivity programs, data handling with Pandas, and networking questions.',
+      focus: ['MySQL Queries','Python-MySQL','Pandas','Networking MCQs']
+    },
+    {
+      id: 'together_cs',
+      name: 'Together With Computer Science — Rachna Sagar',
+      author: 'Rachna Sagar',
+      type: 'reference',
+      icon: '📒',
+      color: 'var(--cs)',
+      prompt: 'Together With Computer Science Class 12 (Rachna Sagar). Include previous year questions chapter-wise, important programming problems, SQL practice questions, and case-study based questions.',
+      focus: ['PYQ Chapter-wise','Programming Problems','SQL Practice','Case Studies']
+    },
+    {
+      id: 'cbse_notes_cs',
+      name: 'CBSE CS Notes & Program Bank',
+      author: 'CBSE Board',
+      type: 'notes',
+      icon: '📋',
+      color: 'var(--cs)',
+      prompt: 'CBSE Computer Science revision notes and program bank. Include commonly asked Python programs (stack, queue, file operations, OOP), important SQL queries, networking definitions, cyber safety one-liners, and Boolean algebra.',
+      focus: ['Important Programs','SQL Query Bank','Networking Definitions','Boolean Algebra']
+    }
+  ]
+};
+
+// Source type labels and colors
+const SOURCE_TYPE_META = {
+  textbook: { label: 'Textbook',  color: 'var(--green)',   bg: 'rgba(38,201,135,.12)'  },
+  reference: { label: 'Reference', color: 'var(--primary)', bg: 'rgba(77,158,255,.12)'  },
+  exemplar:  { label: 'Exemplar',  color: 'var(--yellow)',  bg: 'rgba(255,204,2,.1)'    },
+  notes:     { label: 'Notes',     color: 'var(--eng-m)',   bg: 'rgba(185,112,255,.1)'  },
+};
+
+// Currently selected reference books per session
+let selectedRefBooks = {};  // { physics: ['ncert_phy','hc_verma'], chemistry: ['ncert_chem'], ... }
+
+// Initialize defaults
+function initRefBooks() {
+  Object.keys(REF_BOOKS).forEach(subj => {
+    selectedRefBooks[subj] = REF_BOOKS[subj]
+      .filter(b => b.isDefault)
+      .map(b => b.id);
+  });
+}
+initRefBooks();
+
+// Build source label for AI prompt from selected books
+function buildSourceLabel(subjects) {
+  const allSelected = [];
+  subjects.forEach(subj => {
+    const sel = selectedRefBooks[subj] || [];
+    const books = REF_BOOKS[subj] || [];
+    sel.forEach(id => {
+      const book = books.find(b => b.id === id);
+      if (book) allSelected.push(book);
+    });
+  });
+  if (!allSelected.length) return 'NCERT Class 12 textbooks';
+  return allSelected.map(b => b.name + ' by ' + b.author).join(' + ');
+}
+
+function buildSourcePrompt(subjects) {
+  const allSelected = [];
+  subjects.forEach(subj => {
+    const sel = selectedRefBooks[subj] || [];
+    const books = REF_BOOKS[subj] || [];
+    sel.forEach(id => {
+      const book = books.find(b => b.id === id);
+      if (book) allSelected.push(book);
+    });
+  });
+  if (!allSelected.length) return 'NCERT Class 12 textbooks';
+  const prompts = allSelected.map(b => '- ' + b.name + ': ' + b.prompt);
+  return 'Draw questions from these sources:\n' + prompts.join('\n');
+}
+
+// ── SOURCE SELECTOR MODAL ─────────────────────
+function openSourceSelector() {
+  const existing = document.getElementById('srcSelectorModal');
+  if (existing) existing.remove();
+  const subjects = selectedSubjects.length > 0 ? selectedSubjects : [testSubj || 'physics'];
+
+  const modal = document.createElement('div');
+  modal.id = 'srcSelectorModal';
+  modal.className = 'ch-selector-modal';
+  modal.onclick = e => { if (e.target === modal) closeSrcSelector(); };
+
+  let tabsHtml = subjects.map((s, i) =>
+    `<div class="sdt ${i===0?'on':''}" id="srcTab-${s}" onclick="switchSrcTab('${s}')">${SUBJ_ICONS[s]} ${s==='cs'?'CS':s==='mathematics'?'Maths':SL[s]}</div>`
+  ).join('');
+
+  let booksHtml = subjects.map(s =>
+    `<div id="srcPanel-${s}" style="display:${s===subjects[0]?'block':'none'}">${buildBookList(s)}</div>`
+  ).join('');
+
+  modal.innerHTML = `<div class="ch-selector-sheet">
+    <div class="ch-sheet-handle"></div>
+    <div class="ch-sheet-head">
+      <div class="ch-sheet-title">📚 Reference Sources</div>
+      <div class="ch-sheet-close" onclick="closeSrcSelector()">✕</div>
+    </div>
+    <div style="padding:10px 16px 0;border-bottom:1px solid var(--border)">
+      <div style="font-size:11px;color:var(--t3);margin-bottom:8px">Select books to draw questions from. More books = more variety.</div>
+      <div class="subj-deep-tabs" style="margin:0 -16px;padding:0 16px">${tabsHtml}</div>
+    </div>
+    <div class="ch-list-scroll" id="srcBookScroll">${booksHtml}</div>
+    <div class="ch-sheet-footer">
+      <div class="ch-selected-count" id="srcSelCount">${countSelectedBooks(subjects)} source(s) selected</div>
+      <button class="btn btn-outline btn-sm" onclick="closeSrcSelector()">Cancel</button>
+      <button class="btn btn-primary btn-sm" onclick="confirmSrcSelection()">Apply</button>
+    </div>
+  </div>`;
+
+  document.body.appendChild(modal);
+}
+
+function buildBookList(subj) {
+  const books = REF_BOOKS[subj] || [];
+  const selected = selectedRefBooks[subj] || [];
+  return books.map(book => {
+    const isOn = selected.includes(book.id);
+    const meta = SOURCE_TYPE_META[book.type] || SOURCE_TYPE_META.reference;
+    const focusChips = book.focus.map(f => `<span class="item-chip" style="font-size:10px;padding:2px 7px">${esc(f)}</span>`).join('');
+    return `<div class="ch-list-item ${isOn?'selected':''}" id="srcitem-${book.id}" onclick="toggleBook('${subj}','${book.id}')">
+      <div class="ch-list-check">${isOn?'✓':''}</div>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
+          <span style="font-size:16px">${book.icon}</span>
+          <span style="font-size:13px;font-weight:700;color:var(--t1);flex:1">${esc(book.name)}</span>
+          <span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;background:${meta.bg};color:${meta.color}">${meta.label}</span>
+        </div>
+        <div style="font-size:11px;color:var(--t3);margin-bottom:5px">by ${esc(book.author)}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px">${focusChips}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function switchSrcTab(subj) {
+  document.querySelectorAll('[id^="srcTab-"]').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('[id^="srcPanel-"]').forEach(p => p.style.display = 'none');
+  const tab = document.getElementById('srcTab-' + subj);
+  const panel = document.getElementById('srcPanel-' + subj);
+  if (tab) tab.classList.add('on');
+  if (panel) panel.style.display = 'block';
+}
+
+function toggleBook(subj, bookId) {
+  if (!selectedRefBooks[subj]) selectedRefBooks[subj] = [];
+  const idx = selectedRefBooks[subj].indexOf(bookId);
+  const el = document.getElementById('srcitem-' + bookId);
+  if (idx > -1) {
+    // Don't allow deselecting the last book
+    if (selectedRefBooks[subj].length === 1) {
+      showToast('At least one source must be selected');
+      return;
+    }
+    selectedRefBooks[subj].splice(idx, 1);
+    if (el) { el.classList.remove('selected'); el.querySelector('.ch-list-check').textContent = ''; }
+  } else {
+    selectedRefBooks[subj].push(bookId);
+    if (el) { el.classList.add('selected'); el.querySelector('.ch-list-check').textContent = '✓'; }
+  }
+  const subjects = selectedSubjects.length > 0 ? selectedSubjects : [testSubj || 'physics'];
+  const countEl = document.getElementById('srcSelCount');
+  if (countEl) countEl.textContent = countSelectedBooks(subjects) + ' source(s) selected';
+  updateSrcSelectorLabel();
+}
+
+function countSelectedBooks(subjects) {
+  return subjects.reduce((t, s) => t + (selectedRefBooks[s] || []).length, 0);
+}
+
+function closeSrcSelector() {
+  document.getElementById('srcSelectorModal')?.remove();
+}
+
+function confirmSrcSelection() {
+  closeSrcSelector();
+  updateSrcSelectorLabel();
+  showToast('Sources updated — questions will use selected books');
+}
+
+function updateSrcSelectorLabel() {
+  const el = document.getElementById('srcSelectorLabel');
+  if (!el) return;
+  const subjects = selectedSubjects.length > 0 ? selectedSubjects : [testSubj || 'physics'];
+  const total = countSelectedBooks(subjects);
+  const names = subjects.flatMap(s =>
+    (selectedRefBooks[s] || []).map(id => {
+      const b = (REF_BOOKS[s]||[]).find(x=>x.id===id);
+      return b ? b.name.split('—')[0].trim().split(' ').slice(0,2).join(' ') : id;
+    })
+  );
+  if (total === 1) {
+    el.textContent = names[0] || 'NCERT';
+  } else {
+    el.textContent = names[0] + ' +' + (total-1) + ' more';
+  }
+  const badge = document.getElementById('srcSelBadge');
+  if (badge) { badge.style.display = ''; badge.textContent = total + ' source' + (total!==1?'s':''); }
 }
 
 /* ══════════════════════════════════════════════

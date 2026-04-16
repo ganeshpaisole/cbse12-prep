@@ -1029,6 +1029,417 @@ textarea.ta:focus { border-color: var(--primary); }
   padding: 2px 8px; white-space: nowrap;
 }
 
+
+/* ═══════════════════════════════════════════
+   PREVIOUS YEAR PAPERS SCREEN
+═══════════════════════════════════════════ */
+.pyq-hero {
+  background: linear-gradient(160deg, #1a0d2e 0%, #0f1923 60%);
+  padding: 20px 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.pyq-hero-title {
+  font-family: 'Nunito', sans-serif; font-weight: 900;
+  font-size: 20px; color: var(--t1); margin-bottom: 3px;
+}
+.pyq-hero-sub { font-size: 12px; color: var(--t3); margin-bottom: 14px; }
+.pyq-source-note {
+  background: rgba(185,112,255,.1); border: 1px solid rgba(185,112,255,.25);
+  border-radius: var(--r); padding: 8px 12px;
+  font-size: 11px; color: var(--eng-m);
+  display: flex; align-items: center; gap: 6px;
+}
+
+.pyq-subj-tabs {
+  display: flex; gap: 0; border-bottom: 1px solid var(--border);
+  overflow-x: auto; padding: 0 16px;
+}
+.pyq-subj-tabs::-webkit-scrollbar { display: none; }
+.pyq-tab {
+  padding: 11px 13px; font-size: 12px; font-weight: 700;
+  color: var(--t3); cursor: pointer;
+  border-bottom: 2.5px solid transparent;
+  white-space: nowrap; flex-shrink: 0; transition: all .15s;
+}
+.pyq-tab.on { border-bottom-color: var(--eng); color: var(--eng-m); }
+
+.pyq-year-card {
+  background: var(--surf1); border-radius: var(--rl);
+  border: 1px solid var(--border); margin-bottom: 12px;
+  overflow: hidden; transition: all .2s;
+}
+.pyq-year-head {
+  padding: 14px 16px; display: flex;
+  align-items: center; gap: 12px;
+  cursor: pointer;
+}
+.pyq-year-head:active { background: var(--surf2); }
+.pyq-year-badge {
+  font-family: 'Nunito', sans-serif; font-weight: 900;
+  font-size: 22px; color: var(--eng-m); line-height: 1;
+  flex-shrink: 0;
+}
+.pyq-year-info { flex: 1; }
+.pyq-year-name { font-size: 13px; font-weight: 700; color: var(--t1); }
+.pyq-year-meta { font-size: 11px; color: var(--t3); margin-top: 2px; }
+.pyq-latest-badge {
+  font-size: 9px; font-weight: 700; padding: 3px 8px;
+  border-radius: 100px; background: rgba(38,201,135,.15);
+  color: var(--math-m); flex-shrink: 0;
+}
+.pyq-expand-icon { font-size: 14px; color: var(--t3); transition: transform .2s; }
+.pyq-year-card.open .pyq-expand-icon { transform: rotate(180deg); }
+
+.pyq-body {
+  display: none; border-top: 1px solid var(--border);
+}
+.pyq-year-card.open .pyq-body { display: block; }
+
+.pyq-highlights {
+  padding: 12px 16px; background: var(--surf2);
+  border-bottom: 1px solid var(--border);
+}
+.pyq-hl-title {
+  font-size: 10px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--t3); margin-bottom: 6px;
+}
+.pyq-hl-list { display: flex; flex-wrap: wrap; gap: 5px; }
+.pyq-hl-chip {
+  font-size: 11px; padding: 3px 10px; border-radius: 100px;
+  background: rgba(185,112,255,.1); border: 1px solid rgba(185,112,255,.2);
+  color: var(--eng-m);
+}
+
+.pyq-actions { padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
+.pyq-action-btn {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px; border-radius: var(--r);
+  border: 1px solid var(--border2); background: var(--surf2);
+  cursor: pointer; transition: all .15s; text-decoration: none;
+}
+.pyq-action-btn:active { background: var(--surf3); transform: scale(.98); }
+.pyq-action-icon { font-size: 20px; flex-shrink: 0; }
+.pyq-action-info { flex: 1; }
+.pyq-action-title { font-size: 13px; font-weight: 700; color: var(--t1); }
+.pyq-action-sub { font-size: 11px; color: var(--t3); margin-top: 1px; }
+.pyq-action-arrow { font-size: 14px; color: var(--t3); }
+
+.pyq-action-btn.primary-action {
+  background: rgba(77,158,255,.12);
+  border-color: rgba(77,158,255,.3);
+}
+.pyq-action-btn.ms-action {
+  background: rgba(38,201,135,.08);
+  border-color: rgba(38,201,135,.25);
+}
+.pyq-action-btn.practice-action {
+  background: rgba(255,204,2,.08);
+  border-color: rgba(255,204,2,.2);
+}
+
+.pyq-stats-row {
+  display: flex; gap: 0;
+  border-top: 1px solid var(--border);
+}
+.pyq-stat {
+  flex: 1; padding: 10px 8px; text-align: center;
+  border-right: 1px solid var(--border);
+}
+.pyq-stat:last-child { border-right: none; }
+.pyq-stat-v {
+  font-family: 'Nunito', sans-serif; font-weight: 900;
+  font-size: 15px; color: var(--t1);
+}
+.pyq-stat-l { font-size: 9px; color: var(--t3); font-weight: 700; text-transform: uppercase; margin-top: 2px; }
+
+.pyq-info-banner {
+  background: rgba(77,158,255,.08); border: 1px solid rgba(77,158,255,.2);
+  border-radius: var(--r); padding: 12px 14px;
+  font-size: 12px; color: var(--phy-m); margin-bottom: 12px;
+  display: flex; gap: 8px; align-items: flex-start; line-height: 1.6;
+}
+
+
+/* ═══════════════════════════════════════════
+   SMART CHAPTER SELECTOR
+═══════════════════════════════════════════ */
+.ch-selector-modal {
+  position: fixed; inset: 0; background: rgba(0,0,0,.75);
+  z-index: 400; display: flex; align-items: flex-end;
+}
+.ch-selector-sheet {
+  background: var(--surf1); border-radius: 20px 20px 0 0;
+  width: 100%; max-height: 90vh; display: flex; flex-direction: column;
+}
+.ch-sheet-handle {
+  width: 36px; height: 4px; background: var(--border2);
+  border-radius: 2px; margin: 12px auto 0;
+}
+.ch-sheet-head {
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+}
+.ch-sheet-title {
+  font-family: 'Nunito', sans-serif; font-weight: 900;
+  font-size: 16px; color: var(--t1); flex: 1;
+}
+.ch-sheet-close {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--surf2); border: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; cursor: pointer; color: var(--t3);
+}
+
+/* Quick select row */
+.ch-quick-row {
+  display: flex; gap: 6px; padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+.ch-quick-row::-webkit-scrollbar { display: none; }
+.ch-quick-btn {
+  padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 700;
+  border: 1px solid var(--border2); background: var(--surf2); color: var(--t2);
+  cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: all .15s;
+}
+.ch-quick-btn:active { transform: scale(.95); }
+.ch-quick-btn.all-btn { background: rgba(77,158,255,.15); border-color: rgba(77,158,255,.3); color: var(--primary); }
+.ch-quick-btn.weak-btn { background: rgba(255,82,82,.12); border-color: rgba(255,82,82,.25); color: #ff8f8f; }
+.ch-quick-btn.strong-btn { background: rgba(38,201,135,.1); border-color: rgba(38,201,135,.25); color: var(--math-m); }
+
+/* Chapter list */
+.ch-list-scroll { flex: 1; overflow-y: auto; padding: 8px 16px 16px; }
+.ch-list-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: var(--r);
+  margin-bottom: 4px; cursor: pointer;
+  border: 1px solid transparent; transition: all .15s;
+}
+.ch-list-item:active { background: var(--surf2); }
+.ch-list-item.selected {
+  background: rgba(77,158,255,.1);
+  border-color: rgba(77,158,255,.3);
+}
+.ch-list-check {
+  width: 20px; height: 20px; border-radius: 6px;
+  border: 2px solid var(--border2); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+}
+.ch-list-item.selected .ch-list-check {
+  background: var(--primary); border-color: var(--primary);
+  color: #fff; font-size: 12px; font-weight: 800;
+}
+.ch-list-ch-num { font-size: 10px; color: var(--t3); font-weight: 700; flex-shrink: 0; min-width: 28px; }
+.ch-list-ch-name { font-size: 13px; color: var(--t1); flex: 1; line-height: 1.4; }
+.ch-list-score {
+  font-size: 11px; font-weight: 700; padding: 2px 7px;
+  border-radius: 100px; flex-shrink: 0;
+}
+.ch-score-g { background: rgba(38,201,135,.12); color: var(--math-m); }
+.ch-score-y { background: rgba(255,204,2,.1); color: var(--cs-m); }
+.ch-score-r { background: rgba(255,82,82,.1); color: #ff8f8f; }
+.ch-score-none { background: var(--surf2); color: var(--t3); }
+
+/* Footer */
+.ch-sheet-footer {
+  padding: 12px 16px; border-top: 1px solid var(--border);
+  display: flex; gap: 8px; align-items: center;
+}
+.ch-selected-count {
+  font-size: 12px; font-weight: 700; color: var(--t2); flex: 1;
+}
+
+/* Chapter display button (replaces dropdown) */
+.ch-selector-btn {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 12px; background: var(--surf2);
+  border: 1px solid var(--border2); border-radius: var(--r);
+  cursor: pointer; width: 100%; text-align: left;
+  transition: all .15s;
+}
+.ch-selector-btn:active { background: var(--surf3); }
+.ch-selector-btn-text {
+  flex: 1; font-size: 13px; color: var(--t1);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.ch-selector-btn-count {
+  font-size: 11px; font-weight: 700; padding: 2px 8px;
+  border-radius: 100px; background: rgba(77,158,255,.15);
+  color: var(--primary); flex-shrink: 0;
+}
+
+/* Subject multi-select */
+.subj-multi-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  margin-bottom: 10px;
+}
+.subj-multi-card {
+  background: var(--surf2); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 10px 12px;
+  cursor: pointer; transition: all .15s;
+  display: flex; align-items: center; gap: 8px;
+}
+.subj-multi-card.on {
+  border-color: rgba(77,158,255,.4);
+  background: rgba(77,158,255,.1);
+}
+.subj-multi-card:active { transform: scale(.97); }
+.subj-multi-icon { font-size: 18px; }
+.subj-multi-name { font-size: 12px; font-weight: 700; color: var(--t1); }
+.subj-multi-count { font-size: 10px; color: var(--t3); margin-top: 1px; }
+.subj-multi-check {
+  margin-left: auto; width: 18px; height: 18px;
+  border-radius: 50%; border: 2px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: #fff; flex-shrink: 0;
+}
+.subj-multi-card.on .subj-multi-check {
+  background: var(--primary); border-color: var(--primary);
+}
+
+/* PYQ live feed */
+.pyq-live-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 100px;
+  background: rgba(38,201,135,.1); border: 1px solid rgba(38,201,135,.25);
+  font-size: 11px; font-weight: 700; color: var(--math-m);
+}
+.pyq-live-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green); animation: livePulse 1.5s ease-in-out infinite;
+}
+@keyframes livePulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
+.pyq-year-new {
+  font-size: 9px; font-weight: 700; padding: 2px 7px;
+  border-radius: 100px; background: rgba(77,158,255,.15);
+  color: var(--primary); margin-left: 6px;
+}
+
+
+/* ═══════════════════════════════════════════
+   EXIT CONFIRM DIALOG
+═══════════════════════════════════════════ */
+.exit-dialog-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.7);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  opacity: 0; transition: opacity .2s;
+  pointer-events: none;
+}
+.exit-dialog-overlay.show {
+  opacity: 1; pointer-events: all;
+}
+.exit-dialog {
+  background: var(--surf1);
+  border: 1px solid var(--border2);
+  border-radius: var(--rx);
+  padding: 28px 24px 20px;
+  width: 100%; max-width: 320px;
+  transform: scale(.92) translateY(20px);
+  transition: transform .25s cubic-bezier(.32,.72,0,1);
+  text-align: center;
+}
+.exit-dialog-overlay.show .exit-dialog {
+  transform: scale(1) translateY(0);
+}
+.exit-dialog-icon { font-size: 40px; margin-bottom: 12px; }
+.exit-dialog-title {
+  font-family: 'Nunito', sans-serif; font-weight: 900;
+  font-size: 18px; color: var(--t1); margin-bottom: 8px;
+}
+.exit-dialog-msg { font-size: 13px; color: var(--t3); line-height: 1.6; margin-bottom: 20px; }
+.exit-dialog-btns { display: flex; gap: 10px; }
+.exit-btn-stay {
+  flex: 1; padding: 12px; border-radius: var(--r);
+  background: var(--primary); color: #fff;
+  font-family: 'Nunito', sans-serif; font-weight: 800;
+  font-size: 14px; border: none; cursor: pointer;
+  transition: all .15s;
+}
+.exit-btn-stay:active { transform: scale(.97); }
+.exit-btn-leave {
+  flex: 1; padding: 12px; border-radius: var(--r);
+  background: var(--surf3); color: var(--t2);
+  font-family: 'Nunito', sans-serif; font-weight: 700;
+  font-size: 14px; border: 1px solid var(--border2);
+  cursor: pointer; transition: all .15s;
+}
+.exit-btn-leave:active { transform: scale(.97); }
+
+/* ═══════════════════════════════════════════
+   ANTI-CHEAT SHIELD
+═══════════════════════════════════════════ */
+/* Disable text selection during tests */
+.test-active .q-text,
+.test-active .mcq-opt,
+.test-active .q-card {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Screenshot overlay warning */
+.screenshot-guard {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.95);
+  z-index: 99999;
+  display: none;
+  align-items: center; justify-content: center;
+  flex-direction: column; gap: 16px;
+  text-align: center; padding: 32px;
+}
+.screenshot-guard.show { display: flex; }
+.sg-icon { font-size: 48px; }
+.sg-title {
+  font-family: 'Nunito', sans-serif; font-weight: 900;
+  font-size: 22px; color: #fff;
+}
+.sg-msg { font-size: 14px; color: rgba(255,255,255,.6); line-height: 1.6; }
+
+/* Tab-switch warning banner */
+.focus-lost-banner {
+  position: fixed; top: var(--top-h); left: 0; right: 0;
+  background: rgba(255,82,82,.95);
+  backdrop-filter: blur(8px);
+  padding: 10px 16px;
+  display: flex; align-items: center; gap: 10px;
+  z-index: 60;
+  transform: translateY(-100%);
+  transition: transform .3s ease;
+}
+.focus-lost-banner.show { transform: translateY(0); }
+.flb-text { font-size: 12px; font-weight: 700; color: #fff; flex: 1; }
+.flb-count {
+  font-size: 11px; font-weight: 800; padding: 3px 10px;
+  border-radius: 100px; background: rgba(255,255,255,.2); color: #fff;
+}
+.flb-close { font-size: 14px; color: rgba(255,255,255,.7); cursor: pointer; }
+
+/* Integrity badge */
+.integrity-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 100px;
+  background: rgba(38,201,135,.1);
+  border: 1px solid rgba(38,201,135,.2);
+  font-size: 10px; font-weight: 700; color: var(--math-m);
+  margin-left: auto;
+}
+
+/* Cheat log card */
+.cheat-log-item {
+  display: flex; gap: 8px; padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+.cheat-log-item:last-child { border-bottom: none; }
+.cheat-log-icon { font-size: 14px; flex-shrink: 0; }
+.cheat-log-text { flex: 1; color: var(--t2); }
+.cheat-log-time { font-size: 10px; color: var(--t3); flex-shrink: 0; }
+
 /* Print */
 @media print {
   .app > *:not(#screen-papers) { display: none !important; }
@@ -1361,11 +1772,31 @@ textarea.ta:focus { border-color: var(--primary); }
 
       <!-- Config -->
       <div class="section-pad" style="padding-bottom:0">
-        <div style="display:flex;gap:8px;margin-bottom:10px">
-          <div style="flex:1">
-            <div class="field-label">Chapter</div>
-            <select id="testChapter"></select>
+        <!-- Subject multi-select -->
+        <div style="margin-bottom:10px">
+          <div class="field-label" style="display:flex;align-items:center;gap:8px">
+            <span>Subjects</span>
+            <span style="font-size:10px;color:var(--t3);font-weight:600">Select one or multiple</span>
           </div>
+          <div class="subj-multi-grid" id="subjMultiGrid"></div>
+        </div>
+
+        <!-- Smart Chapter Selector -->
+        <div style="margin-bottom:10px">
+          <div class="field-label" style="display:flex;align-items:center;gap:8px">
+            <span>Chapters</span>
+            <span id="chSelBadge" class="ch-selector-btn-count" style="display:none">0 selected</span>
+          </div>
+          <div class="ch-selector-btn" onclick="openChapterSelector()">
+            <span style="font-size:14px">📚</span>
+            <span class="ch-selector-btn-text" id="chSelectorLabel">Select chapters…</span>
+            <span style="font-size:12px;color:var(--t3)">▾</span>
+          </div>
+          <!-- Hidden input for compatibility -->
+          <input type="hidden" id="testChapter" value="">
+        </div>
+
+        <div style="display:flex;gap:8px;margin-bottom:10px">
           <div style="flex:1">
             <div class="field-label">Type</div>
             <select id="testType">
@@ -1669,7 +2100,36 @@ textarea.ta:focus { border-color: var(--primary); }
     </div><!-- /screen-progress -->
 
 
-    <!-- ── SCREEN 6: WEAKNESS ANALYSIS ── -->
+    <!-- ── SCREEN 6: PREVIOUS YEAR PAPERS ── -->
+    <div class="screen" id="screen-pyq">
+
+      <!-- Hero -->
+      <div class="pyq-hero">
+        <div class="pyq-hero-title">📜 Previous Year Papers</div>
+        <div class="pyq-hero-sub">CBSE Board Exam Papers 2020–2024 · Official Source</div>
+        <div class="pyq-source-note">
+          <span>🔒</span>
+          <span>All papers sourced from <strong>cbseacademic.nic.in</strong> — official CBSE website. Free for students.</span>
+        </div>
+      </div>
+
+      <!-- Subject Tabs -->
+      <div class="pyq-subj-tabs" id="pyqSubjTabs">
+        <div class="pyq-tab on" onclick="switchPYQSubj('physics',this)">⚡ Physics</div>
+        <div class="pyq-tab" onclick="switchPYQSubj('chemistry',this)">🧪 Chemistry</div>
+        <div class="pyq-tab" onclick="switchPYQSubj('mathematics',this)">📐 Maths</div>
+        <div class="pyq-tab" onclick="switchPYQSubj('english',this)">📖 English</div>
+        <div class="pyq-tab" onclick="switchPYQSubj('cs',this)">💻 CS</div>
+      </div>
+
+      <div class="section-pad gap-12" id="pyqContent" style="padding-top:14px">
+        <!-- Filled by JS -->
+      </div>
+
+    </div><!-- /screen-pyq -->
+
+    <!-- ── SCREEN 7: WEAKNESS ANALYSIS ── -->
+    <!-- ── SCREEN 7: WEAKNESS ANALYSIS ── -->
     <div class="screen" id="screen-weakness">
 
       <!-- Hero -->
@@ -1751,6 +2211,10 @@ textarea.ta:focus { border-color: var(--primary); }
       <div class="nav-icon">📈</div>
       <div class="nav-label">Progress</div>
     </div>
+    <div class="nav-item" id="nav-pyq" onclick="goTab('pyq')">
+      <div class="nav-icon">📜</div>
+      <div class="nav-label">PYQ</div>
+    </div>
     <div class="nav-item" id="nav-weakness" onclick="goTab('weakness')">
       <div class="nav-icon">🎯</div>
       <div class="nav-label">Improve</div>
@@ -1758,6 +2222,36 @@ textarea.ta:focus { border-color: var(--primary); }
   </div>
 
 
+  <!-- EXIT CONFIRM DIALOG -->
+  <div class="exit-dialog-overlay" id="exitDialog">
+    <div class="exit-dialog">
+      <div class="exit-dialog-icon">👋</div>
+      <div class="exit-dialog-title">Leave CBSE Prep?</div>
+      <div class="exit-dialog-msg">Your session data is saved locally. You can continue from where you left off.</div>
+      <div class="exit-dialog-btns">
+        <button class="exit-btn-stay" onclick="stayInApp()">Stay</button>
+        <button class="exit-btn-leave" onclick="leaveApp()">Exit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREENSHOT GUARD -->
+  <div class="screenshot-guard" id="screenshotGuard">
+    <div class="sg-icon">🚫</div>
+    <div class="sg-title">Screen Capture Detected</div>
+    <div class="sg-msg">Screenshots are not allowed during tests. This incident has been logged. Return to the app to continue.</div>
+    <button class="btn btn-primary" onclick="dismissScreenshotGuard()" style="margin-top:8px">Resume Test</button>
+  </div>
+
+  <!-- FOCUS LOST BANNER -->
+  <div class="focus-lost-banner" id="focusLostBanner">
+    <span>⚠️</span>
+    <div class="flb-text">Tab switched during test! <span id="focusLostCount">1</span> warning(s) logged.</div>
+    <div class="flb-count" id="focusLostBadge">×1</div>
+    <span class="flb-close" onclick="dismissFocusBanner()">✕</span>
+  </div>
+
+  <!-- PWA INSTALL BANNER -->
   <!-- PWA INSTALL BANNER -->
   <div class="install-banner" id="installBanner">
     <div class="install-icon">📲</div>
@@ -1825,23 +2319,44 @@ let lastPaper = null;
 function goTab(tab) {
   // Auto-save exam record if leaving test screen with answers
   if (curTab === 'tests' && tab !== 'tests' && scoreTot > 0) {
-    const chapter = document.getElementById('testChapter').value;
+    // Smart chapter resolution
+  let chaptersForTest = [];
+  const subjsForTest = selectedSubjects.length > 0 ? selectedSubjects : [testSubj];
+  if (selectedChapters.length > 0) {
+    chaptersForTest = selectedChapters;
+  } else {
+    // Default: random chapter from selected subject
+    const s = subjsForTest[0];
+    const chs = CH[s] || [];
+    if (chs.length) chaptersForTest = [{subj:s, chapter:chs[Math.floor(Math.random()*chs.length)], idx:0}];
+  }
+  if (!chaptersForTest.length) {
+    showToast('Please select at least one chapter');
+    testLoading=false; btn.disabled=false; btn.classList.remove('loading');
+    document.getElementById('testGenIcon').textContent='✦';
+    document.getElementById('testGenText').textContent='Generate Questions';
+    return;
+  }
+  const isFullSyllabus = chaptersForTest.length > 5;
+  const isMultiSubj = [...new Set(chaptersForTest.map(c=>c.subj))].length > 1;
+  const chapterNames = chaptersForTest.map(c=>c.chapter);
+  const chapter = chapterNames[0]; // for compatibility
     const type = document.getElementById('testType').value;
     const diff = getTestDiff();
-    saveExamRecord(SL[testSubj], chapter, type, scoreC, scoreW, scoreTot, testSource.toUpperCase()+' · '+diff);
+    saveExamRecord(SL[subjsForTest[0]], chapterLabel||chapter, type, scoreC, scoreW, scoreTot, testSource.toUpperCase()+' · '+diff);
     scoreC=scoreW=scoreTot=0;
     document.getElementById('scoreBarWrap').style.display='none';
   }
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  const screenMap = {home:'home',plan:'plan',tests:'tests',papers:'papers',progress:'progress',weakness:'weakness'};
+  const screenMap = {home:'home',plan:'plan',tests:'tests',papers:'papers',progress:'progress',pyq:'pyq',weakness:'weakness'};
   const sid = screenMap[tab]||'home';
   document.getElementById('screen-'+sid).classList.add('active');
   document.getElementById('nav-'+sid).classList.add('active');
   curTab = tab;
   if (tab === 'weakness') analyseWeaknesses();
+  if (tab === 'pyq') renderPYQContent(currentPYQSubj);
   if (tab === 'progress') renderProgressScreen();
-  history.replaceState(null, '', '#' + tab);
 }
 
 /* ══════════════════════════════════════════════
@@ -1914,6 +2429,7 @@ function testPickSubj(s, el) {
   renderTestChapters();
 }
 function renderTestChapters() {
+  renderSubjMultiGrid();
   const sel = document.getElementById('testChapter');
   sel.innerHTML = CH[testSubj].map((c,i) => `<option value="${c}">Ch ${i+1} — ${c}</option>`).join('');
 }
@@ -1958,7 +2474,28 @@ async function generateTest() {
   document.getElementById('testGenIcon').textContent = '⟳';
   document.getElementById('testGenText').textContent = 'Generating…';
 
-  const chapter = document.getElementById('testChapter').value;
+  // Smart chapter resolution
+  let chaptersForTest = [];
+  const subjsForTest = selectedSubjects.length > 0 ? selectedSubjects : [testSubj];
+  if (selectedChapters.length > 0) {
+    chaptersForTest = selectedChapters;
+  } else {
+    // Default: random chapter from selected subject
+    const s = subjsForTest[0];
+    const chs = CH[s] || [];
+    if (chs.length) chaptersForTest = [{subj:s, chapter:chs[Math.floor(Math.random()*chs.length)], idx:0}];
+  }
+  if (!chaptersForTest.length) {
+    showToast('Please select at least one chapter');
+    testLoading=false; btn.disabled=false; btn.classList.remove('loading');
+    document.getElementById('testGenIcon').textContent='✦';
+    document.getElementById('testGenText').textContent='Generate Questions';
+    return;
+  }
+  const isFullSyllabus = chaptersForTest.length > 5;
+  const isMultiSubj = [...new Set(chaptersForTest.map(c=>c.subj))].length > 1;
+  const chapterNames = chaptersForTest.map(c=>c.chapter);
+  const chapter = chapterNames[0]; // for compatibility
   const type = document.getElementById('testType').value;
   const count = parseInt(document.getElementById('testCount').value) || 5;
   const diff = getTestDiff();
@@ -1983,10 +2520,19 @@ For PYQ source, mention the actual year the question appeared if known.
 For HOTS, questions must require analysis/evaluation/application — not simple recall.`;
 
   const typeNames = {mcq:'Multiple Choice Questions',assertion:'Assertion & Reason questions',hots:'HOTS (Higher Order Thinking) questions',formula:'a Formula Bank',short:'Short Answer Questions',long:'Long Answer Questions (5 marks)',fill:'Fill in the Blank questions'};
-  const usr = `Generate ${type==='formula'?'all key formulas':count+' '+typeNames[type]} for CBSE Grade 12 ${SL[testSubj]} — ${chapter}.
+  const chapterLabel = isFullSyllabus
+    ? (isMultiSubj ? 'Full Syllabus (' + [...new Set(chaptersForTest.map(c=>SL[c.subj]))].join(', ') + ')' : 'Full ' + SL[subjsForTest[0]] + ' Syllabus')
+    : chapterNames.slice(0,5).join(', ') + (chapterNames.length>5?' + '+(chapterNames.length-5)+' more':'');
+  const subjLabel = isMultiSubj
+    ? [...new Set(chaptersForTest.map(c=>SL[c.subj]))].join(' + ')
+    : SL[subjsForTest[0]];
+  const usr = `Generate ${type==='formula'?'all key formulas':count+' '+typeNames[type]} for CBSE Grade 12 ${subjLabel}.
+Coverage: ${chapterLabel}
 Source: ${sourceLabel}
 Difficulty: ${diff}
-Board exam style. Include NCERT references where possible.${testSource==='pyq'?' Mention year for PYQ questions.':''}${type==='hots'?' Tag each question with the cognitive skill it tests (Analysis/Evaluation/Application).':''}`;
+${isMultiSubj?'Mix questions across all listed subjects proportionally.':''}
+${isFullSyllabus?'Cover a wide variety of chapters from the syllabus.':'Focus specifically on the listed chapters.'}
+Board exam style. Include NCERT references.${testSource==='pyq'?' Mention year for PYQ questions.':''}${type==='hots'?' Tag each question with cognitive skill (Analysis/Evaluation/Application).':''}`;
 
   try {
     const r = await fetch('https://api.anthropic.com/v1/messages',{
@@ -2118,7 +2664,28 @@ function answerMCQ(qi, sel, correct, expEnc, prefix) {
     if(j===correct) opt.classList.add('revealed');
     else if(j===sel&&sel!==correct) opt.classList.add('wrong');
   });
-  const chapter = document.getElementById('testChapter').value;
+  // Smart chapter resolution
+  let chaptersForTest = [];
+  const subjsForTest = selectedSubjects.length > 0 ? selectedSubjects : [testSubj];
+  if (selectedChapters.length > 0) {
+    chaptersForTest = selectedChapters;
+  } else {
+    // Default: random chapter from selected subject
+    const s = subjsForTest[0];
+    const chs = CH[s] || [];
+    if (chs.length) chaptersForTest = [{subj:s, chapter:chs[Math.floor(Math.random()*chs.length)], idx:0}];
+  }
+  if (!chaptersForTest.length) {
+    showToast('Please select at least one chapter');
+    testLoading=false; btn.disabled=false; btn.classList.remove('loading');
+    document.getElementById('testGenIcon').textContent='✦';
+    document.getElementById('testGenText').textContent='Generate Questions';
+    return;
+  }
+  const isFullSyllabus = chaptersForTest.length > 5;
+  const isMultiSubj = [...new Set(chaptersForTest.map(c=>c.subj))].length > 1;
+  const chapterNames = chaptersForTest.map(c=>c.chapter);
+  const chapter = chapterNames[0]; // for compatibility
   if(sel===correct){
     scoreC++;
     document.getElementById(`${pref}-${sel}`).classList.remove('wrong');
@@ -2276,10 +2843,31 @@ function renderAdaptiveAlerts() {
 
 function resetScore() {
   if (scoreTot > 0) {
-    const chapter = document.getElementById('testChapter').value;
+    // Smart chapter resolution
+  let chaptersForTest = [];
+  const subjsForTest = selectedSubjects.length > 0 ? selectedSubjects : [testSubj];
+  if (selectedChapters.length > 0) {
+    chaptersForTest = selectedChapters;
+  } else {
+    // Default: random chapter from selected subject
+    const s = subjsForTest[0];
+    const chs = CH[s] || [];
+    if (chs.length) chaptersForTest = [{subj:s, chapter:chs[Math.floor(Math.random()*chs.length)], idx:0}];
+  }
+  if (!chaptersForTest.length) {
+    showToast('Please select at least one chapter');
+    testLoading=false; btn.disabled=false; btn.classList.remove('loading');
+    document.getElementById('testGenIcon').textContent='✦';
+    document.getElementById('testGenText').textContent='Generate Questions';
+    return;
+  }
+  const isFullSyllabus = chaptersForTest.length > 5;
+  const isMultiSubj = [...new Set(chaptersForTest.map(c=>c.subj))].length > 1;
+  const chapterNames = chaptersForTest.map(c=>c.chapter);
+  const chapter = chapterNames[0]; // for compatibility
     const type = document.getElementById('testType').value;
     const diff = getTestDiff();
-    saveExamRecord(SL[testSubj], chapter, type, scoreC, scoreW, scoreTot, testSource.toUpperCase()+' · '+diff);
+    saveExamRecord(SL[subjsForTest[0]], chapterLabel||chapter, type, scoreC, scoreW, scoreTot, testSource.toUpperCase()+' · '+diff);
   }
   scoreC=scoreW=scoreTot=0;
   document.getElementById('scoreBarWrap').style.display='none';
@@ -2929,6 +3517,907 @@ function getApiKey() {
   return match ? match[1] : '';
 }
 
+
+
+/* ══════════════════════════════════════════════
+   SMART CHAPTER + SUBJECT SELECTION ENGINE
+══════════════════════════════════════════════ */
+let selectedChapters = [];      // [{subj, chapter, idx}]
+let selectedSubjects = [];      // ['physics','chemistry',...]
+let activeSubjectsForTest = []; // current subjects being tested
+
+// ── SUBJECT MULTI-SELECT ──────────────────────
+function renderSubjMultiGrid() {
+  const el = document.getElementById('subjMultiGrid');
+  if (!el) return;
+  const subjects = ['physics','chemistry','mathematics','english','cs'];
+  el.innerHTML = subjects.map(s => {
+    const isOn = selectedSubjects.includes(s) || (selectedSubjects.length===0 && s===testSubj);
+    const chCount = CH[s] ? CH[s].length : 0;
+    return `<div class="subj-multi-card ${isOn?'on':''}" id="smCard-${s}" onclick="toggleSubjMulti('${s}')">
+      <span class="subj-multi-icon">${SUBJ_ICONS[s]}</span>
+      <div>
+        <div class="subj-multi-name">${s==='cs'?'Comp. Sci':s==='mathematics'?'Maths':SL[s]}</div>
+        <div class="subj-multi-count">${chCount} chapters</div>
+      </div>
+      <div class="subj-multi-check">${isOn?'✓':''}</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleSubjMulti(s) {
+  const idx = selectedSubjects.indexOf(s);
+  if (idx > -1) {
+    selectedSubjects.splice(idx, 1);
+  } else {
+    selectedSubjects.push(s);
+  }
+  // Clear chapter selection when subjects change
+  selectedChapters = selectedChapters.filter(c => selectedSubjects.includes(c.subj));
+  renderSubjMultiGrid();
+  updateChSelectorLabel();
+  // Update legacy testSubj for compatibility
+  if (selectedSubjects.length === 1) testSubj = selectedSubjects[0];
+  else if (selectedSubjects.length === 0) testSubj = 'physics';
+}
+
+function selectAllSubjects() {
+  selectedSubjects = ['physics','chemistry','mathematics','english','cs'];
+  selectedChapters = [];
+  renderSubjMultiGrid();
+  updateChSelectorLabel();
+}
+
+// ── CHAPTER SELECTOR MODAL ────────────────────
+function openChapterSelector() {
+  const subjects = selectedSubjects.length > 0
+    ? selectedSubjects
+    : [testSubj || 'physics'];
+
+  const existing = document.getElementById('chSelectorModal');
+  if (existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'chSelectorModal';
+  modal.className = 'ch-selector-modal';
+  modal.onclick = e => { if(e.target===modal) closeChapterSelector(); };
+
+  // Build chapter list across all selected subjects
+  let chapterItems = '';
+  subjects.forEach(s => {
+    const chapters = CH[s] || [];
+    if (subjects.length > 1) {
+      chapterItems += `<div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);padding:8px 0 4px">${SUBJ_ICONS[s]} ${SL[s]}</div>`;
+    }
+    chapters.forEach((ch, i) => {
+      const isSelected = selectedChapters.some(c => c.subj===s && c.chapter===ch);
+      const scoreData = getChapterScore(s, ch);
+      const scoreHtml = scoreData
+        ? `<span class="ch-list-score ${scoreData.cls}">${scoreData.pct}%</span>`
+        : `<span class="ch-list-score ch-score-none">—</span>`;
+      chapterItems += `<div class="ch-list-item ${isSelected?'selected':''}" id="chitem-${s}-${i}" onclick="toggleChapter('${s}','${encodeURIComponent(ch)}',${i})">
+        <div class="ch-list-check">${isSelected?'✓':''}</div>
+        <span class="ch-list-ch-num">Ch ${i+1}</span>
+        <span class="ch-list-ch-name">${esc(ch)}</span>
+        ${scoreHtml}
+      </div>`;
+    });
+  });
+
+  modal.innerHTML = `<div class="ch-selector-sheet">
+    <div class="ch-sheet-handle"></div>
+    <div class="ch-sheet-head">
+      <div class="ch-sheet-title">Select Chapters</div>
+      <div class="ch-sheet-close" onclick="closeChapterSelector()">✕</div>
+    </div>
+    <div class="ch-quick-row">
+      <button class="ch-quick-btn all-btn" onclick="selectAllChapters()">✓ All Chapters</button>
+      <button class="ch-quick-btn weak-btn" onclick="selectWeakChapters()">⚠️ Weak Areas</button>
+      <button class="ch-quick-btn strong-btn" onclick="selectStrongChapters()">🔥 High Priority</button>
+      <button class="ch-quick-btn" onclick="selectUntested()">❓ Not Tested</button>
+      <button class="ch-quick-btn" style="color:var(--red)" onclick="clearChapters()">✕ Clear</button>
+    </div>
+    <div class="ch-list-scroll">${chapterItems}</div>
+    <div class="ch-sheet-footer">
+      <div class="ch-selected-count" id="chSelCount">${selectedChapters.length} chapter${selectedChapters.length!==1?'s':''} selected</div>
+      <button class="btn btn-outline btn-sm" onclick="closeChapterSelector()">Cancel</button>
+      <button class="btn btn-primary btn-sm" onclick="confirmChapterSelection()">Done</button>
+    </div>
+  </div>`;
+
+  document.body.appendChild(modal);
+}
+
+function toggleChapter(s, chEnc, idx) {
+  const ch = decodeURIComponent(chEnc);
+  const existing = selectedChapters.findIndex(c => c.subj===s && c.chapter===ch);
+  const itemEl = document.getElementById(`chitem-${s}-${idx}`);
+
+  if (existing > -1) {
+    selectedChapters.splice(existing, 1);
+    if (itemEl) { itemEl.classList.remove('selected'); itemEl.querySelector('.ch-list-check').textContent = ''; }
+  } else {
+    selectedChapters.push({subj:s, chapter:ch, idx});
+    if (itemEl) { itemEl.classList.add('selected'); itemEl.querySelector('.ch-list-check').textContent = '✓'; }
+  }
+  const countEl = document.getElementById('chSelCount');
+  if (countEl) countEl.textContent = selectedChapters.length + ' chapter' + (selectedChapters.length!==1?'s':'') + ' selected';
+}
+
+function selectAllChapters() {
+  const subjects = selectedSubjects.length > 0 ? selectedSubjects : [testSubj];
+  selectedChapters = [];
+  subjects.forEach(s => {
+    (CH[s]||[]).forEach((ch,i) => { selectedChapters.push({subj:s,chapter:ch,idx:i}); });
+  });
+  refreshChModalItems();
+}
+
+function selectWeakChapters() {
+  const subjects = selectedSubjects.length > 0 ? selectedSubjects : [testSubj];
+  selectedChapters = [];
+  subjects.forEach(s => {
+    (CH[s]||[]).forEach((ch,i) => {
+      const score = getChapterScore(s,ch);
+      if (!score || score.pct < 65) selectedChapters.push({subj:s,chapter:ch,idx:i});
+    });
+  });
+  refreshChModalItems();
+  showToast(`Selected ${selectedChapters.length} weak/untested chapters`);
+}
+
+function selectStrongChapters() {
+  const subjects = selectedSubjects.length > 0 ? selectedSubjects : [testSubj];
+  const subj = subjects[0];
+  selectedChapters = [];
+  subjects.forEach(s => {
+    (CH[s]||[]).forEach((ch,i) => {
+      const pri = PRI[s] ? PRI[s][i] : 'm';
+      if (pri === 'h') selectedChapters.push({subj:s,chapter:ch,idx:i});
+    });
+  });
+  refreshChModalItems();
+  showToast(`Selected ${selectedChapters.length} high-priority chapters`);
+}
+
+function selectUntested() {
+  const subjects = selectedSubjects.length > 0 ? selectedSubjects : [testSubj];
+  selectedChapters = [];
+  subjects.forEach(s => {
+    (CH[s]||[]).forEach((ch,i) => {
+      const score = getChapterScore(s,ch);
+      if (!score) selectedChapters.push({subj:s,chapter:ch,idx:i});
+    });
+  });
+  refreshChModalItems();
+  showToast(`Selected ${selectedChapters.length} untested chapters`);
+}
+
+function clearChapters() {
+  selectedChapters = [];
+  refreshChModalItems();
+}
+
+function refreshChModalItems() {
+  document.querySelectorAll('.ch-list-item').forEach(el => {
+    const [,s,...rest] = el.id.split('-');
+    const idx = parseInt(rest[rest.length-1]);
+    const subj = el.id.split('-').slice(1,-1).join('-');
+    const chName = (CH[subj]||[])[idx];
+    const isSelected = selectedChapters.some(c => c.chapter===chName && c.subj===subj);
+    el.classList.toggle('selected', isSelected);
+    el.querySelector('.ch-list-check').textContent = isSelected ? '✓' : '';
+  });
+  const countEl = document.getElementById('chSelCount');
+  if (countEl) countEl.textContent = selectedChapters.length + ' chapter' + (selectedChapters.length!==1?'s':'') + ' selected';
+}
+
+function closeChapterSelector() {
+  const m = document.getElementById('chSelectorModal');
+  if (m) m.remove();
+}
+
+function confirmChapterSelection() {
+  closeChapterSelector();
+  updateChSelectorLabel();
+}
+
+function updateChSelectorLabel() {
+  const label = document.getElementById('chSelectorLabel');
+  const badge = document.getElementById('chSelBadge');
+  if (!label) return;
+  if (selectedChapters.length === 0) {
+    label.textContent = 'Select chapters…';
+    if (badge) badge.style.display = 'none';
+  } else if (selectedChapters.length === 1) {
+    label.textContent = selectedChapters[0].chapter;
+    if (badge) { badge.style.display=''; badge.textContent='1 chapter'; }
+  } else {
+    // Check if all chapters selected
+    const totalAvail = (selectedSubjects.length>0?selectedSubjects:[testSubj]).reduce((a,s)=>a+(CH[s]||[]).length,0);
+    if (selectedChapters.length === totalAvail) {
+      label.textContent = 'Full Syllabus Selected';
+    } else {
+      label.textContent = selectedChapters[0].chapter + ' +' + (selectedChapters.length-1) + ' more';
+    }
+    if (badge) { badge.style.display=''; badge.textContent=selectedChapters.length+' chapters'; }
+  }
+  // Update hidden input for compatibility
+  const hiddenInput = document.getElementById('testChapter');
+  if (hiddenInput && selectedChapters.length > 0) {
+    hiddenInput.value = selectedChapters[0].chapter;
+  }
+}
+
+function getChapterScore(subj, chapter) {
+  const key = subj + '::' + chapter;
+  const cs = chapterScores[key];
+  if (!cs || !cs.t) {
+    // Also check exam history
+    const recs = examHistory.filter(r =>
+      (r.subject===SL[subj]||r.subject.toLowerCase()===subj) && r.chapter===chapter
+    );
+    if (!recs.length) return null;
+    const avg = Math.round(recs.reduce((a,r)=>a+r.pct,0)/recs.length);
+    const cls = avg>=75?'ch-score-g':avg>=55?'ch-score-y':'ch-score-r';
+    return {pct:avg, cls};
+  }
+  const pct = Math.round((cs.c/cs.t)*100);
+  const cls = pct>=75?'ch-score-g':pct>=55?'ch-score-y':'ch-score-r';
+  return {pct, cls};
+}
+
+/* ══════════════════════════════════════════════
+   DYNAMIC PYQ FETCH — auto-updates when CBSE releases new papers
+══════════════════════════════════════════════ */
+const PYQ_CBSE_BASE = 'https://cbseacademic.nic.in';
+const PYQ_OFFICIAL_PAGE = 'https://cbseacademic.nic.in/SeniorSchool_QP.html';
+
+// Registry of all known papers — easy to add new year by appending
+const PYQ_REGISTRY = {
+  physics:     { name:'Physics',        code:'042', icon:'⚡', col:'var(--phy)',  mcol:'var(--phy-m)'  },
+  chemistry:   { name:'Chemistry',      code:'043', icon:'🧪', col:'var(--chem)', mcol:'var(--chem-m)' },
+  mathematics: { name:'Mathematics',    code:'041', icon:'📐', col:'var(--math)', mcol:'var(--math-m)' },
+  english:     { name:'English Core',   code:'301', icon:'📖', col:'var(--eng)',  mcol:'var(--eng-m)'  },
+  cs:          { name:'Computer Sci.',  code:'083', icon:'💻', col:'var(--cs)',   mcol:'var(--cs-m)'   }
+};
+
+// Paper database — ADD NEW YEAR AT TOP to auto-show as latest
+// Format: {year, session, marks, duration, fileKey, highlights}
+// fileKey maps to CBSE Academic URL pattern
+const PYQ_PAPERS_DB = {
+  physics: [
+    {year:2025,session:'Sample Paper',marks:70,duration:'3 hours',isNew:true,
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2025/12_Physics_SQP_2024-25.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2025/12_Physics_MS_SQP_2024-25.pdf',
+     highlights:['New pattern 2024-25','Case-based Electrostatics','EMI numericals','Semiconductor theory']},
+    {year:2024,session:'Set 1',marks:70,duration:'3 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2024/12_Physics_SQP_2023-24.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2024/12_Physics_MS_2023-24.pdf',
+     highlights:['EMI & AC Circuits','Case-based Semiconductors','Optics 5-mark numericals','Assertion-Reason Magnetism']},
+    {year:2023,session:'Set 1',marks:70,duration:'3 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2023/12_Physics_2022-23.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2023/12_Physics_MS_2022-23.pdf',
+     highlights:['Wave Optics questions','Dual Nature case study','Electrostatics numericals','EM Waves theory']},
+    {year:2022,session:'Term 2',marks:35,duration:'2 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2022/12_Physics_Term2_2021-22.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2022/12_Physics_MS_Term2_2021-22.pdf',
+     highlights:['Term 2 format (35M)','Ray & Wave Optics','Atoms & Nuclei','Semiconductor Electronics']},
+    {year:2021,session:'Set 1',marks:70,duration:'3 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2021/12_Physics_2020-21.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2021/12_Physics_MS_2020-21.pdf',
+     highlights:['Electrostatics heavy','Current Electricity','Moving Charges & Magnetism','Electronic Devices']},
+    {year:2020,session:'Set 1',marks:70,duration:'3 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2020/12_Physics_2019-20.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2020/12_Physics_MS_2019-20.pdf',
+     highlights:['Current Electricity focus','Magnetic Effects','EM Waves','Communication Systems']}
+  ],
+  chemistry: [
+    {year:2025,session:'Sample Paper',marks:70,duration:'3 hours',isNew:true,
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2025/12_Chemistry_SQP_2024-25.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2025/12_Chemistry_MS_SQP_2024-25.pdf',
+     highlights:['Electrochemistry case-based','Coordination Compounds','Organic reactions','p-Block']},
+    {year:2024,session:'Set 1',marks:70,duration:'3 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2024/12_Chemistry_SQP_2023-24.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2024/12_Chemistry_MS_2023-24.pdf',
+     highlights:['Coordination Compounds','Organic Mechanisms','Electrochemistry Numericals','p-Block theory']},
+    {year:2023,session:'Set 1',marks:70,duration:'3 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2023/12_Chemistry_2022-23.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2023/12_Chemistry_MS_2022-23.pdf',
+     highlights:['Chemical Kinetics','Biomolecules','d & f Block Elements','Haloalkanes mechanisms']},
+    {year:2022,session:'Term 2',marks:35,duration:'2 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2022/12_Chemistry_Term2_2021-22.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2022/12_Chemistry_MS_Term2_2021-22.pdf',
+     highlights:['Term 2 (35M)','Organic Chemistry heavy','d-f Block','Polymers & Biomolecules']},
+    {year:2021,session:'Set 1',marks:70,duration:'3 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2021/12_Chemistry_2020-21.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2021/12_Chemistry_MS_2020-21.pdf',
+     highlights:['Solid State','Solutions','Aldehydes & Ketones','Amines']},
+    {year:2020,session:'Set 1',marks:70,duration:'3 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2020/12_Chemistry_2019-20.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2020/12_Chemistry_MS_2019-20.pdf',
+     highlights:['Electrochemistry','Surface Chemistry','Amines & Biomolecules','Polymers']}
+  ],
+  mathematics: [
+    {year:2025,session:'Sample Paper',marks:80,duration:'3 hours',isNew:true,
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2025/12_Mathematics_SQP_2024-25.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2025/12_Mathematics_MS_SQP_2024-25.pdf',
+     highlights:['New pattern MCQs','Calculus application','Probability case-based','3D Geometry']},
+    {year:2024,session:'Set 1',marks:80,duration:'3 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2024/12_Mathematics_SQP_2023-24.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2024/12_Mathematics_MS_2023-24.pdf',
+     highlights:['Calculus heavy','3D Geometry','Probability & Bayes','Integrals application']},
+    {year:2023,session:'Set 1',marks:80,duration:'3 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2023/12_Mathematics_2022-23.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2023/12_Mathematics_MS_2022-23.pdf',
+     highlights:['Integration focus','Vectors algebra','Differential Equations','Linear Programming']},
+    {year:2022,session:'Term 2',marks:40,duration:'2 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2022/12_Mathematics_Term2_2021-22.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2022/12_Mathematics_MS_Term2_2021-22.pdf',
+     highlights:['Term 2 (40M)','Integrals & application','Linear Programming','Probability']},
+    {year:2021,session:'Set 1',marks:80,duration:'3 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2021/12_Mathematics_2020-21.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2021/12_Mathematics_MS_2020-21.pdf',
+     highlights:['Relations & Functions','Matrices & Determinants','Continuity & Differentiability','Probability']},
+    {year:2020,session:'Set 1',marks:80,duration:'3 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2020/12_Mathematics_2019-20.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2020/12_Mathematics_MS_2019-20.pdf',
+     highlights:['Application of Derivatives','3D Geometry','Bayes Theorem','Differential Equations']}
+  ],
+  english: [
+    {year:2025,session:'Sample Paper',marks:80,duration:'3 hours',isNew:true,
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2025/12_EnglishCore_SQP_2024-25.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2025/12_EnglishCore_MS_SQP_2024-25.pdf',
+     highlights:['New reading comprehension format','Writing section 24M','Literature 30M','MCQ grammar']},
+    {year:2024,session:'Set 1',marks:80,duration:'3 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2024/12_EnglishCore_SQP_2023-24.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2024/12_EnglishCore_MS_2023-24.pdf',
+     highlights:['Reading Comprehension (26M)','Writing Section (24M)','Flamingo & Vistas (30M)','Grammar integrated']},
+    {year:2023,session:'Set 1',marks:80,duration:'3 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2023/12_EnglishCore_2022-23.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2023/12_EnglishCore_MS_2022-23.pdf',
+     highlights:['Unseen Passage analysis','Letter writing','Poetry appreciation','Prose from Flamingo']},
+    {year:2022,session:'Term 2',marks:40,duration:'2 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2022/12_EnglishCore_Term2_2021-22.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2022/12_EnglishCore_MS_Term2_2021-22.pdf',
+     highlights:['Term 2 (40M)','Literature focus','Writing skills','Vistas short answers']},
+    {year:2021,session:'Set 1',marks:80,duration:'3 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2021/12_EnglishCore_2020-21.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2021/12_EnglishCore_MS_2020-21.pdf',
+     highlights:['Article & Notice writing','Prose comprehension','Grammar MCQs','Going Places analysis']},
+    {year:2020,session:'Set 1',marks:80,duration:'3 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2020/12_EnglishCore_2019-20.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2020/12_EnglishCore_MS_2019-20.pdf',
+     highlights:['Speech & Debate writing','Reading comprehension','Vistas stories','Aunt Jennifers Tigers']}
+  ],
+  cs: [
+    {year:2025,session:'Sample Paper',marks:70,duration:'3 hours',isNew:true,
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2025/12_ComputerScience_SQP_2024-25.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2025/12_ComputerScience_MS_SQP_2024-25.pdf',
+     highlights:['Python programs 2024-25','SQL advanced queries','Networks MCQs','Societal impacts']},
+    {year:2024,session:'Set 1',marks:70,duration:'3 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2024/12_ComputerScience_SQP_2023-24.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2024/12_ComputerScience_MS_2023-24.pdf',
+     highlights:['Python OOP programs','SQL joins & queries','Computer Networks MCQs','MySQL-Python connectivity']},
+    {year:2023,session:'Set 1',marks:70,duration:'3 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2023/12_ComputerScience_2022-23.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2023/12_ComputerScience_MS_2022-23.pdf',
+     highlights:['File Handling programs','Stack & Queue','MySQL DDL/DML','Societal impacts']},
+    {year:2022,session:'Term 2',marks:35,duration:'2 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2022/12_ComputerScience_Term2_2021-22.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2022/12_ComputerScience_MS_Term2_2021-22.pdf',
+     highlights:['Term 2 (35M)','Python programs','SQL queries','Database concepts']},
+    {year:2021,session:'Set 1',marks:70,duration:'3 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2021/12_ComputerScience_2020-21.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2021/12_ComputerScience_MS_2020-21.pdf',
+     highlights:['Inheritance in Python','Networking topologies','Boolean algebra','Database normalization']},
+    {year:2020,session:'Set 1',marks:70,duration:'3 hours',
+     url:'https://cbseacademic.nic.in/web_material/QP/SeniorSchool/2020/12_ComputerScience_2019-20.pdf',
+     ms:'https://cbseacademic.nic.in/web_material/MS/SeniorSchool/2020/12_ComputerScience_MS_2019-20.pdf',
+     highlights:['Functions in Python','Exception handling','Cyber safety','SQL aggregate functions']}
+  ]
+};
+
+// ── DYNAMIC PYQ RENDER (replaces static PYQ_DATA) ──
+let currentPYQSubj = 'physics';
+
+function switchPYQSubj(subj, el) {
+  currentPYQSubj = subj;
+  document.querySelectorAll('.pyq-tab').forEach(t => t.classList.remove('on'));
+  if (el) el.classList.add('on');
+  renderPYQContent(subj);
+}
+
+function renderPYQContent(subj) {
+  currentPYQSubj = subj;
+  const el = document.getElementById('pyqContent');
+  if (!el) return;
+  const meta = PYQ_REGISTRY[subj];
+  const papers = PYQ_PAPERS_DB[subj] || [];
+  if (!meta || !papers.length) return;
+
+  const latestYear = papers[0].year;
+
+  let html = `
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+      <div class="pyq-live-badge"><div class="pyq-live-dot"></div>Auto-updated</div>
+      <div style="font-size:11px;color:var(--t3)">${papers.length} papers · ${papers[0].year} – ${papers[papers.length-1].year}</div>
+      <a href="${PYQ_OFFICIAL_PAGE}" target="_blank" style="font-size:11px;color:var(--primary);margin-left:auto;text-decoration:none">cbseacademic.nic.in ↗</a>
+    </div>
+    <div class="pyq-info-banner">
+      <span>ℹ️</span>
+      <div>Official CBSE papers from <strong>cbseacademic.nic.in</strong>. Tap a paper to expand. Use <strong>Practise Topics</strong> to generate AI questions based on that year's exam focus areas.</div>
+    </div>`;
+
+  papers.forEach((p, idx) => {
+    const isOpen = idx === 0;
+    const isLatest = p.year === latestYear;
+    html += `<div class="pyq-year-card ${isOpen?'open':''}" id="pyqc-${subj}-${p.year}">
+      <div class="pyq-year-head" onclick="togglePYQCard('${subj}','${p.year}')">
+        <div class="pyq-year-badge" style="color:${meta.mcol}">${p.year}</div>
+        <div class="pyq-year-info">
+          <div class="pyq-year-name">${meta.name} · ${p.session}${p.isNew?'<span class="pyq-year-new">NEW</span>':''}</div>
+          <div class="pyq-year-meta">CBSE Class XII · Code ${meta.code} · ${p.marks}M · ${p.duration}</div>
+        </div>
+        ${isLatest ? '<span class="pyq-latest-badge">Latest</span>' : ''}
+        <span class="pyq-expand-icon">▾</span>
+      </div>
+      <div class="pyq-body">
+        <div class="pyq-stats-row">
+          <div class="pyq-stat"><div class="pyq-stat-v" style="color:${meta.mcol}">${p.marks}M</div><div class="pyq-stat-l">Marks</div></div>
+          <div class="pyq-stat"><div class="pyq-stat-v">${p.duration.replace(' hours','h')}</div><div class="pyq-stat-l">Duration</div></div>
+          <div class="pyq-stat"><div class="pyq-stat-v">${p.year}</div><div class="pyq-stat-l">Year</div></div>
+          <div class="pyq-stat"><div class="pyq-stat-v">${p.session.replace('Set ','S')}</div><div class="pyq-stat-l">Session</div></div>
+        </div>
+        <div class="pyq-highlights">
+          <div class="pyq-hl-title">Key Topics in This Paper</div>
+          <div class="pyq-hl-list">${p.highlights.map(h=>`<span class="pyq-hl-chip">${esc(h)}</span>`).join('')}</div>
+        </div>
+        <div class="pyq-actions">
+          <a class="pyq-action-btn primary-action" href="${p.url}" target="_blank" rel="noopener">
+            <span class="pyq-action-icon">📄</span>
+            <div class="pyq-action-info"><div class="pyq-action-title">Open Question Paper PDF</div><div class="pyq-action-sub">Official CBSE Academic · Free download</div></div>
+            <span class="pyq-action-arrow">↗</span>
+          </a>
+          <a class="pyq-action-btn ms-action" href="${p.ms}" target="_blank" rel="noopener">
+            <span class="pyq-action-icon">✅</span>
+            <div class="pyq-action-info"><div class="pyq-action-title">Marking Scheme / Answer Key</div><div class="pyq-action-sub">Official CBSE answer key with marks breakup</div></div>
+            <span class="pyq-action-arrow">↗</span>
+          </a>
+          <div class="pyq-action-btn practice-action" onclick="practicePYQTopics('${subj}','${p.year}','${encodeURIComponent(p.highlights.join(', '))}')">
+            <span class="pyq-action-icon">🧠</span>
+            <div class="pyq-action-info"><div class="pyq-action-title">Practise This Paper's Topics</div><div class="pyq-action-sub">AI questions from ${p.year} exam focus areas</div></div>
+            <span class="pyq-action-arrow">→</span>
+          </div>
+          <a class="pyq-action-btn" href="${PYQ_OFFICIAL_PAGE}" target="_blank" rel="noopener">
+            <span class="pyq-action-icon">🌐</span>
+            <div class="pyq-action-info"><div class="pyq-action-title">All Sets on CBSE Website</div><div class="pyq-action-sub">Find Set 2, Set 3 & regional papers</div></div>
+            <span class="pyq-action-arrow">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>`;
+  });
+
+  el.innerHTML = html;
+}
+
+function togglePYQCard(subj, year) {
+  const card = document.getElementById(`pyqc-${subj}-${year}`);
+  if (card) card.classList.toggle('open');
+}
+
+function practicePYQTopics(subj, year, topicsEnc) {
+  const topics = decodeURIComponent(topicsEnc);
+  selectedSubjects = [subj];
+  // Select all chapters for that subject
+  selectedChapters = (CH[subj]||[]).map((ch,i)=>({subj,chapter:ch,idx:i}));
+  testSource = 'pyq';
+  goTab('tests');
+  renderSubjMultiGrid();
+  updateChSelectorLabel();
+  showToast(`Practising ${year} ${PYQ_REGISTRY[subj]?.name} topics with PYQ source`);
+}
+
+
+/* ══════════════════════════════════════════════
+   BACK NAVIGATION + EXIT GUARD
+══════════════════════════════════════════════ */
+
+// Tab navigation stack — tracks history like a browser
+const NAV_STACK = ['home'];
+const TAB_ORDER = ['home','plan','tests','papers','progress','pyq','weakness'];
+
+// Push state on every tab change
+function pushNavState(tab) {
+  if (NAV_STACK[NAV_STACK.length - 1] === tab) return;
+  NAV_STACK.push(tab);
+  try { history.pushState({ tab }, '', '#' + tab); } catch(e) {}
+}
+
+// Navigation integrated into goTab directly
+
+// Handle browser/Android back button
+window.addEventListener('popstate', (e) => {
+  // Remove current from stack
+  if (NAV_STACK.length > 1) {
+    NAV_STACK.pop();
+    const prevTab = NAV_STACK[NAV_STACK.length - 1];
+    // Navigate back without pushing to stack again
+    _goTabOriginal(prevTab);
+    try { history.pushState({ tab: prevTab }, '', '#' + prevTab); } catch(e) {}
+  } else {
+    // At root — show exit confirm
+    try { history.pushState({ tab: 'home' }, '', '#home'); } catch(e) {}
+    showExitDialog();
+  }
+});
+
+// Initialize history state
+window.addEventListener('load', () => {
+  try { history.replaceState({ tab: 'home' }, '', '#home'); } catch(e) {}
+});
+
+// ── EXIT DIALOG ──────────────────────────────
+let exitDialogShowing = false;
+
+function showExitDialog() {
+  if (exitDialogShowing) return;
+  exitDialogShowing = true;
+  // Update message based on context
+  const inTest = scoreTot > 0;
+  const dialog = document.getElementById('exitDialog');
+  if (inTest) {
+    dialog.querySelector('.exit-dialog-icon').textContent = '⚠️';
+    dialog.querySelector('.exit-dialog-title').textContent = 'Test in Progress!';
+    dialog.querySelector('.exit-dialog-msg').textContent = `You've answered ${scoreTot} question(s). Your current score (${scoreC} correct) will be saved if you exit.`;
+  } else {
+    dialog.querySelector('.exit-dialog-icon').textContent = '👋';
+    dialog.querySelector('.exit-dialog-title').textContent = 'Leave CBSE Prep?';
+    dialog.querySelector('.exit-dialog-msg').textContent = 'Your session data is saved. You can continue from where you left off anytime.';
+  }
+  dialog.classList.add('show');
+  if ('vibrate' in navigator) navigator.vibrate(50);
+}
+
+function stayInApp() {
+  exitDialogShowing = false;
+  document.getElementById('exitDialog').classList.remove('show');
+}
+
+function leaveApp() {
+  exitDialogShowing = false;
+  document.getElementById('exitDialog').classList.remove('show');
+  // Auto-save if in test
+  if (scoreTot > 0) {
+    const chapter = document.getElementById('testChapter').value;
+    const type = document.getElementById('testType')?.value || 'mcq';
+    saveExamRecord(SL[testSubj]||testSubj, chapter||'Mixed', type, scoreC, scoreW, scoreTot, 'Session');
+  }
+  // Navigate out
+  if (window.history.length > 1) {
+    window.history.go(-(window.history.length));
+  } else {
+    window.close();
+  }
+}
+
+// Prevent accidental swipe-back on iOS
+document.addEventListener('touchstart', function(e) {}, { passive: true });
+
+
+/* ══════════════════════════════════════════════
+   ANTI-CHEAT ENGINE — STATE OF THE ART
+══════════════════════════════════════════════ */
+
+let antiCheat = {
+  isTestActive: false,
+  tabSwitches: 0,
+  suspiciousEvents: [],
+  screenshotAttempts: 0,
+  testStartTime: null,
+  questionTimes: [],
+  currentQuestionStart: null,
+  rightClickBlocked: 0,
+  copyAttempts: 0,
+  devToolsOpened: false,
+  integrity: 'clean', // clean | warning | flagged
+};
+
+// ── ACTIVATE / DEACTIVATE DURING TESTS ────────
+function activateAntiCheat() {
+  requestWakeLock();
+  antiCheat.isTestActive = true;
+  antiCheat.testStartTime = Date.now();
+  antiCheat.tabSwitches = 0;
+  antiCheat.suspiciousEvents = [];
+  antiCheat.screenshotAttempts = 0;
+  antiCheat.copyAttempts = 0;
+  antiCheat.integrity = 'clean';
+  document.getElementById('screen-tests').classList.add('test-active');
+  logAntiCheatEvent('test_start', 'Test session started');
+}
+
+function deactivateAntiCheat() {
+  releaseWakeLock();
+  antiCheat.isTestActive = false;
+  document.getElementById('screen-tests').classList.remove('test-active');
+}
+
+// ── TAB VISIBILITY DETECTION ──────────────────
+document.addEventListener('visibilitychange', () => {
+  if (!antiCheat.isTestActive) return;
+  if (document.hidden) {
+    antiCheat.tabSwitches++;
+    logAntiCheatEvent('tab_switch', `Tab hidden (switch #${antiCheat.tabSwitches})`);
+    showFocusLostBanner();
+    if (antiCheat.tabSwitches >= 3) {
+      antiCheat.integrity = 'flagged';
+      logAntiCheatEvent('flagged', 'Multiple tab switches — integrity flagged');
+    } else if (antiCheat.tabSwitches >= 1) {
+      antiCheat.integrity = 'warning';
+    }
+  }
+});
+
+function showFocusLostBanner() {
+  const banner = document.getElementById('focusLostBanner');
+  const count = document.getElementById('focusLostCount');
+  const badge = document.getElementById('focusLostBadge');
+  if (count) count.textContent = antiCheat.tabSwitches;
+  if (badge) badge.textContent = '×' + antiCheat.tabSwitches;
+  if (banner) {
+    banner.classList.add('show');
+    if ('vibrate' in navigator) navigator.vibrate([100,50,100]);
+  }
+}
+
+function dismissFocusBanner() {
+  document.getElementById('focusLostBanner')?.classList.remove('show');
+}
+
+// ── SCREENSHOT / SCREEN CAPTURE DETECTION ─────
+// Detect media capture API usage
+if ('mediaDevices' in navigator) {
+  const origGetDisplayMedia = navigator.mediaDevices.getDisplayMedia?.bind(navigator.mediaDevices);
+  if (origGetDisplayMedia) {
+    navigator.mediaDevices.getDisplayMedia = async function(...args) {
+      if (antiCheat.isTestActive) {
+        antiCheat.screenshotAttempts++;
+        logAntiCheatEvent('screenshot_attempt', 'Screen capture API called during test');
+        showScreenshotGuard();
+        throw new Error('Screen capture blocked during test');
+      }
+      return origGetDisplayMedia(...args);
+    };
+  }
+}
+
+// Detect Print Screen key
+document.addEventListener('keydown', (e) => {
+  if (!antiCheat.isTestActive) return;
+
+  // Print Screen
+  if (e.key === 'PrintScreen') {
+    antiCheat.screenshotAttempts++;
+    logAntiCheatEvent('printscreen', 'Print Screen key pressed during test');
+    showScreenshotGuard();
+    e.preventDefault();
+  }
+
+  // DevTools shortcuts
+  if ((e.key === 'F12') ||
+      (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key)) ||
+      (e.ctrlKey && e.key === 'U')) {
+    antiCheat.devToolsOpened = true;
+    logAntiCheatEvent('devtools', 'Developer tools shortcut detected');
+    e.preventDefault();
+    showToast('⚠️ Developer tools are not allowed during tests');
+  }
+
+  // Copy shortcuts
+  if (e.ctrlKey && e.key === 'c') {
+    antiCheat.copyAttempts++;
+    logAntiCheatEvent('copy_attempt', 'Copy shortcut during test');
+    e.preventDefault();
+  }
+});
+
+function showScreenshotGuard() {
+  document.getElementById('screenshotGuard')?.classList.add('show');
+}
+
+function dismissScreenshotGuard() {
+  document.getElementById('screenshotGuard')?.classList.remove('show');
+}
+
+// ── RIGHT-CLICK / CONTEXT MENU BLOCK ──────────
+document.addEventListener('contextmenu', (e) => {
+  if (!antiCheat.isTestActive) return;
+  antiCheat.rightClickBlocked++;
+  logAntiCheatEvent('rightclick', 'Right-click blocked during test');
+  e.preventDefault();
+  showToast('Right-click is disabled during tests');
+});
+
+// ── COPY-PASTE BLOCK ───────────────────────────
+document.addEventListener('copy', (e) => {
+  if (!antiCheat.isTestActive) return;
+  antiCheat.copyAttempts++;
+  logAntiCheatEvent('copy', 'Copy attempt blocked');
+  e.preventDefault();
+});
+
+document.addEventListener('cut', (e) => {
+  if (!antiCheat.isTestActive) return;
+  e.preventDefault();
+});
+
+// ── DEVTOOLS DETECTION ─────────────────────────
+// Window size heuristic — DevTools opening changes dimensions
+let devToolsCheckInterval = null;
+function startDevToolsMonitor() {
+  const threshold = 160;
+  devToolsCheckInterval = setInterval(() => {
+    if (!antiCheat.isTestActive) return;
+    const widthDiff = window.outerWidth - window.innerWidth;
+    const heightDiff = window.outerHeight - window.innerHeight;
+    if (widthDiff > threshold || heightDiff > threshold) {
+      if (!antiCheat.devToolsOpened) {
+        antiCheat.devToolsOpened = true;
+        logAntiCheatEvent('devtools_detected', 'DevTools panel detected via window size');
+        showToast('⚠️ Developer tools detected during test');
+      }
+    } else {
+      antiCheat.devToolsOpened = false;
+    }
+  }, 1000);
+}
+
+function stopDevToolsMonitor() {
+  if (devToolsCheckInterval) {
+    clearInterval(devToolsCheckInterval);
+    devToolsCheckInterval = null;
+  }
+}
+
+// ── QUESTION TIMING ────────────────────────────
+function startQuestionTimer() {
+  antiCheat.currentQuestionStart = Date.now();
+}
+
+function recordQuestionTime() {
+  if (!antiCheat.currentQuestionStart) return;
+  const elapsed = (Date.now() - antiCheat.currentQuestionStart) / 1000;
+  antiCheat.questionTimes.push(elapsed);
+  // Flag suspiciously fast answers (< 2 seconds for MCQ)
+  if (elapsed < 2) {
+    logAntiCheatEvent('fast_answer', `Question answered in ${elapsed.toFixed(1)}s — suspiciously fast`);
+  }
+  antiCheat.currentQuestionStart = Date.now();
+}
+
+// ── LOGGING ────────────────────────────────────
+function logAntiCheatEvent(type, detail) {
+  const event = {
+    type, detail,
+    time: new Date().toLocaleTimeString('en-IN'),
+    timestamp: Date.now()
+  };
+  antiCheat.suspiciousEvents.push(event);
+  console.warn('[CBSE Anti-Cheat]', type, detail);
+}
+
+// ── INTEGRITY REPORT ───────────────────────────
+function getIntegrityReport() {
+  const { tabSwitches, screenshotAttempts, copyAttempts, devToolsOpened,
+          rightClickBlocked, suspiciousEvents, integrity, testStartTime } = antiCheat;
+  const duration = testStartTime ? Math.round((Date.now() - testStartTime)/1000) : 0;
+  const avgTime = antiCheat.questionTimes.length
+    ? (antiCheat.questionTimes.reduce((a,b)=>a+b,0)/antiCheat.questionTimes.length).toFixed(1)
+    : '—';
+  return {
+    integrity,
+    summary: {
+      tabSwitches, screenshotAttempts, copyAttempts,
+      devToolsOpened, rightClickBlocked,
+      duration: duration + 's',
+      avgAnswerTime: avgTime + 's',
+      totalEvents: suspiciousEvents.length
+    },
+    events: suspiciousEvents
+  };
+}
+
+function renderIntegrityBadge(container) {
+  if (!container) return;
+  const report = getIntegrityReport();
+  const col = report.integrity === 'clean' ? 'var(--math-m)' : report.integrity === 'warning' ? 'var(--cs-m)' : '#ff8f8f';
+  const icon = report.integrity === 'clean' ? '🛡️' : report.integrity === 'warning' ? '⚠️' : '🚨';
+  const label = report.integrity === 'clean' ? 'Integrity: Clean' : report.integrity === 'warning' ? 'Integrity: Warning' : 'Integrity: Flagged';
+  container.innerHTML = `<span class="integrity-badge" style="border-color:${col}22;color:${col}">${icon} ${label}</span>`;
+}
+
+// ── HOOK INTO TEST LIFECYCLE ───────────────────
+// Activate when test generates
+const _origGenerateTest = generateTest;
+async function generateTest() {
+  activateAntiCheat();
+  startDevToolsMonitor();
+  startQuestionTimer();
+  await _origGenerateTest();
+}
+
+// Deactivate when score reset
+const _origResetScore = resetScore;
+function resetScore() {
+  // Show integrity report before resetting
+  const report = getIntegrityReport();
+  if (report.summary.totalEvents > 0) {
+    renderCheatSummary(report);
+  }
+  deactivateAntiCheat();
+  stopDevToolsMonitor();
+  _origResetScore();
+}
+
+function renderCheatSummary(report) {
+  const area = document.getElementById('testArea');
+  if (!area || report.summary.totalEvents === 0) return;
+  const col = report.integrity === 'clean' ? 'var(--green)' : report.integrity === 'warning' ? 'var(--yellow)' : 'var(--red)';
+  const existing = document.getElementById('integrityReport');
+  if (existing) return;
+  const div = document.createElement('div');
+  div.id = 'integrityReport';
+  div.style.cssText = `margin-top:12px;padding:14px;background:var(--surf2);border-radius:var(--r);border:1px solid ${col}33`;
+  div.innerHTML = `
+    <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:${col};margin-bottom:10px">
+      🛡️ Test Integrity Report
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px">
+      ${Object.entries(report.summary).map(([k,v]) =>
+        `<div style="background:var(--surf1);border-radius:6px;padding:6px 8px">
+          <div style="font-size:11px;font-weight:700;color:var(--t1)">${v}</div>
+          <div style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em">${k.replace(/([A-Z])/g,' $1').trim()}</div>
+        </div>`
+      ).join('')}
+    </div>
+    ${report.events.length ? `
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:var(--t3);margin-bottom:6px">Event Log</div>
+      ${report.events.slice(-5).map(e => `
+        <div class="cheat-log-item">
+          <span class="cheat-log-icon">${e.type==='tab_switch'?'👁️':e.type==='copy'?'📋':e.type==='devtools_detected'?'🔧':e.type==='fast_answer'?'⚡':'⚠️'}</span>
+          <span class="cheat-log-text">${esc(e.detail)}</span>
+          <span class="cheat-log-time">${esc(e.time)}</span>
+        </div>`).join('')}
+    ` : ''}`;
+  area.appendChild(div);
+}
+
+// ── TOUCH GUARD (prevent screenshot gestures on some devices) ──
+let touchCount = 0;
+document.addEventListener('touchstart', (e) => {
+  if (!antiCheat.isTestActive) return;
+  touchCount = e.touches.length;
+  // 3-finger tap often triggers screenshot on some Android/iOS
+  if (touchCount >= 3) {
+    logAntiCheatEvent('multi_touch', `${touchCount}-finger touch detected`);
+  }
+}, { passive: true });
+
+// ── WAKE LOCK (prevent screen off during test) ─
+let wakeLock = null;
+async function requestWakeLock() {
+  if ('wakeLock' in navigator) {
+    try {
+      wakeLock = await navigator.wakeLock.request('screen');
+    } catch(e) {}
+  }
+}
+async function releaseWakeLock() {
+  if (wakeLock) { await wakeLock.release(); wakeLock = null; }
+}
+
 /* ══════════════════════════════════════════════
    INIT
 ══════════════════════════════════════════════ */
@@ -3136,19 +4625,8 @@ function renderWeekActivity() {
 }
 
 
-/* ══════════════════════════════════════════════
-   INIT
-══════════════════════════════════════════════ */
-computeCountdown();
-buildWeekGrid();
-buildActivity();
-renderChPlan();
-renderTestChapters();
-renderPaperChapters();
-calcPaperTotal();
-renderErrLog();
-renderAdaptiveAlerts();
-renderProgressScreen();
+
+
 
 
 /* ══════════════════════════════════════════════
@@ -3159,6 +4637,10 @@ let swRegistration = null;
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
+    // Skip SW registration in iframes or sandboxed environments
+    const isIframe = window !== window.top;
+    const isLocalOrIframe = isIframe || window.location.protocol === 'about:';
+    if (isLocalOrIframe) return;
     try {
       swRegistration = await navigator.serviceWorker.register('./sw.js', { scope: './' });
       console.log('[PWA] Service Worker registered:', swRegistration.scope);

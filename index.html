@@ -1004,6 +1004,75 @@ textarea { resize: none; }
 @keyframes fadeIn    { from{opacity:0} to{opacity:1} }
 .anim-up  { animation: slideUp .3s ease both; }
 .anim-fade{ animation: fadeIn .4s ease both; }
+
+/* ═══════════════════════════════════════════
+   EXAM SELECTOR
+═══════════════════════════════════════════ */
+.exam-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.5);
+  z-index: 600; display: flex; align-items: flex-end;
+}
+.exam-sheet {
+  background: var(--paper); border-radius: 20px 20px 0 0;
+  width: 100%; max-height: 88vh; display: flex; flex-direction: column;
+}
+.exam-sheet-handle { width: 36px; height: 3px; background: var(--border-2); border-radius: 2px; margin: 12px auto 0; }
+.exam-sheet-head { padding: 14px 18px 12px; border-bottom: 1px solid var(--border); }
+.exam-sheet-title { font-size: 17px; font-weight: 800; color: var(--ink); letter-spacing: -.4px; }
+.exam-sheet-sub { font-size: 11px; color: var(--ink-4); margin-top: 2px; }
+.exam-list { overflow-y: auto; padding: 10px 14px 24px; display: flex; flex-direction: column; gap: 8px; }
+.exam-card {
+  border: 1.5px solid var(--border); border-radius: var(--rl);
+  padding: 14px; cursor: pointer; transition: all .15s;
+  display: flex; gap: 12px; align-items: flex-start;
+  background: var(--paper-1);
+}
+.exam-card:active { transform: scale(.98); }
+.exam-card.active { border-width: 2px; }
+.exam-icon-wrap {
+  width: 42px; height: 42px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.exam-info { flex: 1; min-width: 0; }
+.exam-card-name { font-size: 14px; font-weight: 700; color: var(--ink); letter-spacing: -.3px; }
+.exam-card-desc { font-size: 11px; color: var(--ink-4); margin-top: 2px; line-height: 1.5; }
+.exam-meta-row { display: flex; gap: 8px; margin-top: 7px; flex-wrap: wrap; }
+.exam-meta-chip { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 100px; background: var(--paper-2); color: var(--ink-4); border: 0.5px solid var(--border-2); }
+.exam-check { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--border-2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; transition: all .2s; }
+.exam-card.active .exam-check { background: var(--ink); border-color: var(--ink); color: var(--paper); font-size: 11px; font-weight: 800; }
+
+/* Exam mode pill in topbar */
+.exam-mode-pill {
+  display: flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 100px;
+  border: 1px solid var(--border-2); background: var(--paper-1);
+  cursor: pointer; transition: background .15s; flex-shrink: 0;
+}
+.exam-mode-pill:active { background: var(--paper-2); }
+.exam-pill-icon { font-size: 12px; }
+.exam-pill-name { font-size: 10px; font-weight: 700; color: var(--ink); letter-spacing: .02em; }
+.exam-pill-arrow { font-size: 9px; color: var(--ink-4); }
+
+/* Pattern info card */
+.pattern-card {
+  background: var(--paper-1); border: 1px solid var(--border);
+  border-radius: var(--rl); padding: 14px; margin-bottom: 10px;
+}
+.pattern-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.pattern-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.pattern-name { font-size: 14px; font-weight: 700; color: var(--ink); }
+.pattern-date { font-size: 10px; color: var(--ink-4); margin-top: 1px; }
+.pattern-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 12px; }
+.p-stat { background: var(--paper-2); border-radius: 8px; padding: 8px; text-align: center; }
+.p-stat-v { font-family: "JetBrains Mono", monospace; font-size: 14px; font-weight: 600; color: var(--ink); }
+.p-stat-l { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-4); margin-top: 2px; }
+.pattern-sections { display: flex; flex-direction: column; gap: 4px; }
+.p-section-row { display: flex; gap: 8px; align-items: center; font-size: 12px; color: var(--ink-2); }
+.p-section-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-3); flex-shrink: 0; }
+.exam-tips { padding: 10px 14px; background: var(--paper); border-top: 1px solid var(--border); }
+.tip-item { display: flex; gap: 6px; font-size: 11px; color: var(--ink-3); margin-bottom: 5px; line-height: 1.5; }
+.tip-item:last-child { margin-bottom: 0; }
 </style>
 
 <body>
@@ -1013,9 +1082,18 @@ textarea { resize: none; }
   ════════════════════════════════════ -->
   <div class="onboard-overlay" id="onboardOverlay" style="display:none">
 
+    <!-- Screen 0: Exam selection -->
+    <div class="onboard-screen active" id="ob0">
+      <div class="ob-step">Welcome to CBSE Prep AI</div>
+      <div class="ob-title">Which exam are you preparing for?</div>
+      <div class="ob-sub">We'll personalise everything — questions, papers and study plan.</div>
+      <div id="obExamList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px"></div>
+      <button class="ob-cta" id="obCta0" onclick="goOnboard(1)" disabled>Continue →</button>
+    </div>
+
     <!-- Screen 1: Name -->
-    <div class="onboard-screen active" id="ob1">
-      <div class="ob-step">Step 1 of 3</div>
+    <div class="onboard-screen" id="ob1">
+      <div class="ob-step">Step 2 of 4</div>
       <div class="ob-title">What's your name?</div>
       <div class="ob-sub">We'll personalise your prep journey just for you.</div>
       <input class="ob-input" id="obName" placeholder="Enter your name" maxlength="30" oninput="obNameCheck()">
@@ -1055,7 +1133,8 @@ textarea { resize: none; }
 
     <!-- Progress dots -->
     <div class="ob-progress">
-      <div class="ob-prog-dot done" id="obDot1"></div>
+      <div class="ob-prog-dot done" id="obDot0"></div>
+      <div class="ob-prog-dot" id="obDot1"></div>
       <div class="ob-prog-dot" id="obDot2"></div>
       <div class="ob-prog-dot" id="obDot3"></div>
     </div>
@@ -1091,6 +1170,18 @@ textarea { resize: none; }
     <span class="flb-close" onclick="dismissFocusBanner()">✕</span>
   </div>
 
+  <!-- EXAM SELECTOR SHEET -->
+  <div id="examSelector" style="display:none" class="exam-overlay" onclick="if(event.target===this)closeExamSelector()">
+    <div class="exam-sheet">
+      <div class="exam-sheet-handle"></div>
+      <div class="exam-sheet-head">
+        <div class="exam-sheet-title">Choose Your Exam</div>
+        <div class="exam-sheet-sub">Questions, papers and study plan adapt to your target exam</div>
+      </div>
+      <div class="exam-list" id="examListContent"></div>
+    </div>
+  </div>
+
   <!-- PWA INSTALL BANNER -->
   <div class="install-banner" id="installBanner">
     <div class="install-icon">📲</div>
@@ -1114,7 +1205,11 @@ textarea { resize: none; }
         <div class="tb-sub" id="tbSub">Grade 12 · Science · 2026–27</div>
       </div>
       <div class="tb-actions">
-        <div class="tb-btn" onclick="openNotif()">🔔</div>
+        <div class="exam-mode-pill" id="examModePill" onclick="openExamSelector()">
+          <span class="exam-pill-icon" id="examPillIcon">📚</span>
+          <span class="exam-pill-name" id="examPillName">CBSE 12</span>
+          <span class="exam-pill-arrow">▾</span>
+        </div>
         <div class="tb-btn" onclick="openSettings()">⚙️</div>
       </div>
     </div>
@@ -1178,6 +1273,9 @@ textarea { resize: none; }
           <div class="sbar-row"><span class="sbar-icon">💻</span><span class="sbar-name">CS</span><div class="sbar-track"><div class="sbar-fill" style="width:0%;background:var(--cs)"></div></div><span class="sbar-pct mono">—%</span></div>
         </div>
       </div>
+
+      <!-- Zone 2b: Exam Pattern Card -->
+      <div id="examPatternCard" style="padding:10px 16px 0"></div>
 
       <!-- Zone 3: Smart Focus CTA -->
       <div class="focus-cta" id="focusCTA" onclick="startFocusSession()">
@@ -1872,10 +1970,179 @@ let examHistory = JSON.parse(localStorage.getItem('cbse12_examhistory') || '[]')
 let historyFilter = 'all';
 
 
+
+const EXAMS = {
+  cbse12:   {id:'cbse12',  name:'CBSE Class 12',      shortName:'CBSE 12',  icon:'📚',color:'#2563eb',colorL:'#dbeafe',examDate:'March 2027',   totalMarks:500,duration:'3h per paper',  description:'Board exams — Class 12 Science stream',          subjects:['physics','chemistry','mathematics','english','cs'],pattern:{sections:['MCQ (1M)','Assertion-Reason','VSA (2M)','SA (3M)','LA (5M)','Case-based (4M)'],totalQs:35, negMarking:false},             tips:['Focus on NCERT thoroughly','Practice previous year papers','No negative marking — attempt all']},
+  jee_main: {id:'jee_main',name:'JEE Main',            shortName:'JEE Main', icon:'⚡', color:'#dc2626',colorL:'#fee2e2',examDate:'Jan/Apr 2027', totalMarks:300,duration:'3 hours',       description:'NITs, IIITs, GFTIs admission',                   subjects:['physics','chemistry','mathematics'],               pattern:{sections:['MCQ +4/-1 (20 each)','Integer +4/0 (5 each)','Numerical +4/0 (5 each)'],totalQs:90,negMarking:true,negValue:1}, tips:['Skip doubtful MCQs — negative marking','Integer type has no negative marking','Speed and accuracy both critical']},
+  jee_adv:  {id:'jee_adv', name:'JEE Advanced',        shortName:'JEE Adv',  icon:'🔬',color:'#7c3aed',colorL:'#ede9fe',examDate:'May 2027',      totalMarks:360,duration:'3h x 2 papers',description:'IIT admission — hardest engineering entrance',    subjects:['physics','chemistry','mathematics'],               pattern:{sections:['Single correct','Multiple correct','Integer','Matching','Para-based'],totalQs:54,negMarking:true,negValue:2},    tips:['Multiple correct are tricky — partial marking','Deep conceptual understanding essential','Practise IIT JEE archives 2010-2024']},
+  neet:     {id:'neet',    name:'NEET UG',              shortName:'NEET',     icon:'🏥',color:'#059669',colorL:'#d1fae5',examDate:'May 2027',      totalMarks:720,duration:'3h 20 min',    description:'MBBS and BDS — national medical entrance',       subjects:['physics','chemistry','biology'],                   pattern:{sections:['Section A: 35 MCQ +4/-1','Section B: 15 MCQ attempt 10 +4/-1'],totalQs:200,negMarking:true,negValue:1},     tips:['Biology is 50% of paper — master first','NCERT Biology word-to-word essential','Physics and Chemistry at JEE Main level']},
+  mht_cet:  {id:'mht_cet', name:'MHT-CET',              shortName:'MHT-CET',  icon:'🎯',color:'#d97706',colorL:'#fef3c7',examDate:'Apr-May 2027', totalMarks:200,duration:'3 hours',       description:'Maharashtra engineering and pharmacy entrance',  subjects:['physics','chemistry','mathematics'],               pattern:{sections:['PCM Paper: MCQ +2/0','PCB Paper: MCQ +2/0'],totalQs:150,negMarking:false},                                   tips:['No negative marking — attempt all','Maharashtra HSC differs from CBSE','Class 11 syllabus also tested (20%)']},
+  cuet:     {id:'cuet',    name:'CUET UG',               shortName:'CUET',     icon:'🏛',color:'#0891b2',colorL:'#cffafe',examDate:'May-Jun 2027', totalMarks:800,duration:'45 min/subject',description:'200+ Central Universities admission',            subjects:['physics','chemistry','mathematics','english','cs'],pattern:{sections:['Domain: 50 MCQ attempt 40 +5/-1','General Test: 75 MCQ attempt 60'],totalQs:50,negMarking:true,negValue:1}, tips:['Select subjects per target university','CUET follows NCERT Class 12 closely','General Test: Reasoning + GK + English']},
+  bitsat:   {id:'bitsat',  name:'BITSAT',                shortName:'BITSAT',   icon:'💡',color:'#ea580c',colorL:'#ffedd5',examDate:'May-Jun 2027', totalMarks:450,duration:'3 hours',       description:'BITS Pilani, Goa, Hyderabad admission',          subjects:['physics','chemistry','mathematics','english'],     pattern:{sections:['Physics 30','Chemistry 30','Mathematics 40','English 25','Reasoning 30'],totalQs:155,negMarking:true,negValue:1},tips:['Online exam — practise on computer','English and reasoning are scoring','Bonus 12 Qs if you finish early']},
+  iiser:    {id:'iiser',   name:'IISER Aptitude Test',  shortName:'IISER IAT',icon:'🔭',color:'#6d28d9',colorL:'#f5f3ff',examDate:'Jun 2027',     totalMarks:240,duration:'3 hours',       description:'IISER integrated BS-MS in sciences',            subjects:['physics','chemistry','mathematics','biology'],    pattern:{sections:['Biology 15 MCQ +4/-1','Chemistry 15 MCQ +4/-1','Maths 15 MCQ +4/-1','Physics 15 MCQ +4/-1'],totalQs:60,negMarking:true,negValue:1},tips:['All 4 subjects compulsory','Strong NCERT base sufficient','Equal weightage to all subjects']},
+};
+
+const CH_BIOLOGY = ['The Living World','Biological Classification','Plant Kingdom','Animal Kingdom','Morphology of Flowering Plants','Anatomy of Flowering Plants','Structural Organisation in Animals','Cell: The Unit of Life','Biomolecules','Cell Cycle and Cell Division','Transport in Plants','Mineral Nutrition','Photosynthesis in Higher Plants','Respiration in Plants','Plant Growth and Development','Digestion and Absorption','Breathing and Exchange of Gases','Body Fluids and Circulation','Excretory Products','Locomotion and Movement','Neural Control and Coordination','Chemical Coordination and Integration','Reproduction in Organisms','Sexual Reproduction in Flowering Plants','Human Reproduction','Reproductive Health','Principles of Inheritance and Variation','Molecular Basis of Inheritance','Evolution','Human Health and Disease','Microbes in Human Welfare','Biotechnology Principles and Processes','Biotechnology and its Applications','Organisms and Populations','Ecosystem','Biodiversity and Conservation','Environmental Issues'];
+
+let currentExam = localStorage.getItem('cbse12_exam') || 'cbse12';
+function getExam() { return EXAMS[currentExam] || EXAMS.cbse12; }
+
+function setExam(id) {
+  currentExam = id;
+  localStorage.setItem('cbse12_exam', id);
+  applyExamMode(id);
+}
+
+function applyExamMode(examId) {
+  const exam = EXAMS[examId];
+  if (!exam) return;
+  if (exam.subjects.includes('biology') && !CH['biology']) {
+    CH['biology'] = CH_BIOLOGY;
+    SL['biology'] = 'Biology'; SC['biology'] = '044';
+    SUBJ_ICONS['biology'] = '🧬'; SUBJ_COLS['biology'] = 'var(--math)'; SUBJ_MCOLS['biology'] = 'var(--math-m)';
+  }
+  const tbSub = document.getElementById('tbSub');
+  if (tbSub) tbSub.textContent = exam.shortName + ' · ' + exam.examDate;
+  const examDateLbl = document.getElementById('examDateLbl');
+  if (examDateLbl) examDateLbl.textContent = exam.examDate;
+  updateExamPill();
+}
+
+function openExamSelector() {
+  const el = document.getElementById('examSelector');
+  if (!el) return;
+  el.style.display = 'flex';
+  renderExamListHTML('examListContent', true);
+}
+function closeExamSelector() {
+  const el = document.getElementById('examSelector');
+  if (el) el.style.display = 'none';
+}
+
+function examCardHTML(exam, withClose) {
+  const isActive = currentExam === exam.id;
+  const neg = exam.pattern.negMarking ? ('-' + exam.pattern.negValue + ' wrong') : 'No negative';
+  const activeStyle = isActive ? `border-color:${exam.color};background:${exam.colorL}` : '';
+  const nameStyle   = isActive ? `color:${exam.color}` : '';
+  return `<div class="exam-card ${isActive ? 'active' : ''}" style="${activeStyle}"
+    data-examid="${exam.id}" data-withclose="${withClose}" onclick="selectExamItem(this)">
+    <div class="exam-icon-wrap" style="background:${exam.colorL}"><span style="font-size:20px">${exam.icon}</span></div>
+    <div class="exam-info">
+      <div class="exam-card-name" style="${nameStyle}">${esc(exam.name)}</div>
+      <div class="exam-card-desc">${esc(exam.description)}</div>
+      <div class="exam-meta-row">
+        <span class="exam-meta-chip">${esc(exam.examDate)}</span>
+        <span class="exam-meta-chip">${exam.pattern.totalQs} Qs</span>
+        <span class="exam-meta-chip">${exam.totalMarks}M</span>
+        <span class="exam-meta-chip">${esc(neg)}</span>
+      </div>
+    </div>
+    <div class="exam-check">${isActive ? '&#10003;' : ''}</div>
+  </div>`;
+}
+
+function renderExamListHTML(containerId, withClose) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  el.innerHTML = Object.values(EXAMS).map(e => examCardHTML(e, withClose)).join('');
+}
+
+function selectExamItem(el) {
+  const examId    = el.getAttribute('data-examid');
+  const withClose = el.getAttribute('data-withclose') === 'true';
+  setExam(examId);
+  renderExamListHTML('examListContent', withClose);
+  renderObExamList();
+  renderExamPatternCard();
+  if (typeof renderHomeScoreDash === 'function') renderHomeScoreDash();
+  if (withClose) setTimeout(closeExamSelector, 400);
+}
+
+function updateExamPill() {
+  const exam = getExam();
+  const iconEl = document.getElementById('examPillIcon');
+  const nameEl = document.getElementById('examPillName');
+  if (iconEl) iconEl.textContent = exam.icon;
+  if (nameEl) nameEl.textContent = exam.shortName;
+}
+
+function renderExamPatternCard() {
+  const el = document.getElementById('examPatternCard');
+  if (!el) return;
+  const exam = getExam();
+  const sections = exam.pattern.sections.map(s => `<div class="p-section-row"><div class="p-section-dot"></div>${esc(s)}</div>`).join('');
+  const tips     = exam.tips.map(t => `<div class="tip-item"><span>›</span>${esc(t)}</div>`).join('');
+  el.innerHTML = `<div class="pattern-card">
+    <div class="pattern-header">
+      <div class="pattern-icon" style="background:${exam.colorL}"><span>${exam.icon}</span></div>
+      <div>
+        <div class="pattern-name">${esc(exam.name)}</div>
+        <div class="pattern-date">${esc(exam.examDate)} · ${esc(exam.duration)}</div>
+      </div>
+    </div>
+    <div class="pattern-stats">
+      <div class="p-stat"><div class="p-stat-v mono">${exam.pattern.totalQs}</div><div class="p-stat-l">Questions</div></div>
+      <div class="p-stat"><div class="p-stat-v mono">${exam.totalMarks}</div><div class="p-stat-l">Max Marks</div></div>
+      <div class="p-stat"><div class="p-stat-v">${exam.pattern.negMarking ? '-'+exam.pattern.negValue : 'None'}</div><div class="p-stat-l">Neg Marks</div></div>
+    </div>
+    <div class="pattern-sections">${sections}</div>
+    <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">${tips}</div>
+  </div>`;
+}
+
+function renderObExamList() {
+  const el = document.getElementById('obExamList');
+  if (!el) return;
+  el.innerHTML = Object.values(EXAMS).map(exam => {
+    const isActive = currentExam === exam.id;
+    const activeStyle = isActive ? `border-color:${exam.color};background:${exam.colorL};color:${exam.color}` : '';
+    return `<div class="ob-option ${isActive ? 'sel' : ''}" style="${activeStyle}"
+      data-examid="${exam.id}" onclick="obSelectExam(this)">
+      <span style="font-size:18px">${exam.icon}</span>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:700">${esc(exam.name)}</div>
+        <div style="font-size:11px;opacity:.65;margin-top:2px">${esc(exam.description)}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function obSelectExam(el) {
+  const examId = el.getAttribute('data-examid');
+  currentExam  = examId;
+  const exam   = EXAMS[examId];
+  document.querySelectorAll('#obExamList .ob-option').forEach(o => {
+    o.classList.remove('sel');
+    o.style.cssText = '';
+  });
+  el.classList.add('sel');
+  el.style.borderColor = exam.color;
+  el.style.background  = exam.colorL;
+  el.style.color       = exam.color;
+  const btn = document.getElementById('obCta0');
+  if (btn) btn.disabled = false;
+}
+
+function getExamContext() {
+  const ctx = {
+    cbse12:   'CBSE Class 12 board exam. NCERT-based. No negative marking. All section types: MCQ, Assertion-Reason, VSA, SA, LA, Case-based.',
+    jee_main: 'JEE Main. Single correct MCQ +4/-1. Integer type +4/0. Concept-based, application-oriented. Moderate to hard. Include numericals.',
+    jee_adv:  'JEE Advanced. Single/multiple correct. Integer. Matching. Paragraph-based. Hardest — beyond NCERT. Multiple concept integration.',
+    neet:     'NEET UG. NCERT Biology word-level accuracy essential. Standard MCQ +4/-1. Biology is 50% of paper. Physics and Chemistry at NCERT 11+12 level.',
+    mht_cet:  'MHT-CET Maharashtra. MCQ +2/0 no negative. Maharashtra HSC syllabus. Include Class 11 topics (20% weightage).',
+    cuet:     'CUET UG. NCERT Class 12 domain subjects. MCQ +5/-1. Select 40 out of 50. Moderate — NCERT sufficient.',
+    bitsat:   'BITSAT. Mixed subjects including English and Logical Reasoning. MCQ -1 wrong. Speed-oriented.',
+    iiser:    'IISER IAT. All 4 subjects equally: Physics, Chemistry, Mathematics, Biology. MCQ +4/-1. Conceptual clarity required.',
+  };
+  return ctx[currentExam] || ctx.cbse12;
+}
+
 function checkOnboarding() {
+  applyExamMode(currentExam);
   const done = localStorage.getItem('cbse12_onboard_done');
   if (!done) {
     document.getElementById('onboardOverlay').style.display = 'flex';
+    renderObExamList();
   } else {
     loadUserProfile();
     initHome();
@@ -1890,7 +2157,7 @@ function obNameCheck() {
 function goOnboard(step) {
   document.querySelectorAll('.onboard-screen').forEach(s => s.classList.remove('active'));
   document.getElementById('ob' + step).classList.add('active');
-  for (let i = 1; i <= 3; i++) {
+  for (let i = 0; i <= 3; i++) {
     const dot = document.getElementById('obDot' + i);
     if (dot) dot.classList.toggle('done', i <= step);
   }
@@ -2031,6 +2298,9 @@ function openGoalSetter() {
    SMART HOME SCREEN — LIVE KPIs
 ══════════════════════════════════════════════ */
 function initHome() {
+  applyExamMode(currentExam);
+  updateExamPill();
+  renderExamPatternCard();
   computeCountdown();
   renderStreakBadge();
   renderGoalRing();
@@ -2485,6 +2755,7 @@ ${isFullSyllabus?'Cover wide variety of chapters from the syllabus.':'Focus on t
 ${srcInstructions}
 
 - Board exam style, syllabus accurate
+- Exam context: ${getExamContext()}
 - In explanation field, cite source (e.g. NCERT Ex 2.3, H.C. Verma Q.15, PYQ 2022)
 ${type==='hots'?'- Tag cognitive skill: Analysis / Evaluation / Application':''}
 `;

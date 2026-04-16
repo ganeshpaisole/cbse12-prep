@@ -1,0 +1,88 @@
+{
+  "name": "CBSE 12 Board Prep",
+  "short_name": "CBSE12",
+  "description": "CBSE Grade 12 Science Board Exam Preparation App — AI-powered tests, study plans, and mock papers",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "display_override": ["standalone", "fullscreen"],
+  "background_color": "#0f1923",
+  "theme_color": "#0f1923",
+  "orientation": "portrait",
+  "categories": ["education", "productivity"],
+  "lang": "en-IN",
+  "icons": [
+    {
+      "src": "icons/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Practice Quiz",
+      "short_name": "Quiz",
+      "description": "Start an AI-powered practice quiz",
+      "url": "./index.html#tests",
+      "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Generate Paper",
+      "short_name": "Paper",
+      "description": "Generate a mock test paper",
+      "url": "./index.html#papers",
+      "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "icons/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "CBSE 12 Board Prep Home Screen"
+    }
+  ]
+}

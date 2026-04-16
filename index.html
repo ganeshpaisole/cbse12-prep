@@ -1,0 +1,2095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0f1923">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CBSE12">
+<meta name="theme-color" content="#0f1923" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#0f1923" media="(prefers-color-scheme: light)">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152.png">
+<link rel="apple-touch-icon" sizes="144x144" href="icons/icon-144.png">
+<link rel="apple-touch-icon" sizes="128x128" href="icons/icon-128.png">
+<link rel="apple-touch-icon" sizes="96x96" href="icons/icon-96.png">
+<link rel="apple-touch-icon" sizes="72x72" href="icons/icon-72.png">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="format-detection" content="telephone=no">
+
+<title>CBSE 12 — Board Prep</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Nunito+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS — Material You Dark Theme
+═══════════════════════════════════════════ */
+:root {
+  /* Surface layers */
+  --bg:        #0f1923;
+  --surf0:     #131e2b;
+  --surf1:     #182436;
+  --surf2:     #1d2b3f;
+  --surf3:     #233148;
+  --surf4:     #283752;
+  --border:    rgba(255,255,255,.08);
+  --border2:   rgba(255,255,255,.14);
+
+  /* Text */
+  --t1:  #e8f0fb;
+  --t2:  #8fa8c8;
+  --t3:  #5a7a9a;
+
+  /* Brand */
+  --primary:   #4d9eff;
+  --primary-c: #0f3566;
+  --primary-d: #2b7ee0;
+
+  /* Subjects */
+  --phy:  #4d9eff; --phy-d: #0d2e5a; --phy-m: #82bfff;
+  --chem: #ff7043; --chem-d:#3d1408; --chem-m:#ffab8f;
+  --math: #26c987; --math-d:#083d22; --math-m:#72e8b8;
+  --eng:  #b970ff; --eng-d: #2d1050; --eng-m:#d4a0ff;
+  --cs:   #ffcc02; --cs-d:  #3d3000; --cs-m: #ffe166;
+
+  /* Status */
+  --green: #26c987; --yellow: #ffcc02; --red: #ff5252; --orange: #ff7043;
+
+  /* Nav */
+  --nav-h: 68px;
+  --top-h: 60px;
+
+  --r:  12px;
+  --rl: 18px;
+  --rx: 24px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; overflow: hidden; }
+
+body {
+  font-family: 'Nunito Sans', sans-serif;
+  background: var(--bg);
+  color: var(--t1);
+  font-size: 15px;
+  line-height: 1.5;
+  overscroll-behavior: none;
+}
+
+/* ═══════════════════════════════════════════
+   SCROLLBARS
+═══════════════════════════════════════════ */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* ═══════════════════════════════════════════
+   APP SHELL
+═══════════════════════════════════════════ */
+.app { display: flex; flex-direction: column; height: 100vh; position: relative; }
+
+/* TOP BAR */
+.topbar {
+  height: var(--top-h);
+  background: var(--surf0);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  padding: 0 18px;
+  gap: 12px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 50;
+}
+.tb-logo {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900; font-size: 14px; color: #fff;
+  flex-shrink: 0;
+}
+.tb-info { flex: 1; min-width: 0; }
+.tb-title { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 16px; color: var(--t1); }
+.tb-sub { font-size: 10.5px; color: var(--t3); font-weight: 600; }
+.tb-actions { display: flex; gap: 6px; }
+.tb-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%; border: 1px solid var(--border2);
+  background: var(--surf2);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 16px;
+  transition: background .15s;
+}
+.tb-btn:active { background: var(--surf3); }
+
+/* MAIN SCROLL AREA */
+.screens {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+.screen {
+  position: absolute; inset: 0;
+  overflow-y: auto;
+  padding-bottom: calc(var(--nav-h) + 16px);
+  display: none;
+  animation: fadeUp .25s ease;
+}
+.screen.active { display: block; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* BOTTOM NAV */
+.nav {
+  height: var(--nav-h);
+  background: var(--surf1);
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 50;
+}
+.nav-item {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 3px; cursor: pointer;
+  padding: 8px 4px;
+  transition: all .2s;
+  position: relative;
+}
+.nav-icon {
+  width: 46px; height: 28px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 19px;
+  transition: all .2s;
+}
+.nav-label { font-size: 10px; font-weight: 700; color: var(--t3); letter-spacing: .02em; }
+.nav-item.active .nav-icon { background: var(--primary-c); }
+.nav-item.active .nav-icon .ni { filter: none; }
+.nav-item.active .nav-label { color: var(--primary); }
+.nav-badge {
+  position: absolute; top: 6px; right: calc(50% - 26px);
+  width: 16px; height: 16px;
+  background: var(--red);
+  border-radius: 50%;
+  font-size: 9px; font-weight: 800; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ═══════════════════════════════════════════
+   COMMON COMPONENTS
+═══════════════════════════════════════════ */
+.section-pad { padding: 16px; }
+.gap-12 { display: flex; flex-direction: column; gap: 12px; }
+
+/* Cards */
+.card {
+  background: var(--surf1);
+  border-radius: var(--rl);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.card-body { padding: 16px; }
+.card-sm { padding: 12px 14px; }
+
+/* Section header */
+.sec-hd {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.sec-hd-t {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800; font-size: 15px; color: var(--t1);
+}
+.sec-hd-link { font-size: 12px; font-weight: 700; color: var(--primary); }
+
+/* Chips */
+.chip-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip {
+  padding: 6px 14px;
+  border-radius: 100px;
+  border: 1px solid var(--border2);
+  background: var(--surf2);
+  font-size: 12px; font-weight: 700; color: var(--t2);
+  cursor: pointer; white-space: nowrap;
+  transition: all .15s;
+}
+.chip.sel { border-color: var(--primary); background: rgba(77,158,255,.15); color: var(--primary); }
+.chip:active { opacity: .7; }
+
+/* Subject pills */
+.s-phy  { background: rgba(77,158,255,.15);  border-color: rgba(77,158,255,.4);  color: var(--phy-m); }
+.s-chem { background: rgba(255,112,67,.15);  border-color: rgba(255,112,67,.4);  color: var(--chem-m); }
+.s-math { background: rgba(38,201,135,.15);  border-color: rgba(38,201,135,.4);  color: var(--math-m); }
+.s-eng  { background: rgba(185,112,255,.15); border-color: rgba(185,112,255,.4); color: var(--eng-m); }
+.s-cs   { background: rgba(255,204,2,.15);   border-color: rgba(255,204,2,.4);   color: var(--cs-m); }
+
+/* Buttons */
+.btn {
+  padding: 11px 20px; border-radius: var(--r);
+  border: none; cursor: pointer;
+  font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  transition: all .15s; width: 100%;
+}
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:active { background: var(--primary-d); transform: scale(.98); }
+.btn-outline { background: transparent; border: 1px solid var(--border2); color: var(--t1); }
+.btn-outline:active { background: var(--surf2); }
+.btn-sm { padding: 8px 14px; font-size: 12px; width: auto; border-radius: 8px; }
+.btn:disabled { opacity: .4; cursor: not-allowed; }
+.btn.loading { animation: pulse 1.2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:.5} }
+
+/* Progress bar */
+.prog-bar { height: 6px; background: var(--surf3); border-radius: 3px; overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 3px; transition: width .5s ease; }
+
+/* Score badge */
+.score-ring {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  font-family: 'Nunito', sans-serif; font-weight: 900;
+}
+
+/* Select & Input */
+select, input[type=number], input[type=text] {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: var(--r);
+  border: 1px solid var(--border2);
+  background: var(--surf2);
+  color: var(--t1);
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 13.5px;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+select:focus, input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(77,158,255,.15); }
+textarea.ta {
+  width: 100%; padding: 11px 14px;
+  border-radius: var(--r); border: 1px solid var(--border2);
+  background: var(--surf2); color: var(--t1);
+  font-family: 'Nunito Sans', sans-serif; font-size: 13.5px;
+  resize: vertical; outline: none; min-height: 70px;
+}
+textarea.ta:focus { border-color: var(--primary); }
+.field-label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--t3); margin-bottom: 6px; display: block; }
+
+/* Thinking indicator */
+.thinking {
+  display: flex; align-items: center; gap: 10px;
+  padding: 16px; background: var(--surf2);
+  border-radius: var(--rl); border: 1px solid var(--border);
+  font-size: 13px; color: var(--t2);
+}
+.dots { display: flex; gap: 5px; }
+.dots span {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--primary);
+  animation: db .8s ease-in-out infinite;
+}
+.dots span:nth-child(2){animation-delay:.16s}
+.dots span:nth-child(3){animation-delay:.32s}
+@keyframes db { 0%,80%,100%{transform:scale(.5);opacity:.4} 40%{transform:scale(1);opacity:1} }
+
+/* Error */
+.err-card { background: rgba(255,82,82,.12); border: 1px solid rgba(255,82,82,.3); border-radius: var(--r); padding: 14px; font-size: 13px; color: #ff8f8f; }
+
+/* Divider */
+.div { height: 1px; background: var(--border); margin: 12px 0; }
+
+/* Toggle */
+.toggle-row { display: flex; gap: 6px; }
+.toggle-btn {
+  flex: 1; padding: 9px 6px;
+  border-radius: var(--r); border: 1px solid var(--border2);
+  background: var(--surf2); cursor: pointer;
+  font-size: 12px; font-weight: 700; color: var(--t2);
+  text-align: center; transition: all .15s;
+}
+.toggle-btn.on { background: var(--primary-c); border-color: var(--primary); color: var(--primary); }
+
+/* ═══════════════════════════════════════════
+   SCREEN 1 — HOME / DASHBOARD
+═══════════════════════════════════════════ */
+.hero {
+  background: linear-gradient(160deg, #0d2b4a 0%, #0f1923 60%);
+  padding: 20px 16px 24px;
+  border-bottom: 1px solid var(--border);
+}
+.hero-greet { font-size: 13px; color: var(--t3); margin-bottom: 2px; }
+.hero-name {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900; font-size: 22px; color: var(--t1);
+  margin-bottom: 14px;
+}
+.hero-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.stat-card {
+  background: var(--surf1);
+  border-radius: var(--r); border: 1px solid var(--border);
+  padding: 12px; text-align: center;
+}
+.stat-val { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 22px; color: var(--t1); }
+.stat-lbl { font-size: 10px; color: var(--t3); font-weight: 700; margin-top: 2px; }
+
+/* Today schedule */
+.today-slot {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.today-slot:last-child { border-bottom: none; }
+.ts-time { font-size: 11px; color: var(--t3); font-weight: 700; min-width: 52px; padding-top: 2px; }
+.ts-bar { width: 3px; border-radius: 3px; flex-shrink: 0; min-height: 36px; }
+.ts-info { flex: 1; }
+.ts-subj { font-size: 13px; font-weight: 700; color: var(--t1); }
+.ts-ch { font-size: 11.5px; color: var(--t2); margin-top: 1px; }
+.ts-tag {
+  font-size: 10px; font-weight: 700; padding: 2px 8px;
+  border-radius: 100px; display: inline-block; margin-top: 4px;
+}
+
+/* Countdown */
+.countdown-card {
+  background: linear-gradient(135deg, rgba(77,158,255,.18) 0%, rgba(124,58,237,.18) 100%);
+  border: 1px solid rgba(77,158,255,.3);
+  border-radius: var(--rl); padding: 18px;
+  display: flex; align-items: center; gap: 14px;
+}
+.cd-num {
+  font-family: 'Nunito', sans-serif; font-weight: 900;
+  font-size: 36px; color: var(--primary); line-height: 1;
+}
+.cd-info h3 { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 15px; color: var(--t1); }
+.cd-info p { font-size: 12px; color: var(--t2); margin-top: 2px; }
+
+/* Quick access */
+.qa-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.qa-card {
+  border-radius: var(--rl); border: 1px solid var(--border);
+  padding: 16px 14px; cursor: pointer; transition: all .2s;
+  position: relative; overflow: hidden;
+}
+.qa-card:active { transform: scale(.97); }
+.qa-icon { font-size: 26px; margin-bottom: 8px; display: block; }
+.qa-title { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 14px; color: var(--t1); }
+.qa-desc { font-size: 11px; color: var(--t2); margin-top: 2px; }
+
+/* Subject overview */
+.subj-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.subj-ov {
+  border-radius: var(--rl); border: 1px solid var(--border);
+  background: var(--surf1); padding: 14px;
+  cursor: pointer; transition: all .2s;
+}
+.subj-ov:active { transform: scale(.97); }
+.subj-ov-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.subj-ov-icon { font-size: 20px; }
+.subj-ov-name { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 13px; color: var(--t1); }
+.subj-ov-pct { font-size: 11px; color: var(--t2); margin-bottom: 5px; }
+
+/* ═══════════════════════════════════════════
+   SCREEN 2 — STUDY PLAN
+═══════════════════════════════════════════ */
+.week-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; margin-bottom: 16px; }
+.day-chip {
+  padding: 8px 2px; border-radius: var(--r);
+  border: 1px solid var(--border); background: var(--surf2);
+  text-align: center; cursor: pointer; transition: all .15s;
+}
+.day-chip.today { border-color: var(--primary); background: rgba(77,158,255,.15); }
+.day-chip.today .dc-d { color: var(--primary); }
+.dc-d { font-size: 9px; font-weight: 700; color: var(--t3); letter-spacing: .05em; text-transform: uppercase; }
+.dc-n { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 15px; color: var(--t1); margin-top: 1px; }
+.dc-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--primary); margin: 3px auto 0; }
+
+/* Schedule timeline */
+.timeline { display: flex; flex-direction: column; gap: 0; }
+.tl-item { display: flex; gap: 12px; position: relative; }
+.tl-left { width: 52px; flex-shrink: 0; text-align: right; padding-top: 12px; }
+.tl-time { font-size: 11px; font-weight: 700; color: var(--t3); }
+.tl-line { display: flex; flex-direction: column; align-items: center; gap: 0; }
+.tl-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 15px; }
+.tl-vert { width: 2px; flex: 1; background: var(--border); min-height: 30px; }
+.tl-content {
+  flex: 1; padding: 10px 12px;
+  border-radius: var(--r); border: 1px solid var(--border);
+  background: var(--surf1); margin: 8px 0; margin-left: 0;
+}
+.tl-subj { font-size: 13px; font-weight: 700; color: var(--t1); }
+.tl-detail { font-size: 11.5px; color: var(--t2); margin-top: 2px; }
+.tl-badge {
+  font-size: 10px; font-weight: 700; padding: 2px 8px;
+  border-radius: 100px; display: inline-flex; align-items: center; gap: 4px;
+  margin-top: 5px;
+}
+.tl-break {
+  display: flex; gap: 12px; align-items: center;
+  padding: 6px 0;
+}
+.tl-break-label { font-size: 11px; color: var(--t3); font-style: italic; }
+
+/* Chapter plan table */
+.ch-plan-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+}
+.ch-plan-item:last-child { border-bottom: none; }
+.ch-num { font-size: 11px; font-weight: 700; color: var(--t3); min-width: 28px; }
+.ch-name { flex: 1; font-size: 13px; color: var(--t1); font-weight: 600; }
+.ch-days { font-size: 11px; color: var(--t2); }
+.ch-priority {
+  font-size: 10px; font-weight: 700; padding: 2px 8px;
+  border-radius: 100px;
+}
+.pri-h { background: rgba(255,82,82,.15); color: #ff8f8f; }
+.pri-m { background: rgba(255,204,2,.12); color: #ffe166; }
+.pri-l { background: rgba(38,201,135,.12); color: var(--math-m); }
+
+/* ═══════════════════════════════════════════
+   SCREEN 3 — TEST SERIES (AI)
+═══════════════════════════════════════════ */
+.subj-tab-row { display: flex; gap: 0; border-bottom: 1px solid var(--border); padding: 0 16px; overflow-x: auto; }
+.subj-tab {
+  padding: 12px 14px; font-size: 13px; font-weight: 700;
+  color: var(--t3); cursor: pointer; border-bottom: 2.5px solid transparent;
+  white-space: nowrap; flex-shrink: 0; transition: all .15s;
+}
+.subj-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+/* Question card */
+.q-card {
+  background: var(--surf1); border-radius: var(--rl);
+  border: 1px solid var(--border); overflow: hidden;
+  margin-bottom: 12px;
+}
+.q-card-head {
+  padding: 10px 14px 0;
+  display: flex; align-items: center; gap: 8px;
+}
+.q-type-badge {
+  font-size: 10px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; padding: 3px 9px;
+  border-radius: 100px;
+}
+.q-card-body { padding: 12px 14px; }
+.q-text { font-size: 14px; line-height: 1.75; font-weight: 600; color: var(--t1); margin-bottom: 12px; }
+
+/* MCQ options */
+.mcq-opts { display: flex; flex-direction: column; gap: 7px; }
+.mcq-opt {
+  padding: 10px 13px; border-radius: var(--r);
+  border: 1px solid var(--border2); background: var(--surf2);
+  cursor: pointer; font-size: 13px; color: var(--t1);
+  display: flex; align-items: flex-start; gap: 8px;
+  transition: all .15s;
+}
+.mcq-opt:active { background: var(--surf3); }
+.mcq-opt.correct { background: rgba(38,201,135,.15); border-color: var(--green); color: var(--math-m); }
+.mcq-opt.wrong { background: rgba(255,82,82,.12); border-color: var(--red); color: #ff8f8f; }
+.mcq-opt.revealed { background: rgba(38,201,135,.1); border-color: rgba(38,201,135,.4); color: var(--math-m); }
+.opt-letter {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 1.5px solid currentColor; display: flex;
+  align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 800; flex-shrink: 0; margin-top: 1px;
+}
+
+/* Assertion */
+.assert-box { background: var(--surf2); border-radius: var(--r); padding: 10px 12px; margin-bottom: 8px; }
+.assert-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--t3); margin-bottom: 3px; }
+
+/* Answer reveal */
+.ans-reveal {
+  display: none; margin-top: 10px; padding: 11px 13px;
+  background: var(--surf2); border-radius: var(--r);
+  border-left: 3px solid var(--primary);
+}
+.ans-reveal.show { display: block; }
+.ans-reveal-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--primary); margin-bottom: 4px; }
+.ans-reveal-text { font-size: 13px; color: var(--t2); line-height: 1.65; }
+
+.reveal-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 700; color: var(--t3);
+  padding: 6px 10px; border-radius: 8px;
+  border: 1px solid var(--border2); background: var(--surf2);
+  cursor: pointer; margin-top: 6px; transition: all .15s;
+}
+.reveal-btn:active { background: var(--surf3); }
+
+/* Formula table */
+.formula-row {
+  display: flex; gap: 8px; align-items: flex-start;
+  padding: 9px 0; border-bottom: 1px solid var(--border);
+}
+.formula-row:last-child { border-bottom: none; }
+.formula-name { font-size: 12.5px; font-weight: 700; color: var(--t1); min-width: 110px; }
+.formula-expr {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; color: var(--primary);
+  background: rgba(77,158,255,.1); padding: 2px 8px;
+  border-radius: 6px; display: inline-block;
+  border: 1px solid rgba(77,158,255,.2);
+}
+.formula-desc { font-size: 11px; color: var(--t3); margin-top: 3px; }
+
+/* Score bar */
+.score-bar-wrap {
+  background: var(--surf1); border-top: 1px solid var(--border);
+  padding: 12px 16px; display: flex; align-items: center; gap: 12px;
+  position: sticky; bottom: var(--nav-h); z-index: 30;
+}
+.sb-val { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 18px; }
+.sb-c { color: var(--green); }
+.sb-w { color: var(--red); }
+.sb-pct {
+  margin-left: auto; font-size: 12px; font-weight: 700;
+  padding: 4px 12px; border-radius: 100px;
+}
+.sb-pct.g { background: rgba(38,201,135,.15); color: var(--math-m); }
+.sb-pct.o { background: rgba(255,204,2,.12); color: var(--cs-m); }
+.sb-pct.r { background: rgba(255,82,82,.12); color: #ff8f8f; }
+
+/* ═══════════════════════════════════════════
+   SCREEN 4 — SAMPLE PAPERS
+═══════════════════════════════════════════ */
+.config-section { background: var(--surf1); border-radius: var(--rl); border: 1px solid var(--border); padding: 16px; margin-bottom: 12px; }
+.marks-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.marks-item { background: var(--surf2); border-radius: var(--r); padding: 9px 10px; border: 1px solid var(--border); }
+.marks-item-l { font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--t3); margin-bottom: 4px; }
+.marks-item input { padding: 5px 8px; font-size: 13px; }
+.total-badge { text-align: center; font-size: 12px; color: var(--t2); margin-top: 8px; }
+.total-badge strong { color: var(--t1); font-family: 'Nunito', sans-serif; font-weight: 900; }
+
+/* Paper preview */
+.paper-preview {
+  background: #fff; border-radius: var(--rl);
+  overflow: hidden; color: #1a1a1a;
+  border: 1px solid rgba(255,255,255,.15);
+  margin-bottom: 12px;
+}
+.pp-head { padding: 20px 18px 14px; border-bottom: 2px solid #1a1a1a; text-align: center; }
+.pp-school { font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: #666; margin-bottom: 2px; }
+.pp-title { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 18px; color: #1a1a1a; margin-bottom: 2px; }
+.pp-subj { font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+.pp-meta { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px; font-size: 11.5px; padding-top: 10px; border-top: 1px solid #e5e5e5; }
+.pp-meta-item { display: flex; gap: 3px; }
+.pp-meta-l { color: #888; }
+.pp-meta-v { font-weight: 700; color: #1a1a1a; }
+
+.pp-instr { padding: 12px 18px; background: #f9f9f9; border-bottom: 1px solid #e5e5e5; font-size: 12px; color: #444; line-height: 1.65; }
+.pp-instr-t { font-weight: 700; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: #888; margin-bottom: 5px; }
+.pp-instr ol { padding-left: 16px; }
+.pp-instr li { padding: 2px 0; }
+
+.pp-section { padding: 14px 18px; border-bottom: 1px solid #e5e5e5; }
+.pp-section:last-child { border-bottom: none; }
+.pp-sec-head {
+  background: #1a1a1a; color: #fff;
+  margin: -14px -18px 14px; padding: 8px 18px;
+  display: flex; align-items: center; gap: 10px;
+}
+.pp-sec-t { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 14px; }
+.pp-sec-m { font-size: 10px; font-weight: 700; background: rgba(255,255,255,.15); padding: 2px 9px; border-radius: 100px; }
+.pp-sec-d { font-size: 11px; color: #aaa; margin-left: auto; }
+
+.pp-q { display: flex; gap: 8px; margin-bottom: 12px; }
+.pp-qn { font-weight: 700; font-size: 13px; min-width: 24px; color: #666; flex-shrink: 0; padding-top: 1px; }
+.pp-qc { flex: 1; }
+.pp-qt { font-size: 13px; line-height: 1.7; color: #1a1a1a; margin-bottom: 6px; }
+.pp-mb { float: right; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 100px; margin-left: 6px; margin-top: 2px; }
+.pp-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 12px; margin-top: 4px; }
+.pp-opt { font-size: 12px; color: #333; padding: 2px 0; display: flex; gap: 4px; }
+.pp-opt-l { font-weight: 700; color: #888; min-width: 18px; }
+.pp-assert { background: #f5f5f5; border-radius: 6px; padding: 8px 11px; margin-bottom: 6px; font-size: 12.5px; color: #333; line-height: 1.6; }
+.pp-al { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #888; margin-bottom: 2px; }
+.pp-case { background: #fffbeb; border: 1px solid #fde68a; border-left: 4px solid #f59e0b; border-radius: 6px; padding: 11px; margin-bottom: 8px; font-size: 12.5px; color: #333; line-height: 1.7; }
+.pp-cl { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #92400e; margin-bottom: 4px; }
+.aline { height: 20px; border-bottom: 1px solid #ddd; margin-bottom: 3px; }
+.blank { display: inline-block; min-width: 60px; border-bottom: 1.5px solid #1a1a1a; margin: 0 3px; vertical-align: bottom; height: 16px; }
+
+/* Answer key */
+.ak-wrap { background: #1a1a1a; border-radius: var(--rl); padding: 16px; margin-bottom: 12px; }
+.ak-title { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 16px; color: #fff; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.ak-badge { font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; background: var(--red); padding: 2px 9px; border-radius: 100px; color: #fff; }
+.ak-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ak-item { background: rgba(255,255,255,.07); border-radius: var(--r); padding: 8px 11px; border: 1px solid rgba(255,255,255,.1); }
+.ak-q { font-size: 10px; color: #666; margin-bottom: 2px; font-weight: 700; }
+.ak-a { font-size: 12px; color: #e2e8f0; }
+.ak-a .cor { color: #4ade80; font-weight: 700; }
+
+/* ═══════════════════════════════════════════
+   SCREEN 5 — PROGRESS
+═══════════════════════════════════════════ */
+.prog-hero {
+  background: linear-gradient(160deg, #0d2e4a 0%, #0f1923 70%);
+  padding: 20px 16px; border-bottom: 1px solid var(--border);
+}
+.overall-score {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 16px;
+}
+.big-score {
+  font-family: 'Nunito', sans-serif; font-weight: 900;
+  font-size: 52px; color: var(--primary); line-height: 1;
+}
+.big-score-info { flex: 1; }
+.big-score-label { font-size: 12px; color: var(--t2); margin-bottom: 3px; }
+.big-score-sub { font-size: 11px; color: var(--t3); }
+
+.subj-prog-item { margin-bottom: 14px; }
+.spi-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.spi-icon { font-size: 16px; }
+.spi-name { font-size: 13px; font-weight: 700; color: var(--t1); flex: 1; }
+.spi-pct { font-size: 12px; font-weight: 700; color: var(--t2); }
+
+/* Activity heatmap-style */
+.week-activity { display: flex; gap: 4px; margin-top: 8px; }
+.act-day {
+  flex: 1; height: 28px; border-radius: 5px;
+  background: var(--surf2); border: 1px solid var(--border);
+  display: flex; align-items: flex-end; overflow: hidden;
+}
+.act-fill { width: 100%; border-radius: 5px; transition: height .4s ease; }
+
+/* Achievements */
+.ach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ach-item {
+  background: var(--surf1); border-radius: var(--rl); border: 1px solid var(--border);
+  padding: 14px 12px; text-align: center;
+}
+.ach-icon { font-size: 28px; margin-bottom: 6px; display: block; }
+.ach-name { font-size: 12px; font-weight: 700; color: var(--t1); }
+.ach-desc { font-size: 10.5px; color: var(--t3); margin-top: 2px; }
+.ach-item.locked { opacity: .35; filter: grayscale(1); }
+
+/* ═══════════════════════════════════════════
+   MODAL
+═══════════════════════════════════════════ */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.7);
+  z-index: 200; display: flex; align-items: flex-end;
+  opacity: 0; pointer-events: none; transition: opacity .2s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal-sheet {
+  background: var(--surf1); border-radius: 20px 20px 0 0;
+  padding: 0 0 24px; width: 100%;
+  max-height: 85vh; overflow-y: auto;
+  transform: translateY(100%); transition: transform .3s cubic-bezier(.32,.72,0,1);
+}
+.modal-overlay.open .modal-sheet { transform: translateY(0); }
+.modal-handle { width: 36px; height: 4px; background: var(--border2); border-radius: 2px; margin: 14px auto 6px; }
+.modal-head { padding: 10px 18px 16px; border-bottom: 1px solid var(--border); }
+.modal-title { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 17px; color: var(--t1); }
+.modal-sub { font-size: 12px; color: var(--t2); margin-top: 2px; }
+.modal-body { padding: 16px; }
+
+
+/* ═══════════════════════════════════════════
+   PWA INSTALL PROMPT
+═══════════════════════════════════════════ */
+.install-banner {
+  position: fixed; bottom: calc(var(--nav-h) + 8px); left: 8px; right: 8px;
+  background: linear-gradient(135deg, #1d2b3f, #233148);
+  border: 1px solid rgba(77,158,255,.35);
+  border-radius: var(--rl); padding: 14px 16px;
+  display: flex; align-items: center; gap: 12px;
+  z-index: 100; box-shadow: 0 8px 32px rgba(0,0,0,.5);
+  transform: translateY(120%); transition: transform .4s cubic-bezier(.32,.72,0,1);
+}
+.install-banner.show { transform: translateY(0); }
+.install-icon { font-size: 26px; flex-shrink: 0; }
+.install-info { flex: 1; min-width: 0; }
+.install-title { font-family: "Nunito", sans-serif; font-weight: 800; font-size: 13px; color: var(--t1); }
+.install-sub { font-size: 11px; color: var(--t3); margin-top: 1px; }
+.install-actions { display: flex; gap: 7px; flex-shrink: 0; }
+.install-btn {
+  padding: 7px 13px; border-radius: 8px; border: none;
+  font-family: "Nunito", sans-serif; font-size: 12px; font-weight: 700;
+  cursor: pointer; transition: all .15s;
+}
+.install-btn-yes { background: var(--primary); color: #fff; }
+.install-btn-no  { background: var(--surf3); color: var(--t3); }
+.install-btn:active { transform: scale(.95); }
+
+/* ═══════════════════════════════════════════
+   OFFLINE INDICATOR
+═══════════════════════════════════════════ */
+.offline-bar {
+  position: fixed; top: var(--top-h); left: 0; right: 0;
+  background: rgba(255,82,82,.9); backdrop-filter: blur(8px);
+  padding: 8px 16px; text-align: center;
+  font-size: 12px; font-weight: 700; color: #fff;
+  z-index: 60; transform: translateY(-100%);
+  transition: transform .3s ease;
+}
+.offline-bar.show { transform: translateY(0); }
+
+/* ═══════════════════════════════════════════
+   UPDATE BANNER
+═══════════════════════════════════════════ */
+.update-bar {
+  position: fixed; top: var(--top-h); left: 0; right: 0;
+  background: rgba(77,158,255,.95); backdrop-filter: blur(8px);
+  padding: 10px 16px; display: flex; align-items: center; gap: 10px;
+  font-size: 12px; font-weight: 700; color: #fff;
+  z-index: 61; transform: translateY(-100%);
+  transition: transform .3s ease; cursor: pointer;
+}
+.update-bar.show { transform: translateY(0); }
+
+/* iOS safe area inset support */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .nav {
+    padding-bottom: env(safe-area-inset-bottom);
+    height: calc(var(--nav-h) + env(safe-area-inset-bottom));
+  }
+  .screen { padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + 16px); }
+  .score-bar-wrap { bottom: calc(var(--nav-h) + env(safe-area-inset-bottom)); }
+}
+@supports (padding-top: env(safe-area-inset-top)) {
+  .topbar {
+    padding-top: max(0px, env(safe-area-inset-top));
+    height: calc(var(--top-h) + env(safe-area-inset-top));
+  }
+}
+
+/* Print */
+@media print {
+  .app > *:not(#screen-papers) { display: none !important; }
+  .paper-preview { color: #000; border: none; }
+  .ak-wrap { display: none; }
+  body { background: white; color: black; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="tb-logo">12</div>
+    <div class="tb-info">
+      <div class="tb-title">CBSE Board Prep</div>
+      <div class="tb-sub">Grade 12 · Science · 2026–27</div>
+    </div>
+    <div class="tb-actions">
+      <div class="tb-btn" onclick="openNotif()">🔔</div>
+      <div class="tb-btn" onclick="openSettings()">⚙️</div>
+    </div>
+  </div>
+
+  <!-- SCREENS -->
+  <div class="screens">
+
+    <!-- ── SCREEN 1: HOME ── -->
+    <div class="screen active" id="screen-home">
+
+      <!-- Hero -->
+      <div class="hero">
+        <div class="hero-greet">Good morning, Student 👋</div>
+        <div class="hero-name">Ready for today's prep?</div>
+        <div class="hero-stats">
+          <div class="stat-card">
+            <div class="stat-val" id="dayCount">178</div>
+            <div class="stat-lbl">Days Left</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-val" style="color:var(--green)">62%</div>
+            <div class="stat-lbl">Syllabus Done</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-val" style="color:var(--yellow)">74%</div>
+            <div class="stat-lbl">Mock Avg</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-pad gap-12">
+
+        <!-- Countdown -->
+        <div class="countdown-card">
+          <div class="cd-num" id="cdNum">178</div>
+          <div class="cd-info">
+            <h3>Days to Board Exams</h3>
+            <p>March 2027 · Target 87%+</p>
+            <div style="margin-top:8px">
+              <div class="prog-bar" style="height:5px">
+                <div class="prog-fill" style="width:38%;background:var(--primary)"></div>
+              </div>
+              <div style="font-size:10px;color:var(--t3);margin-top:3px">38% of prep year done</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Access -->
+        <div>
+          <div class="sec-hd"><span class="sec-hd-t">Quick Access</span></div>
+          <div class="qa-grid">
+            <div class="qa-card" style="background:rgba(77,158,255,.1);border-color:rgba(77,158,255,.25)" onclick="goTab('tests')">
+              <span class="qa-icon">🧠</span>
+              <div class="qa-title">Practice Quiz</div>
+              <div class="qa-desc">AI-powered MCQ & Q&A</div>
+            </div>
+            <div class="qa-card" style="background:rgba(38,201,135,.1);border-color:rgba(38,201,135,.25)" onclick="goTab('papers')">
+              <span class="qa-icon">📄</span>
+              <div class="qa-title">Mock Paper</div>
+              <div class="qa-desc">Generate test paper</div>
+            </div>
+            <div class="qa-card" style="background:rgba(185,112,255,.1);border-color:rgba(185,112,255,.25)" onclick="goTab('plan')">
+              <span class="qa-icon">📅</span>
+              <div class="qa-title">Study Plan</div>
+              <div class="qa-desc">Today's schedule</div>
+            </div>
+            <div class="qa-card" style="background:rgba(255,204,2,.1);border-color:rgba(255,204,2,.25)" onclick="goTab('progress')">
+              <span class="qa-icon">📈</span>
+              <div class="qa-title">Progress</div>
+              <div class="qa-desc">Track your scores</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Today's Schedule -->
+        <div class="card">
+          <div class="card-body">
+            <div class="sec-hd">
+              <span class="sec-hd-t">Today's Schedule</span>
+              <span class="sec-hd-link" onclick="goTab('plan')">View Full →</span>
+            </div>
+            <div>
+              <div class="today-slot">
+                <div class="ts-time">9–11 AM</div>
+                <div class="ts-bar" style="background:var(--math)"></div>
+                <div class="ts-info">
+                  <div class="ts-subj" style="color:var(--math-m)">📐 Mathematics</div>
+                  <div class="ts-ch">Integrals — Ch 7 · NCERT Exercises</div>
+                  <div class="ts-tag" style="background:rgba(38,201,135,.15);color:var(--math-m)">▶ In Progress</div>
+                </div>
+              </div>
+              <div class="today-slot">
+                <div class="ts-time">11–1 PM</div>
+                <div class="ts-bar" style="background:var(--phy)"></div>
+                <div class="ts-info">
+                  <div class="ts-subj" style="color:var(--phy-m)">⚡ Physics</div>
+                  <div class="ts-ch">Electromagnetic Induction — Ch 6</div>
+                  <div class="ts-tag" style="background:rgba(77,158,255,.1);color:var(--phy-m)">⏳ Upcoming</div>
+                </div>
+              </div>
+              <div class="today-slot">
+                <div class="ts-time">2–4 PM</div>
+                <div class="ts-bar" style="background:var(--chem)"></div>
+                <div class="ts-info">
+                  <div class="ts-subj" style="color:var(--chem-m)">🧪 Chemistry</div>
+                  <div class="ts-ch">Coordination Compounds — Ch 9</div>
+                  <div class="ts-tag" style="background:rgba(255,112,67,.1);color:var(--chem-m)">⏳ Upcoming</div>
+                </div>
+              </div>
+              <div class="today-slot">
+                <div class="ts-time">9:30–11 PM</div>
+                <div class="ts-bar" style="background:var(--cs)"></div>
+                <div class="ts-info">
+                  <div class="ts-subj" style="color:var(--cs-m)">💻 Comp. Science</div>
+                  <div class="ts-ch">SQL Queries + Python Programs</div>
+                  <div class="ts-tag" style="background:rgba(255,204,2,.1);color:var(--cs-m)">⏳ Evening</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Subject Overview -->
+        <div>
+          <div class="sec-hd"><span class="sec-hd-t">Subject Progress</span></div>
+          <div class="subj-cards">
+            <div class="subj-ov" onclick="setTestSubj('physics')">
+              <div class="subj-ov-head"><span class="subj-ov-icon">⚡</span><span class="subj-ov-name" style="color:var(--phy-m)">Physics</span></div>
+              <div class="subj-ov-pct">9 / 14 chapters</div>
+              <div class="prog-bar"><div class="prog-fill" style="width:64%;background:var(--phy)"></div></div>
+            </div>
+            <div class="subj-ov" onclick="setTestSubj('chemistry')">
+              <div class="subj-ov-head"><span class="subj-ov-icon">🧪</span><span class="subj-ov-name" style="color:var(--chem-m)">Chemistry</span></div>
+              <div class="subj-ov-pct">10 / 16 chapters</div>
+              <div class="prog-bar"><div class="prog-fill" style="width:62%;background:var(--chem)"></div></div>
+            </div>
+            <div class="subj-ov" onclick="setTestSubj('mathematics')">
+              <div class="subj-ov-head"><span class="subj-ov-icon">📐</span><span class="subj-ov-name" style="color:var(--math-m)">Mathematics</span></div>
+              <div class="subj-ov-pct">8 / 13 chapters</div>
+              <div class="prog-bar"><div class="prog-fill" style="width:62%;background:var(--math)"></div></div>
+            </div>
+            <div class="subj-ov" onclick="setTestSubj('english')">
+              <div class="subj-ov-head"><span class="subj-ov-icon">📖</span><span class="subj-ov-name" style="color:var(--eng-m)">English</span></div>
+              <div class="subj-ov-pct">18 / 26 topics</div>
+              <div class="prog-bar"><div class="prog-fill" style="width:69%;background:var(--eng)"></div></div>
+            </div>
+            <div class="subj-ov" onclick="setTestSubj('cs')">
+              <div class="subj-ov-head"><span class="subj-ov-icon">💻</span><span class="subj-ov-name" style="color:var(--cs-m)">Comp. Sci</span></div>
+              <div class="subj-ov-pct">6 / 9 chapters</div>
+              <div class="prog-bar"><div class="prog-fill" style="width:67%;background:var(--cs)"></div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /screen-home -->
+
+    <!-- ── SCREEN 2: STUDY PLAN ── -->
+    <div class="screen" id="screen-plan">
+      <div class="section-pad gap-12">
+
+        <!-- Week selector -->
+        <div>
+          <div class="sec-hd"><span class="sec-hd-t">This Week</span><span class="sec-hd-link">Jul 2026 ▾</span></div>
+          <div class="week-grid" id="weekGrid"></div>
+        </div>
+
+        <!-- Today timeline -->
+        <div class="card">
+          <div class="card-body">
+            <div class="sec-hd" style="margin-bottom:8px">
+              <span class="sec-hd-t">Today's Timeline</span>
+              <span style="font-size:11px;color:var(--green);font-weight:700">Weekday</span>
+            </div>
+            <div class="timeline">
+              <div class="tl-item">
+                <div class="tl-left"><div class="tl-time">9:00 AM</div></div>
+                <div class="tl-line"><div class="tl-dot" style="background:var(--math)"></div><div class="tl-vert"></div></div>
+                <div class="tl-content">
+                  <div class="tl-subj" style="color:var(--math-m)">📐 Mathematics</div>
+                  <div class="tl-detail">Ch 7 — Integrals · NCERT Exercises 7.1–7.6</div>
+                  <div class="tl-badge" style="background:rgba(38,201,135,.12);color:var(--math-m)">🕐 2 hours</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-left"><div class="tl-time">11:00 AM</div></div>
+                <div class="tl-line"><div class="tl-dot" style="background:var(--phy)"></div><div class="tl-vert"></div></div>
+                <div class="tl-content">
+                  <div class="tl-subj" style="color:var(--phy-m)">⚡ Physics</div>
+                  <div class="tl-detail">Ch 6 — Electromagnetic Induction · Theory + Derivations</div>
+                  <div class="tl-badge" style="background:rgba(77,158,255,.1);color:var(--phy-m)">🕐 2 hours</div>
+                </div>
+              </div>
+              <div class="tl-break">
+                <div class="tl-vert" style="width:2px;background:var(--border);height:20px;margin-left:60px"></div>
+                <div class="tl-break-label">🍽️ Lunch Break — 1:00–2:00 PM</div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-left"><div class="tl-time">2:00 PM</div></div>
+                <div class="tl-line"><div class="tl-dot" style="background:var(--chem)"></div><div class="tl-vert"></div></div>
+                <div class="tl-content">
+                  <div class="tl-subj" style="color:var(--chem-m)">🧪 Chemistry</div>
+                  <div class="tl-detail">Ch 9 — Coordination Compounds · IUPAC Naming, Isomerism</div>
+                  <div class="tl-badge" style="background:rgba(255,112,67,.1);color:var(--chem-m)">🕐 2 hours</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-left"><div class="tl-time">4:00 PM</div></div>
+                <div class="tl-line"><div class="tl-dot" style="background:var(--math)"></div><div class="tl-vert"></div></div>
+                <div class="tl-content">
+                  <div class="tl-subj" style="color:var(--math-m)">📐 Mathematics</div>
+                  <div class="tl-detail">Previous chapter drill + PYQ practice</div>
+                  <div class="tl-badge" style="background:rgba(38,201,135,.12);color:var(--math-m)">🕐 1.5 hours</div>
+                </div>
+              </div>
+              <div class="tl-break">
+                <div class="tl-vert" style="width:2px;background:var(--border);height:20px;margin-left:60px"></div>
+                <div class="tl-break-label">🏃 Outdoor Activity — 5:30–6:30 PM</div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-left"><div class="tl-time">6:30 PM</div></div>
+                <div class="tl-line"><div class="tl-dot" style="background:var(--cs)"></div><div class="tl-vert"></div></div>
+                <div class="tl-content">
+                  <div class="tl-subj" style="color:var(--cs-m)">💻 CS Pre-Tuition</div>
+                  <div class="tl-detail">SQL practice + Python programs by hand</div>
+                  <div class="tl-badge" style="background:rgba(255,204,2,.1);color:var(--cs-m)">🕐 1 hour</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-left"><div class="tl-time">7:30 PM</div></div>
+                <div class="tl-line"><div class="tl-dot" style="background:#6b7280"></div><div class="tl-vert"></div></div>
+                <div class="tl-content" style="background:rgba(107,114,128,.12);border-color:rgba(107,114,128,.3)">
+                  <div class="tl-subj" style="color:var(--t1)">📚 TUITION CLASS</div>
+                  <div class="tl-detail" style="color:var(--t2)">Bring 2–3 prepared doubts · Take structured notes</div>
+                  <div class="tl-badge" style="background:rgba(107,114,128,.15);color:var(--t2)">🕐 1.5 hours</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-left"><div class="tl-time">9:30 PM</div></div>
+                <div class="tl-line"><div class="tl-dot" style="background:var(--eng)"></div></div>
+                <div class="tl-content">
+                  <div class="tl-subj" style="color:var(--eng-m)">Post-Tuition Revision</div>
+                  <div class="tl-detail">Revise today's tuition content · Flash cards · No new topics</div>
+                  <div class="tl-badge" style="background:rgba(185,112,255,.1);color:var(--eng-m)">🕐 1.5 hours</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chapter Plan by Subject -->
+        <div>
+          <div class="sec-hd"><span class="sec-hd-t">Chapter Roadmap</span></div>
+          <div class="chip-row" style="margin-bottom:12px" id="planSubjChips">
+            <div class="chip sel" onclick="filterPlanSubj('physics',this)">⚡ Physics</div>
+            <div class="chip" onclick="filterPlanSubj('chemistry',this)">🧪 Chemistry</div>
+            <div class="chip" onclick="filterPlanSubj('mathematics',this)">📐 Maths</div>
+            <div class="chip" onclick="filterPlanSubj('english',this)">📖 English</div>
+            <div class="chip" onclick="filterPlanSubj('cs',this)">💻 CS</div>
+          </div>
+          <div class="card" id="chPlanCard">
+            <div class="card-body" id="chPlanList"></div>
+          </div>
+        </div>
+
+        <!-- Key reminders -->
+        <div class="card">
+          <div class="card-body">
+            <div class="sec-hd-t" style="margin-bottom:10px">📌 Study Principles</div>
+            <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--t2)">
+              <div>🔁 <strong style="color:var(--t1)">24-Hour Rule</strong> — Revise tuition content same night</div>
+              <div>📓 <strong style="color:var(--t1)">NCERT First</strong> — Every board question is NCERT-traceable</div>
+              <div>❌ <strong style="color:var(--t1)">Error Log</strong> — Note every wrong answer with root cause</div>
+              <div>⏱️ <strong style="color:var(--t1)">Timed Practice</strong> — Never solve without timer from Oct</div>
+              <div>🎨 <strong style="color:var(--t1)">Diagrams = Marks</strong> — Every theory answer needs a diagram</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /screen-plan -->
+
+    <!-- ── SCREEN 3: TEST SERIES ── -->
+    <div class="screen" id="screen-tests">
+
+      <!-- Subject tabs -->
+      <div class="subj-tab-row" id="testSubjTabs">
+        <div class="subj-tab active" data-s="physics"    onclick="testPickSubj('physics',this)">⚡ Physics</div>
+        <div class="subj-tab" data-s="chemistry"  onclick="testPickSubj('chemistry',this)">🧪 Chemistry</div>
+        <div class="subj-tab" data-s="mathematics" onclick="testPickSubj('mathematics',this)">📐 Maths</div>
+        <div class="subj-tab" data-s="english"    onclick="testPickSubj('english',this)">📖 English</div>
+        <div class="subj-tab" data-s="cs"         onclick="testPickSubj('cs',this)">💻 CS</div>
+      </div>
+
+      <!-- Config -->
+      <div class="section-pad" style="padding-bottom:0">
+        <div style="display:flex;gap:8px;margin-bottom:10px">
+          <div style="flex:1">
+            <div class="field-label">Chapter</div>
+            <select id="testChapter"></select>
+          </div>
+          <div style="flex:1">
+            <div class="field-label">Type</div>
+            <select id="testType">
+              <option value="mcq">MCQ</option>
+              <option value="assertion">Assertion & Reason</option>
+              <option value="formula">Formula Bank</option>
+              <option value="short">Short Q&A</option>
+              <option value="long">Long Q&A</option>
+              <option value="fill">Fill in Blanks</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:10px">
+          <div style="flex:1">
+            <div class="field-label">Difficulty</div>
+            <div class="toggle-row">
+              <div class="toggle-btn" onclick="pickTestDiff('Easy',this)">Easy</div>
+              <div class="toggle-btn on" onclick="pickTestDiff('Mixed',this)">Mixed</div>
+              <div class="toggle-btn" onclick="pickTestDiff('Hard',this)">Hard</div>
+            </div>
+          </div>
+          <div style="flex:0 0 80px">
+            <div class="field-label">Count</div>
+            <input type="number" id="testCount" value="5" min="1" max="15" style="padding:9px 10px">
+          </div>
+        </div>
+        <button class="btn btn-primary" id="testGenBtn" onclick="generateTest()">
+          <span id="testGenIcon">✦</span><span id="testGenText">Generate Questions</span>
+        </button>
+      </div>
+
+      <!-- Score bar -->
+      <div class="score-bar-wrap" id="scoreBarWrap" style="display:none">
+        <span style="font-size:12px;color:var(--t3)">Score:</span>
+        <span class="sb-val sb-c" id="sc">0</span><span style="font-size:12px;color:var(--t3)">✓</span>
+        <span class="sb-val sb-w" id="sw">0</span><span style="font-size:12px;color:var(--t3)">✗</span>
+        <span class="sb-pct" id="spct">—</span>
+        <button class="btn btn-outline btn-sm" onclick="resetScore()" style="margin-left:auto">Reset</button>
+      </div>
+
+      <!-- Questions area -->
+      <div class="section-pad" id="testArea" style="padding-top:12px">
+        <div style="text-align:center;padding:32px 16px;color:var(--t3)">
+          <div style="font-size:36px;margin-bottom:10px">🧠</div>
+          <div style="font-size:14px;font-weight:700;color:var(--t2)">Select a chapter and type,<br>then tap Generate</div>
+        </div>
+      </div>
+
+    </div><!-- /screen-tests -->
+
+    <!-- ── SCREEN 4: SAMPLE PAPERS ── -->
+    <div class="screen" id="screen-papers">
+
+      <div class="section-pad gap-12">
+
+        <!-- Subject -->
+        <div class="config-section">
+          <div class="field-label">Subject</div>
+          <div class="chip-row" id="paperSubjChips">
+            <div class="chip sel" onclick="pickPaperSubj('physics',this)">⚡ Physics</div>
+            <div class="chip" onclick="pickPaperSubj('chemistry',this)">🧪 Chemistry</div>
+            <div class="chip" onclick="pickPaperSubj('mathematics',this)">📐 Maths</div>
+            <div class="chip" onclick="pickPaperSubj('english',this)">📖 English</div>
+            <div class="chip" onclick="pickPaperSubj('cs',this)">💻 CS</div>
+          </div>
+        </div>
+
+        <!-- Scope -->
+        <div class="config-section">
+          <div class="field-label" style="margin-bottom:8px">Paper Scope</div>
+          <div class="toggle-row" id="scopeToggle">
+            <div class="toggle-btn on" onclick="pickScope('chapter',this)">Chapter-wise</div>
+            <div class="toggle-btn" onclick="pickScope('section',this)">Section-wise</div>
+            <div class="toggle-btn" onclick="pickScope('full',this)">Full Syllabus</div>
+          </div>
+          <div style="margin-top:10px" id="paperChField">
+            <div class="field-label">Select Chapter(s)</div>
+            <select id="paperChSelect" multiple style="height:90px"></select>
+            <div style="font-size:10px;color:var(--t3);margin-top:3px">Hold Ctrl/Cmd to select multiple</div>
+          </div>
+        </div>
+
+        <!-- Paper type & duration -->
+        <div class="config-section">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div>
+              <div class="field-label">Paper Type</div>
+              <select id="paperType">
+                <option value="board">Board Exam Pattern</option>
+                <option value="ut">Unit Test (30 marks)</option>
+                <option value="half">Half-yearly</option>
+                <option value="pre">Pre-Board Mock</option>
+                <option value="practice">Custom Practice</option>
+              </select>
+            </div>
+            <div>
+              <div class="field-label">Duration</div>
+              <select id="paperDur">
+                <option value="1 hour">1 Hour</option>
+                <option value="2 hours">2 Hours</option>
+                <option value="3 hours" selected>3 Hours</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Marks -->
+        <div class="config-section">
+          <div class="field-label">Marks Distribution</div>
+          <div class="marks-grid">
+            <div class="marks-item"><div class="marks-item-l">MCQ ×1</div><input type="number" id="pm1" value="16" min="0" max="30" oninput="calcPaperTotal()"></div>
+            <div class="marks-item"><div class="marks-item-l">A&R ×1</div><input type="number" id="pm2" value="5" min="0" max="20" oninput="calcPaperTotal()"></div>
+            <div class="marks-item"><div class="marks-item-l">VSA ×2</div><input type="number" id="pm3" value="4" min="0" max="20" oninput="calcPaperTotal()"></div>
+            <div class="marks-item"><div class="marks-item-l">SA ×3</div><input type="number" id="pm4" value="3" min="0" max="20" oninput="calcPaperTotal()"></div>
+            <div class="marks-item"><div class="marks-item-l">LA ×5</div><input type="number" id="pm5" value="4" min="0" max="10" oninput="calcPaperTotal()"></div>
+            <div class="marks-item"><div class="marks-item-l">Case ×4</div><input type="number" id="pm6" value="3" min="0" max="10" oninput="calcPaperTotal()"></div>
+          </div>
+          <div class="total-badge" id="paperTotal">Total: <strong>70 marks</strong></div>
+        </div>
+
+        <!-- Difficulty & note -->
+        <div class="config-section">
+          <div class="field-label">Difficulty</div>
+          <div class="toggle-row" id="paperDiffRow">
+            <div class="toggle-btn" onclick="pickPaperDiff('Easy',this)">Easy</div>
+            <div class="toggle-btn on" onclick="pickPaperDiff('Mixed',this)">Mixed</div>
+            <div class="toggle-btn" onclick="pickPaperDiff('Hard',this)">Hard</div>
+          </div>
+          <div style="margin-top:10px">
+            <div class="field-label">Teacher's Note (optional)</div>
+            <textarea class="ta" id="paperNote" rows="2" placeholder="e.g. Focus on numericals..."></textarea>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" id="paperGenBtn" onclick="generatePaper()">
+          <span id="paperGenIcon">✦</span><span id="paperGenText">Generate Test Paper</span>
+        </button>
+
+        <!-- Paper output -->
+        <div id="paperOutput"></div>
+
+      </div>
+    </div><!-- /screen-papers -->
+
+    <!-- ── SCREEN 5: PROGRESS ── -->
+    <div class="screen" id="screen-progress">
+
+      <div class="prog-hero">
+        <div class="overall-score">
+          <div class="big-score">74%</div>
+          <div class="big-score-info">
+            <div class="big-score-label" style="font-size:14px;font-weight:700;color:var(--t1)">Overall Mock Average</div>
+            <div class="big-score-label">This month · 12 tests taken</div>
+            <div class="big-score-sub">Target: 87% · Keep going! 💪</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--t3);margin-bottom:6px;font-weight:700;">WEEKLY ACTIVITY</div>
+          <div class="week-activity" id="weekActivity"></div>
+          <div style="display:flex;justify-content:space-between;margin-top:4px">
+            <span style="font-size:9px;color:var(--t3)">Mon</span>
+            <span style="font-size:9px;color:var(--t3)">Tue</span>
+            <span style="font-size:9px;color:var(--t3)">Wed</span>
+            <span style="font-size:9px;color:var(--t3)">Thu</span>
+            <span style="font-size:9px;color:var(--t3)">Fri</span>
+            <span style="font-size:9px;color:var(--t3)">Sat</span>
+            <span style="font-size:9px;color:var(--t3)">Sun</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-pad gap-12">
+
+        <!-- Subject progress -->
+        <div class="card">
+          <div class="card-body">
+            <div class="sec-hd-t" style="margin-bottom:14px">Subject Performance</div>
+            <div>
+              <div class="subj-prog-item">
+                <div class="spi-head"><span class="spi-icon">⚡</span><span class="spi-name">Physics</span><span class="spi-pct" style="color:var(--phy-m)">72%</span></div>
+                <div class="prog-bar"><div class="prog-fill" style="width:72%;background:var(--phy)"></div></div>
+              </div>
+              <div class="subj-prog-item">
+                <div class="spi-head"><span class="spi-icon">🧪</span><span class="spi-name">Chemistry</span><span class="spi-pct" style="color:var(--chem-m)">68%</span></div>
+                <div class="prog-bar"><div class="prog-fill" style="width:68%;background:var(--chem)"></div></div>
+              </div>
+              <div class="subj-prog-item">
+                <div class="spi-head"><span class="spi-icon">📐</span><span class="spi-name">Mathematics</span><span class="spi-pct" style="color:var(--math-m)">81%</span></div>
+                <div class="prog-bar"><div class="prog-fill" style="width:81%;background:var(--math)"></div></div>
+              </div>
+              <div class="subj-prog-item">
+                <div class="spi-head"><span class="spi-icon">📖</span><span class="spi-name">English</span><span class="spi-pct" style="color:var(--eng-m)">79%</span></div>
+                <div class="prog-bar"><div class="prog-fill" style="width:79%;background:var(--eng)"></div></div>
+              </div>
+              <div class="subj-prog-item" style="margin-bottom:0">
+                <div class="spi-head"><span class="spi-icon">💻</span><span class="spi-name">Comp. Science</span><span class="spi-pct" style="color:var(--cs-m)">76%</span></div>
+                <div class="prog-bar"><div class="prog-fill" style="width:76%;background:var(--cs)"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Weak areas -->
+        <div class="card">
+          <div class="card-body">
+            <div class="sec-hd"><span class="sec-hd-t">⚠️ Weak Areas</span><span class="sec-hd-link" onclick="goTab('tests')">Practice →</span></div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,82,82,.08);border-radius:var(--r);border:1px solid rgba(255,82,82,.2)">
+                <span style="font-size:14px">⚡</span>
+                <div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--t1)">Alternating Current</div><div style="font-size:11px;color:var(--t3)">Physics Ch 7 · 58% score</div></div>
+                <span style="font-size:18px;color:var(--red)">↓</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,82,82,.08);border-radius:var(--r);border:1px solid rgba(255,82,82,.2)">
+                <span style="font-size:14px">🧪</span>
+                <div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--t1)">Coordination Compounds</div><div style="font-size:11px;color:var(--t3)">Chemistry Ch 9 · 61% score</div></div>
+                <span style="font-size:18px;color:var(--red)">↓</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,204,2,.06);border-radius:var(--r);border:1px solid rgba(255,204,2,.15)">
+                <span style="font-size:14px">📐</span>
+                <div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--t1)">Application of Integrals</div><div style="font-size:11px;color:var(--t3)">Maths Ch 8 · 67% score</div></div>
+                <span style="font-size:18px;color:var(--yellow)">→</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent tests -->
+        <div class="card">
+          <div class="card-body">
+            <div class="sec-hd-t" style="margin-bottom:10px">Recent Test Scores</div>
+            <div style="display:flex;flex-direction:column;gap:1px">
+              <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)">
+                <span style="font-size:13px">📐</span>
+                <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--t1)">Maths — Integration</div><div style="font-size:11px;color:var(--t3)">Sun 15 · MCQ · 15 Qs</div></div>
+                <span style="font-size:14px;font-weight:800;color:var(--math-m)">87%</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)">
+                <span style="font-size:13px">⚡</span>
+                <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--t1)">Physics — Optics</div><div style="font-size:11px;color:var(--t3)">Fri 13 · Full Mock</div></div>
+                <span style="font-size:14px;font-weight:800;color:var(--phy-m)">74%</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)">
+                <span style="font-size:13px">🧪</span>
+                <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--t1)">Chemistry — Organic</div><div style="font-size:11px;color:var(--t3)">Wed 11 · SA + LA</div></div>
+                <span style="font-size:14px;font-weight:800;color:var(--yellow)">69%</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:9px 0">
+                <span style="font-size:13px">💻</span>
+                <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--t1)">CS — SQL & Networks</div><div style="font-size:11px;color:var(--t3)">Mon 9 · Mixed</div></div>
+                <span style="font-size:14px;font-weight:800;color:var(--cs-m)">81%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Achievements -->
+        <div>
+          <div class="sec-hd-t" style="margin-bottom:10px">🏆 Achievements</div>
+          <div class="ach-grid">
+            <div class="ach-item"><span class="ach-icon">🔥</span><div class="ach-name">7-Day Streak</div><div class="ach-desc">Study 7 days in a row</div></div>
+            <div class="ach-item"><span class="ach-icon">🎯</span><div class="ach-name">First Mock</div><div class="ach-desc">Completed 1st full paper</div></div>
+            <div class="ach-item"><span class="ach-icon">⚡</span><div class="ach-name">Physics Pro</div><div class="ach-desc">70%+ in Physics mock</div></div>
+            <div class="ach-item locked"><span class="ach-icon">🏅</span><div class="ach-name">Top Scorer</div><div class="ach-desc">Score 90%+ in any test</div></div>
+            <div class="ach-item locked"><span class="ach-icon">📚</span><div class="ach-name">All Chapters</div><div class="ach-desc">Complete full syllabus</div></div>
+            <div class="ach-item locked"><span class="ach-icon">🎓</span><div class="ach-name">Board Ready</div><div class="ach-desc">Avg 85%+ in pre-boards</div></div>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /screen-progress -->
+
+  </div><!-- /screens -->
+
+  <!-- BOTTOM NAV -->
+  <div class="nav">
+    <div class="nav-item active" id="nav-home" onclick="goTab('home')">
+      <div class="nav-icon">🏠</div>
+      <div class="nav-label">Home</div>
+    </div>
+    <div class="nav-item" id="nav-plan" onclick="goTab('plan')">
+      <div class="nav-icon">📅</div>
+      <div class="nav-label">Study Plan</div>
+    </div>
+    <div class="nav-item" id="nav-tests" onclick="goTab('tests')">
+      <div class="nav-icon">🧠</div>
+      <div class="nav-label">Test Series</div>
+    </div>
+    <div class="nav-item" id="nav-papers" onclick="goTab('papers')">
+      <div class="nav-icon">📄</div>
+      <div class="nav-label">Papers</div>
+    </div>
+    <div class="nav-item" id="nav-progress" onclick="goTab('progress')">
+      <div class="nav-icon">📈</div>
+      <div class="nav-label">Progress</div>
+    </div>
+  </div>
+
+
+  <!-- PWA INSTALL BANNER -->
+  <div class="install-banner" id="installBanner">
+    <div class="install-icon">📲</div>
+    <div class="install-info">
+      <div class="install-title">Install CBSE12 App</div>
+      <div class="install-sub">Add to home screen for offline access</div>
+    </div>
+    <div class="install-actions">
+      <button class="install-btn install-btn-no" onclick="dismissInstall()">Not now</button>
+      <button class="install-btn install-btn-yes" onclick="triggerInstall()">Install</button>
+    </div>
+  </div>
+
+  <!-- OFFLINE BAR -->
+  <div class="offline-bar" id="offlineBar">📶 You're offline — using cached content</div>
+
+  <!-- UPDATE BAR -->
+  <div class="update-bar" id="updateBar" onclick="applyUpdate()" style="display:none">
+    <span>🔄</span><span>New version available</span><span style="margin-left:auto;text-decoration:underline">Update now</span>
+  </div>
+
+</div><!-- /app -->
+
+<script>
+/* ══════════════════════════════════════════════
+   DATA
+══════════════════════════════════════════════ */
+const CH = {
+  physics:["Electric Charges & Fields","Electrostatic Potential & Capacitance","Current Electricity","Moving Charges & Magnetism","Magnetism & Matter","Electromagnetic Induction","Alternating Current","Electromagnetic Waves","Ray Optics & Optical Instruments","Wave Optics","Dual Nature of Radiation & Matter","Atoms","Nuclei","Semiconductor Electronics"],
+  chemistry:["Solid State","Solutions","Electrochemistry","Chemical Kinetics","Surface Chemistry","General Principles of Metal Extraction","p-Block Elements","d & f Block Elements","Coordination Compounds","Haloalkanes & Haloarenes","Alcohols, Phenols & Ethers","Aldehydes, Ketones & Carboxylic Acids","Amines","Biomolecules","Polymers","Chemistry in Everyday Life"],
+  mathematics:["Relations & Functions","Inverse Trigonometric Functions","Matrices","Determinants","Continuity & Differentiability","Application of Derivatives","Integrals","Application of Integrals","Differential Equations","Vector Algebra","Three Dimensional Geometry","Linear Programming","Probability"],
+  english:["The Last Lesson","Lost Spring","Deep Water","The Rattrap","Indigo","Poets and Pancakes","The Interview","Going Places","My Mother at Sixty Six","An Elementary School Classroom in a Slum","Keeping Quiet","A Thing of Beauty","A Roadside Stand","Aunt Jennifer's Tigers","The Third Level","The Tiger King","Journey to the End of the Earth","The Enemy","Should Wizard Hit Mommy","On the Face of It","Evans Tries an O-Level","Memories of Childhood","Writing — Article & Speech","Writing — Letter & Application","Writing — Report & Debate","Integrated Grammar"],
+  cs:["Python Revision (11th)","Object-Oriented Programming","File Handling in Python","Data Structures — Stack","Data Structures — Queue","Computer Networks","Database & SQL","MySQL-Python Connectivity","Societal Impacts & Cyber Safety"]
+};
+const PRI = {
+  physics:["h","h","h","h","m","h","h","m","h","h","m","m","m","h"],
+  chemistry:["m","h","h","h","l","m","h","h","h","h","h","h","h","m","l","l"],
+  mathematics:["h","m","m","h","h","h","h","h","h","h","h","m","h"],
+  english:["h","h","h","m","h","h","h","h","h","m","h","h","m","m","h","h","h","h","m","m","m","m","h","h","h","m"],
+  cs:["h","h","h","h","m","h","h","h","m"]
+};
+const DAYS_CH = {
+  physics:[5,5,6,5,3,5,5,2,6,4,3,2,2,5],
+  chemistry:[3,4,5,4,2,2,6,4,4,4,4,5,3,2,2,1],
+  mathematics:[4,3,3,4,5,5,8,3,4,4,4,2,5],
+  english:[2,2,2,2,2,2,2,2,1,1,1,1,1,1,2,2,2,2,2,2,2,2,3,3,3,2],
+  cs:[3,5,4,3,2,4,5,3,2]
+};
+const SL = {physics:"Physics",chemistry:"Chemistry",mathematics:"Mathematics",english:"English (Core)",cs:"Computer Science"};
+const SC = {physics:"042",chemistry:"043",mathematics:"041",english:"301",cs:"083"};
+const SCOL = {physics:"#4d9eff",chemistry:"#ff7043",mathematics:"#26c987",english:"#b970ff",cs:"#ffcc02"};
+
+let curTab = 'home';
+let testSubj = 'physics', testDiff = 'Mixed';
+let paperSubj = 'physics', paperScope = 'chapter', paperDiff = 'Mixed';
+let scoreC = 0, scoreW = 0, scoreTot = 0;
+let testLoading = false, paperLoading = false;
+let lastPaper = null;
+
+/* ══════════════════════════════════════════════
+   NAVIGATION
+══════════════════════════════════════════════ */
+function goTab(tab) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('screen-' + (tab==='home'?'home':tab==='plan'?'plan':tab==='tests'?'tests':tab==='papers'?'papers':'progress')).classList.add('active');
+  document.getElementById('nav-' + (tab==='home'?'home':tab==='plan'?'plan':tab==='tests'?'tests':tab==='papers'?'papers':'progress')).classList.add('active');
+  curTab = tab;
+}
+
+/* ══════════════════════════════════════════════
+   WEEK GRID (STUDY PLAN)
+══════════════════════════════════════════════ */
+function buildWeekGrid() {
+  const days = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+  const today = new Date().getDay(); // 0=Sun
+  const todayIdx = today === 0 ? 6 : today - 1;
+  const nums = [28,29,30,1,2,3,4]; // example
+  const grid = document.getElementById('weekGrid');
+  if (!grid) return;
+  grid.innerHTML = days.map((d,i) => `
+    <div class="day-chip ${i===todayIdx?'today':''}">
+      <div class="dc-d">${d}</div>
+      <div class="dc-n">${nums[i]}</div>
+      ${i===todayIdx?'<div class="dc-dot"></div>':''}
+    </div>`).join('');
+}
+
+/* ══════════════════════════════════════════════
+   CHAPTER PLAN (STUDY PLAN SCREEN)
+══════════════════════════════════════════════ */
+let planSubj = 'physics';
+function filterPlanSubj(s, el) {
+  planSubj = s;
+  document.querySelectorAll('#planSubjChips .chip').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+  renderChPlan();
+}
+function renderChPlan() {
+  const chs = CH[planSubj];
+  const pris = PRI[planSubj];
+  const days = DAYS_CH[planSubj];
+  const html = chs.map((c,i) => {
+    const p = pris[i];
+    const cls = p==='h'?'pri-h':p==='m'?'pri-m':'pri-l';
+    const lbl = p==='h'?'High':p==='m'?'Medium':'Lower';
+    return `<div class="ch-plan-item">
+      <div class="ch-num">Ch ${i+1}</div>
+      <div class="ch-name">${c}</div>
+      <div class="ch-days" style="font-size:10px">${days[i]}d</div>
+      <div class="ch-priority ${cls}">${lbl}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('chPlanList').innerHTML = html;
+}
+
+/* ══════════════════════════════════════════════
+   WEEKLY ACTIVITY (PROGRESS)
+══════════════════════════════════════════════ */
+function buildActivity() {
+  const heights = [80,60,100,40,90,50,30];
+  const colors = ['var(--phy)','var(--chem)','var(--math)','var(--phy)','var(--math)','var(--eng)','var(--cs)'];
+  const wa = document.getElementById('weekActivity');
+  if (!wa) return;
+  wa.innerHTML = heights.map((h,i) => `
+    <div class="act-day">
+      <div class="act-fill" style="height:${h}%;background:${colors[i]}"></div>
+    </div>`).join('');
+}
+
+/* ══════════════════════════════════════════════
+   TEST SERIES — SUBJECT / CHAPTER
+══════════════════════════════════════════════ */
+function testPickSubj(s, el) {
+  testSubj = s;
+  document.querySelectorAll('.subj-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderTestChapters();
+}
+function renderTestChapters() {
+  const sel = document.getElementById('testChapter');
+  sel.innerHTML = CH[testSubj].map((c,i) => `<option value="${c}">Ch ${i+1} — ${c}</option>`).join('');
+}
+function pickTestDiff(d, el) {
+  testDiff = d;
+  document.querySelectorAll('#screen-tests .toggle-btn').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+}
+function setTestSubj(s) {
+  testSubj = s;
+  goTab('tests');
+  document.querySelectorAll('.subj-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.subj-tab[data-s="${s}"]`).classList.add('active');
+  renderTestChapters();
+}
+
+/* ══════════════════════════════════════════════
+   TEST GENERATION (AI)
+══════════════════════════════════════════════ */
+async function generateTest() {
+  if (testLoading) return;
+  testLoading = true;
+  const btn = document.getElementById('testGenBtn');
+  btn.disabled = true; btn.classList.add('loading');
+  document.getElementById('testGenIcon').textContent = '⟳';
+  document.getElementById('testGenText').textContent = 'Generating…';
+
+  const chapter = document.getElementById('testChapter').value;
+  const type = document.getElementById('testType').value;
+  const count = parseInt(document.getElementById('testCount').value) || 5;
+  const area = document.getElementById('testArea');
+
+  area.innerHTML = `<div class="thinking"><div class="dots"><span></span><span></span><span></span></div><div>Creating ${SL[testSubj]} questions…</div></div>`;
+
+  const sys = `You are a CBSE Grade 12 expert tutor. Return ONLY valid JSON, no markdown, no fences, no extra text.
+For MCQ: {"type":"mcq","questions":[{"q":"...","opts":["(a)...","(b)...","(c)...","(d)..."],"correct":0,"exp":"..."},...]}
+For assertion: {"type":"assertion","questions":[{"assertion":"...","reason":"...","correct":0,"exp":"..."},...]}
+For formula: {"type":"formula","formulas":[{"name":"...","formula":"ASCII notation","vars":"what each means","use":"when to apply"},...]}
+For short: {"type":"short","questions":[{"q":"...","a":"..."},...]}
+For long: {"type":"long","questions":[{"q":"...","a":"..."},...]}
+For fill: {"type":"fill","questions":[{"q":"sentence with ___ blank","answer":"...","hint":"..."},...]}
+correct is 0-indexed. All content NCERT Class 12 accurate. Difficulty: ${testDiff}.`;
+
+  const typeNames = {mcq:'Multiple Choice Questions',assertion:'Assertion & Reason questions',formula:'a Formula Bank',short:'Short Answer Questions',long:'Long Answer Questions (5 marks)',fill:'Fill in the Blank questions'};
+  const usr = `Generate ${type==='formula'?'all key formulas':count+' '+typeNames[type]} for CBSE Grade 12 ${SL[testSubj]} — ${chapter}. NCERT-based, board-exam level, difficulty: ${testDiff}.`;
+
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:6000,system:sys,messages:[{role:'user',content:usr}]})
+    });
+    if(!r.ok) throw new Error('API '+r.status);
+    const d = await r.json();
+    let raw = d.content[0].text.trim().replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/\s*```$/,'').trim();
+    const data = JSON.parse(raw);
+    renderTestQuestions(data, chapter);
+  } catch(e) {
+    area.innerHTML = `<div class="err-card">Error: ${e.message}. Please try again.</div>`;
+  }
+  testLoading=false; btn.disabled=false; btn.classList.remove('loading');
+  document.getElementById('testGenIcon').textContent='✦';
+  document.getElementById('testGenText').textContent='Generate Questions';
+}
+
+function renderTestQuestions(data, chapter) {
+  const area = document.getElementById('testArea');
+  const c = SCOL[testSubj];
+  const bg = c + '22';
+  let html = `<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:10px">${SL[testSubj]} · ${chapter}</div>`;
+
+  if (data.type === 'mcq') {
+    data.questions.forEach((q,i) => {
+      html += `<div class="q-card">
+        <div class="q-card-head">
+          <span class="q-type-badge" style="background:${bg};color:${c}">MCQ</span>
+          <span style="font-size:11px;color:var(--t3)">Q${i+1}</span>
+          <span style="font-size:10px;color:var(--t3);margin-left:auto">${testDiff}</span>
+        </div>
+        <div class="q-card-body">
+          <div class="q-text">${esc(q.q)}</div>
+          <div class="mcq-opts" id="mcq-${i}">
+            ${(q.opts||[]).map((o,j) => `<div class="mcq-opt" onclick="answerMCQ(${i},${j},${q.correct},'${encodeURIComponent(q.exp||'')}','mcq')" id="opt-${i}-${j}">
+              <span class="opt-letter">${'ABCD'[j]}</span>
+              <span>${esc(o.replace(/^\([a-d]\)\s*/i,''))}</span>
+            </div>`).join('')}
+          </div>
+          <div class="ans-reveal" id="exp-mcq-${i}">
+            <div class="ans-reveal-lbl">Explanation</div>
+            <div class="ans-reveal-text" id="exp-text-mcq-${i}"></div>
+          </div>
+        </div>
+      </div>`;
+    });
+  } else if (data.type === 'assertion') {
+    data.questions.forEach((q,i) => {
+      html += `<div class="q-card">
+        <div class="q-card-head"><span class="q-type-badge" style="background:${bg};color:${c}">A&R</span><span style="font-size:11px;color:var(--t3)">Q${i+1}</span></div>
+        <div class="q-card-body">
+          <div class="assert-box"><div class="assert-lbl">Assertion (A)</div>${esc(q.assertion)}</div>
+          <div class="assert-box"><div class="assert-lbl">Reason (R)</div>${esc(q.reason)}</div>
+          <div style="font-size:11px;color:var(--t3);margin:5px 0 8px;font-style:italic">Choose the correct option:</div>
+          <div class="mcq-opts" id="mcq-ar-${i}">
+            ${['Both A and R are true; R is the correct explanation of A','Both A and R are true; R is NOT the correct explanation of A','A is true but R is false','A is false but R is true'].map((o,j) => `
+            <div class="mcq-opt" onclick="answerMCQ('ar-${i}',${j},${q.correct},'${encodeURIComponent(q.exp||'')}','ar')" id="opt-ar-${i}-${j}">
+              <span class="opt-letter">${'ABCD'[j]}</span><span style="font-size:12px">${o}</span>
+            </div>`).join('')}
+          </div>
+          <div class="ans-reveal" id="exp-ar-${i}"><div class="ans-reveal-lbl">Explanation</div><div class="ans-reveal-text" id="exp-text-ar-${i}"></div></div>
+        </div>
+      </div>`;
+    });
+  } else if (data.type === 'formula') {
+    html += `<div class="q-card"><div class="q-card-body" style="padding-top:14px">
+      ${(data.formulas||[]).map(f => `<div class="formula-row">
+        <div style="flex:1"><div class="formula-name">${esc(f.name)}</div><div class="formula-expr">${esc(f.formula)}</div><div class="formula-desc">${esc(f.vars)}</div><div class="formula-desc" style="color:var(--t3);margin-top:2px;font-style:italic">${esc(f.use)}</div></div>
+      </div>`).join('')}
+    </div></div>`;
+  } else if (data.type === 'short' || data.type === 'long') {
+    data.questions.forEach((q,i) => {
+      const id = `${data.type}-${i}`;
+      html += `<div class="q-card">
+        <div class="q-card-head"><span class="q-type-badge" style="background:${bg};color:${c}">${data.type==='short'?'Short Q&A':'Long Q&A'}</span><span style="font-size:11px;color:var(--t3)">Q${i+1}</span></div>
+        <div class="q-card-body">
+          <div class="q-text">${esc(q.q)}</div>
+          <button class="reveal-btn" onclick="togReveal('${id}',this)"><span>▶</span> Show Answer</button>
+          <div class="ans-reveal" id="ans-${id}"><div class="ans-reveal-lbl">Answer</div><div class="ans-reveal-text">${esc(q.a).replace(/\n/g,'<br>')}</div></div>
+        </div>
+      </div>`;
+    });
+  } else if (data.type === 'fill') {
+    data.questions.forEach((q,i) => {
+      const id = `fill-${i}`;
+      html += `<div class="q-card">
+        <div class="q-card-head"><span class="q-type-badge" style="background:${bg};color:${c}">Fill Blank</span><span style="font-size:11px;color:var(--t3)">Q${i+1}</span></div>
+        <div class="q-card-body">
+          <div class="q-text">${esc(q.q)}</div>
+          <div style="font-size:11px;color:var(--t3);margin-bottom:6px;font-style:italic">Hint: ${esc(q.hint)}</div>
+          <button class="reveal-btn" onclick="togReveal('${id}',this)"><span>▶</span> Reveal Answer</button>
+          <div class="ans-reveal" id="ans-${id}"><div class="ans-reveal-lbl">Answer</div><div class="ans-reveal-text" style="font-size:15px;font-weight:700;color:var(--t1)">${esc(q.answer)}</div></div>
+        </div>
+      </div>`;
+    });
+  }
+
+  area.innerHTML = html;
+}
+
+function answerMCQ(qi, sel, correct, expEnc, prefix) {
+  const sfx = prefix === 'ar' ? `ar-${qi.toString().replace('ar-','')}` : qi;
+  const pref = prefix === 'ar' ? `opt-ar-${qi.toString().replace('ar-','')}` : `opt-${qi}`;
+  const opts = document.querySelectorAll(`[id^="${pref}-"]`);
+  opts.forEach((opt,j) => {
+    opt.style.pointerEvents='none';
+    if(j===correct) opt.classList.add('revealed');
+    else if(j===sel&&sel!==correct) opt.classList.add('wrong');
+  });
+  if(sel===correct){
+    scoreC++;
+    document.getElementById(`${pref}-${sel}`).classList.remove('wrong');
+    document.getElementById(`${pref}-${sel}`).classList.add('correct');
+  } else { scoreW++; }
+  scoreTot++;
+  updateScoreBar();
+  const expBox = document.getElementById(`exp-${prefix==='ar'?'ar-'+qi.toString().replace('ar-',''):'mcq-'+qi}`);
+  const expText = document.getElementById(`exp-text-${prefix==='ar'?'ar-'+qi.toString().replace('ar-',''):'mcq-'+qi}`);
+  if(expBox&&expText){expText.textContent=decodeURIComponent(expEnc);expBox.classList.add('show');}
+}
+
+function togReveal(id, btn) {
+  const box = document.getElementById('ans-' + id);
+  if(!box) return;
+  const s = box.classList.toggle('show');
+  btn.querySelector('span').textContent = s ? '▼' : '▶';
+  btn.childNodes[1].textContent = s ? ' Hide Answer' : ' Show Answer';
+}
+
+function updateScoreBar() {
+  const bar = document.getElementById('scoreBarWrap');
+  bar.style.display = 'flex';
+  document.getElementById('sc').textContent = scoreC;
+  document.getElementById('sw').textContent = scoreW;
+  const pct = scoreTot > 0 ? Math.round((scoreC/scoreTot)*100) : 0;
+  const pill = document.getElementById('spct');
+  pill.textContent = pct + '%';
+  pill.className = 'sb-pct ' + (pct>=70?'g':pct>=40?'o':'r');
+}
+
+function resetScore() {
+  scoreC=scoreW=scoreTot=0;
+  document.getElementById('scoreBarWrap').style.display='none';
+}
+
+/* ══════════════════════════════════════════════
+   PAPER GENERATOR
+══════════════════════════════════════════════ */
+function pickPaperSubj(s, el) {
+  paperSubj = s;
+  document.querySelectorAll('#paperSubjChips .chip').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+  renderPaperChapters();
+}
+function pickScope(sc, el) {
+  paperScope = sc;
+  document.querySelectorAll('#scopeToggle .toggle-btn').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('paperChField').style.display = sc === 'full' ? 'none' : '';
+}
+function pickPaperDiff(d, el) {
+  paperDiff = d;
+  document.querySelectorAll('#paperDiffRow .toggle-btn').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+}
+function renderPaperChapters() {
+  const sel = document.getElementById('paperChSelect');
+  sel.innerHTML = CH[paperSubj].map((c,i) => `<option value="${c}" selected>Ch ${i+1} — ${c}</option>`).join('');
+}
+function calcPaperTotal() {
+  const v = id => parseInt(document.getElementById(id).value)||0;
+  const t = v('pm1')+v('pm2')+v('pm3')*2+v('pm4')*3+v('pm5')*5+v('pm6')*4;
+  document.getElementById('paperTotal').innerHTML = `Total: <strong>${t} marks</strong>`;
+  return t;
+}
+function getSelectedChapters() {
+  if(paperScope==='full') return CH[paperSubj];
+  const sel = document.getElementById('paperChSelect');
+  const selected = [...sel.selectedOptions].map(o => o.value);
+  return selected.length ? selected : CH[paperSubj];
+}
+
+async function generatePaper() {
+  if(paperLoading) return;
+  paperLoading = true;
+  const btn = document.getElementById('paperGenBtn');
+  btn.disabled=true; btn.classList.add('loading');
+  document.getElementById('paperGenIcon').textContent='⟳';
+  document.getElementById('paperGenText').textContent='Generating…';
+  document.getElementById('paperOutput').innerHTML=`<div class="thinking"><div class="dots"><span></span><span></span><span></span></div><div>Composing ${SL[paperSubj]} paper… (20–40 sec)</div></div>`;
+
+  const chapters = getSelectedChapters();
+  const v = id => parseInt(document.getElementById(id).value)||0;
+  const m1=v('pm1'),m2=v('pm2'),m3=v('pm3'),m4=v('pm4'),m5=v('pm5'),m6=v('pm6');
+  const total = m1+m2+m3*2+m4*3+m5*5+m6*4;
+  const dur = document.getElementById('paperDur').value;
+  const ptype = document.getElementById('paperType').value;
+  const note = document.getElementById('paperNote').value.trim();
+  const typeMap={board:'Board Examination',ut:'Unit Test',half:'Half-yearly Examination',pre:'Pre-Board Examination',practice:'Practice Paper'};
+
+  const sys = `You are a CBSE Grade 12 exam paper setter. Return ONLY valid JSON, no markdown, no fences.
+Schema:
+{"paperTitle":"string","examDate":"string","totalMarks":number,"duration":"string","generalInstructions":["string",...],"sections":[{"sectionName":"string","sectionDesc":"string","totalMarks":number,"qType":"mcq|assertion|vsa|sa|la|casebased|fill","questions":[{"qNum":number,"qText":"string","marks":number,"opts":["(a)...","(b)...","(c)...","(d)..."],"assertion":"string","reason":"string","passage":"string","subQuestions":["string"],"answerKey":"string","answerExplanation":"string"}]}]}
+Rules: opts only for mcq/assertion. assertion+reason only for assertion. passage+subQuestions only for casebased. All NCERT Class 12 accurate. Question numbers sequential across sections.`;
+
+  const usr = `Generate a ${typeMap[ptype]} for CBSE Grade 12 ${SL[paperSubj]} (Code: ${SC[paperSubj]}).
+Coverage: ${chapters.join(', ')}
+Duration: ${dur}, Total: ${total} marks, Difficulty: ${paperDiff}
+Sections:
+${m1>0?`Section A: ${m1} MCQ ×1 mark = ${m1}M`:''}
+${m2>0?`Section A cont: ${m2} Assertion & Reason ×1 mark = ${m2}M`:''}
+${m3>0?`Section B: ${m3} VSA ×2 marks = ${m3*2}M`:''}
+${m4>0?`Section C: ${m4} SA ×3 marks = ${m4*3}M`:''}
+${m5>0?`Section D: ${m5} LA ×5 marks = ${m5*5}M`:''}
+${m6>0?`Section E: ${m6} Case-based ×4 marks = ${m6*4}M (each has passage + 4 sub-questions of 1 mark)`:''}
+${note?'Teacher note: '+note:''}
+Include 5 general instructions. Date: March 2027. Full answer key for all questions.`;
+
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:8000,system:sys,messages:[{role:'user',content:usr}]})
+    });
+    if(!r.ok) throw new Error('API '+r.status);
+    const d = await r.json();
+    let raw = d.content[0].text.trim().replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/\s*```$/,'').trim();
+    const paper = JSON.parse(raw);
+    lastPaper = paper;
+    renderPaper(paper);
+  } catch(e) {
+    document.getElementById('paperOutput').innerHTML = `<div class="err-card">Error: ${e.message}. Please try again.</div>`;
+  }
+  paperLoading=false; btn.disabled=false; btn.classList.remove('loading');
+  document.getElementById('paperGenIcon').textContent='✦';
+  document.getElementById('paperGenText').textContent='Generate Test Paper';
+}
+
+function renderPaper(p) {
+  const total = calcPaperTotal();
+  const c = SCOL[paperSubj];
+  let html = '';
+
+  /* Share/Print row */
+  html += `<div style="display:flex;gap:8px;margin-bottom:10px">
+    <button class="btn btn-outline btn-sm" onclick="togAK()">🔑 Answer Key</button>
+    <button class="btn btn-outline btn-sm" style="margin-left:auto" onclick="window.print()">⎙ Print</button>
+  </div>`;
+
+  /* Paper */
+  html += `<div class="paper-preview">
+    <div class="pp-head">
+      <div class="pp-school">Central Board of Secondary Education</div>
+      <div class="pp-title">${esc(p.paperTitle||'Examination 2026–27')}</div>
+      <div class="pp-subj" style="color:${c}">${SL[paperSubj]} · Code: ${SC[paperSubj]}</div>
+      <div class="pp-meta">
+        <div class="pp-meta-item"><span class="pp-meta-l">Class:</span>&nbsp;<span class="pp-meta-v">XII</span></div>
+        <div class="pp-meta-item"><span class="pp-meta-l">Date:</span>&nbsp;<span class="pp-meta-v">${esc(p.examDate||'March 2027')}</span></div>
+        <div class="pp-meta-item"><span class="pp-meta-l">Time:</span>&nbsp;<span class="pp-meta-v">${esc(p.duration||'3 Hours')}</span></div>
+        <div class="pp-meta-item"><span class="pp-meta-l">Max Marks:</span>&nbsp;<span class="pp-meta-v">${p.totalMarks||total}</span></div>
+      </div>
+    </div>`;
+
+  if(p.generalInstructions&&p.generalInstructions.length){
+    html += `<div class="pp-instr"><div class="pp-instr-t">General Instructions</div><ol>${p.generalInstructions.map(i=>`<li>${esc(i)}</li>`).join('')}</ol></div>`;
+  }
+
+  let gq=1;
+  (p.sections||[]).forEach(sec => {
+    html += `<div class="pp-section"><div class="pp-sec-head">
+      <span class="pp-sec-t">${esc(sec.sectionName)}</span>
+      <span class="pp-sec-m">${sec.totalMarks}M</span>
+      <span class="pp-sec-d">${esc(sec.sectionDesc||'')}</span>
+    </div>`;
+    (sec.questions||[]).forEach((q,qi) => {
+      const qn=q.qNum||gq++;
+      const mb = `<span class="pp-mb" style="background:${c}22;color:${c}">[${q.marks}M]</span>`;
+      html += `<div class="pp-q"><div class="pp-qn">Q${qn}.</div><div class="pp-qc">`;
+      if(sec.qType==='assertion'){
+        html += `${mb}<div class="pp-assert"><div class="pp-al">Assertion (A)</div>${esc(q.assertion||q.qText||'')}</div>
+          <div class="pp-assert"><div class="pp-al">Reason (R)</div>${esc(q.reason||'')}</div>
+          <div style="font-size:11px;color:#888;margin:4px 0 6px;font-style:italic">Choose the correct option:</div>
+          <div class="pp-opts">
+            <div class="pp-opt"><span class="pp-opt-l">(a)</span>Both A and R true; R explains A</div>
+            <div class="pp-opt"><span class="pp-opt-l">(b)</span>Both A and R true; R doesn't explain A</div>
+            <div class="pp-opt"><span class="pp-opt-l">(c)</span>A true, R false</div>
+            <div class="pp-opt"><span class="pp-opt-l">(d)</span>A false, R true</div>
+          </div>`;
+      } else if(sec.qType==='casebased'){
+        html += `${mb}<div class="pp-case"><div class="pp-cl">Read the passage:</div>${esc(q.passage||q.qText||'')}</div>`;
+        (q.subQuestions||[]).forEach((sq,si)=>{
+          html += `<div class="pp-q" style="margin-bottom:6px"><div class="pp-qn" style="font-size:12px">${String.fromCharCode(105+si)}.</div><div class="pp-qc"><div class="pp-qt">${esc(sq)}</div></div></div>`;
+        });
+      } else if(sec.qType==='fill'){
+        html += `${mb}<div class="pp-qt">${mkBlank(esc(q.qText||''))}</div>`;
+      } else {
+        html += `${mb}<div class="pp-qt">${esc(q.qText||'')}</div>`;
+        if(q.opts&&q.opts.length){
+          html += `<div class="pp-opts">${q.opts.map(o=>`<div class="pp-opt"><span class="pp-opt-l">${o.substring(0,3)}</span>${esc(o.substring(3))}</div>`).join('')}</div>`;
+        }
+        const lines=sec.qType==='la'?7:sec.qType==='sa'?4:sec.qType==='vsa'?2:0;
+        if(lines) html += `<div style="margin-top:8px">${Array(lines).fill('<div class="aline"></div>').join('')}</div>`;
+      }
+      html += `</div></div>`;
+    });
+    html += `</div>`;
+  });
+  html += `</div>`; // paper-preview
+
+  /* Answer key */
+  html += `<div class="ak-wrap" id="akSection" style="display:none">
+    <div class="ak-title">Answer Key <span class="ak-badge">Examiner</span></div>
+    <div class="ak-grid">`;
+  let gq2=1;
+  (p.sections||[]).forEach(sec=>{
+    (sec.questions||[]).forEach(q=>{
+      const qn=q.qNum||gq2++;
+      html+=`<div class="ak-item"><div class="ak-q">Q${qn} · ${q.marks}M · ${esc(sec.sectionName)}</div>
+        <div class="ak-a"><span class="cor">${esc(q.answerKey||'—')}</span>${q.answerExplanation?'<br><span style="font-size:11px;color:#666">'+esc(q.answerExplanation)+'</span>':''}</div>
+      </div>`;
+    });
+  });
+  html += `</div></div>`;
+
+  document.getElementById('paperOutput').innerHTML = html;
+}
+
+let akShown = false;
+function togAK() {
+  const s = document.getElementById('akSection');
+  if(!s) return;
+  akShown = !akShown;
+  s.style.display = akShown ? '' : 'none';
+  if(akShown) s.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+/* ══════════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════════ */
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function mkBlank(s){return s.replace(/_{3,}/g,'<span class="blank"></span>');}
+function openNotif(){alert('All caught up! No new notifications.');}
+function openSettings(){alert('Settings coming soon in next update!');}
+
+/* ══════════════════════════════════════════════
+   COUNTDOWN
+══════════════════════════════════════════════ */
+function computeCountdown() {
+  const board = new Date('2027-03-05');
+  const now = new Date();
+  const days = Math.max(0, Math.ceil((board - now) / 86400000));
+  const els = document.querySelectorAll('#dayCount,#cdNum');
+  els.forEach(e => { if(e) e.textContent = days; });
+}
+
+/* ══════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════ */
+computeCountdown();
+buildWeekGrid();
+buildActivity();
+renderChPlan();
+renderTestChapters();
+renderPaperChapters();
+calcPaperTotal();
+
+
+/* ══════════════════════════════════════════════
+   PWA — SERVICE WORKER REGISTRATION
+══════════════════════════════════════════════ */
+let deferredPrompt = null;
+let swRegistration = null;
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', async () => {
+    try {
+      swRegistration = await navigator.serviceWorker.register('./sw.js');
+      console.log('[PWA] Service Worker registered:', swRegistration.scope);
+
+      // Check for updates
+      swRegistration.addEventListener('updatefound', () => {
+        const newWorker = swRegistration.installing;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            showUpdateBar();
+          }
+        });
+      });
+    } catch (err) {
+      console.log('[PWA] SW registration failed:', err);
+    }
+  });
+}
+
+// ── INSTALL PROMPT ─────────────────────────
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  // Show after 3 seconds if not dismissed before
+  const dismissed = localStorage.getItem('pwa-install-dismissed');
+  if (!dismissed) {
+    setTimeout(() => {
+      document.getElementById('installBanner').classList.add('show');
+    }, 3000);
+  }
+});
+
+window.addEventListener('appinstalled', () => {
+  console.log('[PWA] App installed!');
+  document.getElementById('installBanner').classList.remove('show');
+  deferredPrompt = null;
+  showToast('✅ App installed! Find it on your home screen.');
+});
+
+async function triggerInstall() {
+  if (!deferredPrompt) {
+    // iOS: show manual instructions
+    showIOSInstallGuide();
+    return;
+  }
+  document.getElementById('installBanner').classList.remove('show');
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  console.log('[PWA] Install outcome:', outcome);
+  deferredPrompt = null;
+}
+
+function dismissInstall() {
+  document.getElementById('installBanner').classList.remove('show');
+  localStorage.setItem('pwa-install-dismissed', '1');
+}
+
+function showIOSInstallGuide() {
+  document.getElementById('installBanner').classList.remove('show');
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  if (isIOS) {
+    showToast('Tap the Share button (□↑) then "Add to Home Screen"', 5000);
+  } else {
+    showToast('Open in Chrome and tap the menu → "Add to Home Screen"', 5000);
+  }
+}
+
+// ── ONLINE/OFFLINE ──────────────────────────
+function updateOnlineStatus() {
+  const bar = document.getElementById('offlineBar');
+  if (!navigator.onLine) {
+    bar.classList.add('show');
+  } else {
+    bar.classList.remove('show');
+  }
+}
+window.addEventListener('online', updateOnlineStatus);
+window.addEventListener('offline', updateOnlineStatus);
+updateOnlineStatus();
+
+// ── UPDATE ──────────────────────────────────
+function showUpdateBar() {
+  const bar = document.getElementById('updateBar');
+  bar.style.display = 'flex';
+  setTimeout(() => bar.classList.add('show'), 50);
+}
+function applyUpdate() {
+  if (swRegistration && swRegistration.waiting) {
+    swRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
+  }
+  window.location.reload();
+}
+
+// ── TOAST NOTIFICATION ──────────────────────
+function showToast(msg, duration = 3000) {
+  const existing = document.getElementById('pwaToast');
+  if (existing) existing.remove();
+  const t = document.createElement('div');
+  t.id = 'pwaToast';
+  t.style.cssText = `
+    position:fixed; bottom:calc(var(--nav-h) + 80px); left:16px; right:16px;
+    background:rgba(29,43,63,.97); border:1px solid var(--border2);
+    border-radius:12px; padding:13px 16px; font-size:13px; font-weight:600;
+    color:var(--t1); z-index:200; text-align:center;
+    backdrop-filter:blur(16px);
+    animation: toastIn .3s ease;
+  `;
+  const style = document.createElement('style');
+  style.textContent = '@keyframes toastIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}';
+  document.head.appendChild(style);
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => {
+    t.style.opacity = '0';
+    t.style.transition = 'opacity .3s';
+    setTimeout(() => t.remove(), 300);
+  }, duration);
+}
+
+// ── HASH-BASED DEEP LINKING ─────────────────
+function handleHash() {
+  const hash = window.location.hash.replace('#', '');
+  if (['home','plan','tests','papers','progress'].includes(hash)) {
+    goTab(hash);
+  }
+}
+window.addEventListener('hashchange', handleHash);
+handleHash();
+
+// Override goTab to also update hash
+const _origGoTab = goTab;
+function goTab(tab) {
+  _origGoTab(tab);
+  history.replaceState(null, '', '#' + tab);
+}
+
+// ── VIBRATION FEEDBACK ──────────────────────
+document.querySelectorAll('.nav-item, .btn-primary, .mcq-opt').forEach(el => {
+  el.addEventListener('click', () => {
+    if ('vibrate' in navigator) navigator.vibrate(10);
+  });
+});
+
+</script>
+</body>
+</html>

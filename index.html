@@ -2,10 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
 <meta name="theme-color" content="#fafaf8">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="format-detection" content="telephone=no">
+<meta name="HandheldFriendly" content="true">
+<meta name="MobileOptimized" content="width">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="CBSE12">
 <link rel="manifest" href="manifest.json">
@@ -1073,6 +1078,35 @@ textarea { resize: none; }
 .exam-tips { padding: 10px 14px; background: var(--paper); border-top: 1px solid var(--border); }
 .tip-item { display: flex; gap: 6px; font-size: 11px; color: var(--ink-3); margin-bottom: 5px; line-height: 1.5; }
 .tip-item:last-child { margin-bottom: 0; }
+
+/* ── MOBILE BROWSER FIXES ──────────────────── */
+* { -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; }
+input, select, textarea, button { -webkit-appearance: none; border-radius: var(--r); font-size: 16px !important; }
+.screen { -webkit-overflow-scrolling: touch; }
+.btn-primary { cursor: pointer; -webkit-appearance: none; }
+
+/* iOS safe area */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .nav { padding-bottom: max(8px, env(safe-area-inset-bottom)); }
+  .screen { padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + 16px); }
+}
+@supports (padding-top: env(safe-area-inset-top)) {
+  .topbar { padding-top: max(0px, env(safe-area-inset-top)); height: calc(var(--top-h) + env(safe-area-inset-top)); }
+}
+
+/* Prevent zoom on input focus (iOS) */
+@media screen and (max-width: 768px) {
+  select, input[type="text"], input[type="number"], textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* Fix for Samsung Internet & older Android */
+.screen { overflow-y: scroll; overflow-x: hidden; }
+.app { height: 100dvh; }
+
+/* Fix button active states on touch */
+.btn-primary:active, .nav-item:active, .plan-item:active { opacity: 0.8; }
 </style>
 
 <body>
@@ -1873,49 +1907,7 @@ textarea { resize: none; }
 
         <!-- Error Pattern Analysis -->
         <div class="wa-sec-title">❌ Error Pattern Analysis</div>
-        <div class="card">
-          <div class="card-body" id="errorPatternContent">
-            <div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-msg">No error patterns yet</div><div class="empty-sub">Wrong answers are tracked automatically</div></div>
-          </div>
-        </div>
-
-        <div style="height:20px"></div>
-      </div>
-    </div><!-- /screen-weakness -->
-
-  </div><!-- /screens -->
-
-  <div class="nav">
-    <div class="nav-item active" id="nav-home" onclick="goTab('home')">
-      <div class="nav-icon">🏠</div>
-      <div class="nav-dot"></div>
-      <div class="nav-label">Home</div>
-    </div>
-    <div class="nav-item" id="nav-tests" onclick="goTab('tests')">
-      <div class="nav-icon">🧠</div>
-      <div class="nav-dot"></div>
-      <div class="nav-label">Practice</div>
-    </div>
-    <div class="nav-item" id="nav-papers" onclick="goTab('papers')">
-      <div class="nav-icon">📄</div>
-      <div class="nav-dot"></div>
-      <div class="nav-label">Papers</div>
-    </div>
-    <div class="nav-item" id="nav-pyq" onclick="goTab('pyq')">
-      <div class="nav-icon">📜</div>
-      <div class="nav-dot"></div>
-      <div class="nav-label">PYQ</div>
-    </div>
-    <div class="nav-item" id="nav-progress" onclick="goTab('progress')">
-      <div class="nav-icon">📈</div>
-      <div class="nav-dot"></div>
-      <div class="nav-label">Progress</div>
-    </div>
-  </div><!-- /nav -->
-
-  </div><!-- /app -->
-
-<script>
+   
 /* ══════════════════════════════════════════════
    BACKEND CONFIG — swap URL after deploying
 ══════════════════════════════════════════════ */
@@ -2768,7 +2760,7 @@ ${type==='hots'?'- Tag cognitive skill: Analysis / Evaluation / Application':''}
 `;
 
   try {
-    const r = await fetch(BACKEND_URL + '/api/generate', {
+    const r = await fetchWithTimeout(BACKEND_URL + '/api/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -2797,7 +2789,10 @@ ${type==='hots'?'- Tag cognitive skill: Analysis / Evaluation / Application':''}
       startQuestionTimer();
     }, 1500);
   } catch(e) {
-    area.innerHTML = `<div class="err-card">Error: ${e.message}. Please try again.</div>`;
+    const msg = e.message === 'Failed to fetch'
+      ? 'Network error — check your internet connection and try again.'
+      : e.message;
+    area.innerHTML = `<div class="err-card">Error: ${msg}. Please try again.</div>`;
   }
   testLoading=false; btn.disabled=false; btn.classList.remove('loading');
   document.getElementById('testGenIcon').textContent='✦';
@@ -3212,7 +3207,7 @@ ${note?'Teacher note: '+note:''}
 Include 5 CBSE-style general instructions. Date: March 2027. Full answer key for all questions.`;
 
   try {
-    const r = await fetch(BACKEND_URL + '/api/paper', {
+    const r = await fetchWithTimeout(BACKEND_URL + '/api/paper', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -3637,7 +3632,7 @@ Create a 7-day targeted recovery plan to improve their score to 75%+.
 Include: daily actions, specific NCERT exercises, practice question types, common mistake warnings.`;
 
   try {
-    const r = await fetch(BACKEND_URL + '/api/generate',{
+    const r = await fetchWithTimeout(BACKEND_URL + '/api/generate',{
       method:'POST',
       headers:{'Content-Type':'application/json','Content-Type':'application/json'},
       body:JSON.stringify({subject:'physics',chapters:['Recovery Plan'],type:'short',count:5,difficulty:'Mixed',examMode:currentExam,_raw:{system:sys,user:usr}})
@@ -3728,7 +3723,7 @@ Create a comprehensive personalised improvement plan to reach 85%+ in all subjec
 Focus on the weakest areas first. Be specific about NCERT chapters and daily time allocation.`;
 
   try {
-    const r = await fetch(BACKEND_URL + '/api/generate',{
+    const r = await fetchWithTimeout(BACKEND_URL + '/api/generate',{
       method:'POST',
       headers:{'Content-Type':'application/json','Content-Type':'application/json'},
       body:JSON.stringify({subject:'physics',chapters:['Weakness Plan'],type:'short',count:5,difficulty:'Mixed',examMode:currentExam,_raw:{system:sys,user:usr}})
@@ -5177,6 +5172,22 @@ function updateSrcSelectorLabel() {
   if (badge) { badge.style.display = ''; badge.textContent = total + ' source' + (total!==1?'s':''); }
 }
 
+
+/* ── FETCH WITH TIMEOUT (30s) for mobile networks ── */
+async function fetchWithTimeout(url, options, timeoutMs = 30000) {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, { ...options, signal: controller.signal });
+    clearTimeout(id);
+    return res;
+  } catch (e) {
+    clearTimeout(id);
+    if (e.name === 'AbortError') throw new Error('Request timed out. Please try again.');
+    throw e;
+  }
+}
+
 /* ══════════════════════════════════════════════
    INIT
 ══════════════════════════════════════════════ */
@@ -5498,6 +5509,49 @@ function applyUpdate() {
 // ── TOAST NOTIFICATION ──────────────────────
 function showToast(msg, duration = 3000) {
   const existing = document.getElementById('pwaToast');
+  if (existing) existing.remove();
+  const t = document.createElement('div');
+  t.id = 'pwaToast';
+  t.style.cssText = `
+    position:fixed; bottom:calc(var(--nav-h) + 80px); left:16px; right:16px;
+    background:var(--ink); border:1px solid var(--border-2);
+    border-radius:12px; padding:13px 16px; font-size:13px; font-weight:600;
+    color:var(--t1); z-index:200; text-align:center;
+    backdrop-filter:blur(16px);
+    animation: toastIn .3s ease;
+  `;
+  const style = document.createElement('style');
+  style.textContent = '@keyframes toastIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}';
+  document.head.appendChild(style);
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => {
+    t.style.opacity = '0';
+    t.style.transition = 'opacity .3s';
+    setTimeout(() => t.remove(), 300);
+  }, duration);
+}
+
+// ── HASH-BASED DEEP LINKING ─────────────────
+function handleHash() {
+  const hash = window.location.hash.replace('#', '');
+  if (['home','plan','tests','papers','progress'].includes(hash)) {
+    goTab(hash);
+  }
+}
+window.addEventListener('hashchange', handleHash);
+handleHash();
+
+// Override goTab to also update hash
+
+// ── VIBRATION FEEDBACK ──────────────────────
+document.querySelectorAll('.nav-item, .btn-primary, .mcq-opt').forEach(el => {
+  el.addEventListener('click', () => {
+    if ('vibrate' in navigator) navigator.vibrate(10);
+  });
+});
+
+cument.getElementById('pwaToast');
   if (existing) existing.remove();
   const t = document.createElement('div');
   t.id = 'pwaToast';

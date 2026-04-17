@@ -1907,7 +1907,41 @@ input, select, textarea, button { -webkit-appearance: none; border-radius: var(-
 
         <!-- Error Pattern Analysis -->
         <div class="wa-sec-title">❌ Error Pattern Analysis</div>
-   
+
+    </div>
+    </div><!-- /screens -->
+
+  <div class="nav">
+    <div class="nav-item active" id="nav-home" onclick="goTab('home')">
+      <div class="nav-icon">🏠</div>
+      <div class="nav-dot"></div>
+      <div class="nav-label">Home</div>
+    </div>
+    <div class="nav-item" id="nav-tests" onclick="goTab('tests')">
+      <div class="nav-icon">🧠</div>
+      <div class="nav-dot"></div>
+      <div class="nav-label">Practice</div>
+    </div>
+    <div class="nav-item" id="nav-papers" onclick="goTab('papers')">
+      <div class="nav-icon">📄</div>
+      <div class="nav-dot"></div>
+      <div class="nav-label">Papers</div>
+    </div>
+    <div class="nav-item" id="nav-pyq" onclick="goTab('pyq')">
+      <div class="nav-icon">📜</div>
+      <div class="nav-dot"></div>
+      <div class="nav-label">PYQ</div>
+    </div>
+    <div class="nav-item" id="nav-progress" onclick="goTab('progress')">
+      <div class="nav-icon">📈</div>
+      <div class="nav-dot"></div>
+      <div class="nav-label">Progress</div>
+    </div>
+  </div>
+
+  </div><!-- /app -->
+
+<script>
 /* ══════════════════════════════════════════════
    BACKEND CONFIG — swap URL after deploying
 ══════════════════════════════════════════════ */
@@ -3350,9 +3384,6 @@ function togAK() {
 ══════════════════════════════════════════════ */
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function mkBlank(s){return s.replace(/_{3,}/g,'<span class="blank"></span>');}
-function openNotif(){alert('All caught up! No new notifications.');}
-function openSettings(){alert('Settings coming soon in next update!');}
-
 /* ══════════════════════════════════════════════
    COUNTDOWN
 ══════════════════════════════════════════════ */
@@ -5551,37 +5582,8 @@ document.querySelectorAll('.nav-item, .btn-primary, .mcq-opt').forEach(el => {
   });
 });
 
-cument.getElementById('pwaToast');
-  if (existing) existing.remove();
-  const t = document.createElement('div');
-  t.id = 'pwaToast';
-  t.style.cssText = `
-    position:fixed; bottom:calc(var(--nav-h) + 80px); left:16px; right:16px;
-    background:var(--ink); border:1px solid var(--border-2);
-    border-radius:12px; padding:13px 16px; font-size:13px; font-weight:600;
-    color:var(--t1); z-index:200; text-align:center;
-    backdrop-filter:blur(16px);
-    animation: toastIn .3s ease;
-  `;
-  const style = document.createElement('style');
-  style.textContent = '@keyframes toastIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}';
-  document.head.appendChild(style);
-  t.textContent = msg;
-  document.body.appendChild(t);
-  setTimeout(() => {
-    t.style.opacity = '0';
-    t.style.transition = 'opacity .3s';
-    setTimeout(() => t.remove(), 300);
-  }, duration);
-}
 
 // ── HASH-BASED DEEP LINKING ─────────────────
-function handleHash() {
-  const hash = window.location.hash.replace('#', '');
-  if (['home','plan','tests','papers','progress'].includes(hash)) {
-    goTab(hash);
-  }
-}
 window.addEventListener('hashchange', handleHash);
 handleHash();
 
@@ -5593,6 +5595,7 @@ document.querySelectorAll('.nav-item, .btn-primary, .mcq-opt').forEach(el => {
     if ('vibrate' in navigator) navigator.vibrate(10);
   });
 });
+
 
 </script>
 </body>

@@ -912,6 +912,20 @@ textarea { resize: none; }
 .screenshot-guard { position: fixed; inset: 0; background: rgba(0,0,0,.97); z-index: 99999; display: none; align-items: center; justify-content: center; flex-direction: column; gap: 16px; text-align: center; padding: 32px; }
 .screenshot-guard.show { display: flex; }
 .exit-dialog-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); backdrop-filter: blur(8px); z-index: 9999; display: none; align-items: center; justify-content: center; padding: 24px; opacity: 0; transition: opacity .2s; pointer-events: none; }
+.profile-overlay { position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:8500; display:none; align-items:flex-end; }
+.profile-overlay.show { display:flex; }
+.profile-sheet { background:var(--paper); border-radius:20px 20px 0 0; width:100%; max-height:88vh; overflow-y:auto; padding:16px; animation: slideUp .25s ease; }
+.profile-tabs { display:flex; gap:4px; background:var(--paper-2); border-radius:10px; padding:4px; margin-bottom:16px; }
+.profile-tab { flex:1; text-align:center; padding:9px 4px; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; color:var(--t3); transition:.15s; }
+.profile-tab.active { background:var(--paper); box-shadow:0 1px 4px rgba(0,0,0,.1); color:var(--ink); }
+.student-card { background:var(--paper-1); border:1.5px solid var(--border); border-radius:12px; padding:14px; margin-bottom:8px; }
+.tc-row { display:flex; align-items:center; gap:10px; padding:12px; background:var(--paper-1); border:1px solid var(--border); border-radius:10px; margin-bottom:8px; }
+.tc-avatar { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:800; flex-shrink:0; }
+.tc-name { font-size:13px; font-weight:700; }
+.tc-meta { font-size:11px; color:var(--t3); }
+.tc-score { margin-left:auto; text-align:right; }
+.tc-pct { font-size:17px; font-weight:800; }
+.tc-quizzes { font-size:10px; color:var(--t3); font-weight:600; }
 .exit-dialog-overlay.show { display: flex; opacity: 1; pointer-events: all; }
 .exit-dialog { background: var(--paper); border: 1px solid var(--border-2); border-radius: var(--rx); padding: 28px 24px 20px; width: 100%; max-width: 320px; transform: scale(.92); transition: transform .25s cubic-bezier(.32,.72,0,1); text-align: center; }
 .exit-dialog-overlay.show .exit-dialog { transform: scale(1); }
@@ -1247,6 +1261,7 @@ input, select, textarea, button { -webkit-appearance: none; border-radius: var(-
           <span class="exam-pill-name" id="examPillName">CBSE 12</span>
           <span class="exam-pill-arrow">▾</span>
         </div>
+        <div class="tb-btn" id="profileBtn" onclick="openProfile()">👤</div>
         <div class="tb-btn" onclick="openSettings()">⚙️</div>
       </div>
     </div>
@@ -1942,6 +1957,62 @@ input, select, textarea, button { -webkit-appearance: none; border-radius: var(-
     </div>
   </div>
 
+  <!-- PROFILE / CLASS MODAL -->
+  <div class="profile-overlay" id="profileOverlay" onclick="e=>{if(e.target===this)closeProfile()}">
+    <div class="profile-sheet" id="profileSheet">
+      <div class="ch-sheet-handle"></div>
+      <div class="ch-sheet-head">
+        <div class="ch-sheet-title" id="profileTitle">👤 Profile & Class</div>
+        <div class="ch-sheet-close" onclick="closeProfile()">✕</div>
+      </div>
+      <div class="profile-tabs">
+        <div class="profile-tab active" id="ptab-student" onclick="switchProfileTab('student')">🎓 Student</div>
+        <div class="profile-tab" id="ptab-teacher" onclick="switchProfileTab('teacher')">📋 Teacher</div>
+      </div>
+
+      <!-- STUDENT PANEL -->
+      <div id="ppanel-student">
+        <div id="studentJoinForm">
+          <div style="font-size:12px;color:var(--t3);margin-bottom:12px">Enter your name and the class code your teacher gave you.</div>
+          <div class="field-label">Your Name</div>
+          <input type="text" id="studentNameInput" placeholder="e.g. Ananya Sharma" style="margin-bottom:10px">
+          <div class="field-label">Class Code (from teacher)</div>
+          <input type="text" id="classCodeInput" placeholder="e.g. AB12CD" style="text-transform:uppercase;margin-bottom:14px" oninput="this.value=this.value.toUpperCase()">
+          <button class="btn btn-primary" style="width:100%" onclick="joinClass()">Join Class</button>
+        </div>
+        <div id="studentJoinedInfo" style="display:none">
+          <div class="student-card" style="background:var(--bio-l);border-color:var(--bio)">
+            <div style="font-size:22px;margin-bottom:6px">🎓</div>
+            <div style="font-weight:700;font-size:15px" id="joinedStudentName"></div>
+            <div style="font-size:12px;color:var(--t3);margin-top:2px">Class: <strong id="joinedClassCode"></strong> · Teacher: <strong id="joinedTeacherName"></strong></div>
+            <div style="font-size:11px;color:var(--bio-m);margin-top:6px;font-weight:600">Your quiz results sync automatically to your teacher.</div>
+          </div>
+          <button class="btn btn-outline" style="width:100%;margin-top:10px" onclick="leaveClass()">Leave Class</button>
+        </div>
+      </div>
+
+      <!-- TEACHER PANEL -->
+      <div id="ppanel-teacher" style="display:none">
+        <div id="teacherCreateForm">
+          <div style="font-size:12px;color:var(--t3);margin-bottom:12px">Create a class and share the code with your students to track their progress.</div>
+          <div class="field-label">Your Name</div>
+          <input type="text" id="teacherNameInput" placeholder="e.g. Prof. Rajesh Kumar" style="margin-bottom:14px">
+          <button class="btn btn-primary" style="width:100%" onclick="createTeacherClass()">Create Class</button>
+        </div>
+        <div id="teacherClassInfo" style="display:none">
+          <div class="student-card" style="background:var(--phy-l);border-color:var(--phy);margin-bottom:12px">
+            <div style="font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px">Your Class Code</div>
+            <div style="font-size:28px;font-weight:900;letter-spacing:.15em;color:var(--phy-m)" id="teacherClassCodeDisplay"></div>
+            <div style="font-size:11px;color:var(--t3);margin-top:4px">Share this code with your students</div>
+          </div>
+          <button class="btn btn-primary" style="width:100%;margin-bottom:8px" onclick="loadTeacherDashboard()">View Student Progress</button>
+          <button class="btn btn-outline" style="width:100%" onclick="leaveTeacherClass()">Delete Class</button>
+          <div id="teacherDashboard" style="margin-top:16px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   </div><!-- /app -->
 
 <script>
@@ -1951,8 +2022,8 @@ input, select, textarea, button { -webkit-appearance: none; border-radius: var(-
 const BACKEND_URL = 'https://cbse12-backend-production.up.railway.app';
 // To use local dev backend: localStorage.setItem('cbse12_backend','http://localhost:3001')
 
-const SUBJ_ICONS = {physics:'⚡',chemistry:'🧪',mathematics:'📐',english:'📖',cs:'💻'};
-const SUBJ_MCOLS = {physics:'var(--phy-m)',chemistry:'var(--chem-m)',mathematics:'var(--math-m)',english:'var(--eng-m)',cs:'var(--cs-m)'};
+const SUBJ_ICONS = {physics:'⚡',chemistry:'🧪',mathematics:'📐',english:'📖',cs:'💻',biology:'🧬'};
+const SUBJ_MCOLS = {physics:'var(--phy-m)',chemistry:'var(--chem-m)',mathematics:'var(--math-m)',english:'var(--eng-m)',cs:'var(--cs-m)',biology:'var(--bio-m)'};
 const CH = {
   physics:["Electric Charges & Fields","Electrostatic Potential & Capacitance","Current Electricity","Moving Charges & Magnetism","Magnetism & Matter","Electromagnetic Induction","Alternating Current","Electromagnetic Waves","Ray Optics & Optical Instruments","Wave Optics","Dual Nature of Radiation & Matter","Atoms","Nuclei","Semiconductor Electronics"],
   chemistry:["Solid State","Solutions","Electrochemistry","Chemical Kinetics","Surface Chemistry","General Principles of Metal Extraction","p-Block Elements","d & f Block Elements","Coordination Compounds","Haloalkanes & Haloarenes","Alcohols, Phenols & Ethers","Aldehydes, Ketones & Carboxylic Acids","Amines","Biomolecules","Polymers","Chemistry in Everyday Life"],
@@ -1974,10 +2045,12 @@ const DAYS_CH = {
   english:[2,2,2,2,2,2,2,2,1,1,1,1,1,1,2,2,2,2,2,2,2,2,3,3,3,2],
   cs:[3,5,4,3,2,4,5,3,2]
 };
-const SL = {physics:"Physics",chemistry:"Chemistry",mathematics:"Mathematics",english:"English (Core)",cs:"Computer Science"};
-const SC = {physics:"042",chemistry:"043",mathematics:"041",english:"301",cs:"083"};
+const SL = {physics:"Physics",chemistry:"Chemistry",mathematics:"Mathematics",english:"English (Core)",cs:"Computer Science",biology:"Biology"};
+const SC = {physics:"042",chemistry:"043",mathematics:"041",english:"301",cs:"083",biology:"044"};
 
-const SUBJ_COLS  = {physics:'var(--phy)',chemistry:'var(--chem)',mathematics:'var(--math)',english:'var(--eng)',cs:'var(--cs)'};
+const SUBJ_COLS  = {physics:'var(--phy)',chemistry:'var(--chem)',mathematics:'var(--math)',english:'var(--eng)',cs:'var(--cs)',biology:'var(--bio)'};
+
+// Biology initialized at startup so NEET/IISER modes work without lazy setup
 
 
 
@@ -2020,6 +2093,10 @@ const EXAMS = {
 };
 
 const CH_BIOLOGY = ['The Living World','Biological Classification','Plant Kingdom','Animal Kingdom','Morphology of Flowering Plants','Anatomy of Flowering Plants','Structural Organisation in Animals','Cell: The Unit of Life','Biomolecules','Cell Cycle and Cell Division','Transport in Plants','Mineral Nutrition','Photosynthesis in Higher Plants','Respiration in Plants','Plant Growth and Development','Digestion and Absorption','Breathing and Exchange of Gases','Body Fluids and Circulation','Excretory Products','Locomotion and Movement','Neural Control and Coordination','Chemical Coordination and Integration','Reproduction in Organisms','Sexual Reproduction in Flowering Plants','Human Reproduction','Reproductive Health','Principles of Inheritance and Variation','Molecular Basis of Inheritance','Evolution','Human Health and Disease','Microbes in Human Welfare','Biotechnology Principles and Processes','Biotechnology and its Applications','Organisms and Populations','Ecosystem','Biodiversity and Conservation','Environmental Issues'];
+CH['biology'] = CH_BIOLOGY;
+PRI['biology'] = ['l','m','m','h','h','m','m','h','h','h','m','m','h','h','m','h','h','h','h','m','h','h','m','h','h','m','h','h','h','h','h','h','h','m','h','m','l'];
+DAYS_CH['biology'] = [1,2,2,3,3,2,2,3,3,3,2,2,4,3,2,3,3,3,3,2,3,3,2,3,4,2,5,5,3,4,3,4,3,2,3,2,1];
+SCOL['biology'] = '#0d9488';
 
 let currentExam = localStorage.getItem('cbse12_exam') || 'cbse12';
 function getExam() { return EXAMS[currentExam] || EXAMS.cbse12; }
@@ -2033,14 +2110,6 @@ function setExam(id) {
 function applyExamMode(examId) {
   const exam = EXAMS[examId];
   if (!exam) return;
-  if (exam.subjects.includes('biology') && !CH['biology']) {
-    CH['biology'] = CH_BIOLOGY;
-    SL['biology'] = 'Biology'; SC['biology'] = '044';
-    SUBJ_ICONS['biology'] = '🧬'; SUBJ_COLS['biology'] = 'var(--bio)'; SUBJ_MCOLS['biology'] = 'var(--bio-m)';
-    SCOL['biology'] = '#0d9488';
-    PRI['biology'] = ['l','m','m','h','h','m','m','h','h','h','m','m','h','h','m','h','h','h','h','m','h','h','m','h','h','m','h','h','h','h','h','h','h','m','h','m','l'];
-    DAYS_CH['biology'] = [1,2,2,3,3,2,2,3,3,3,2,2,4,3,2,3,3,3,3,2,3,3,2,3,4,2,5,5,3,4,3,4,3,2,3,2,1];
-  }
   renderSubjMultiGrid();
   const tbSub = document.getElementById('tbSub');
   if (tbSub) tbSub.textContent = exam.shortName + ' · ' + exam.examDate;
@@ -2999,6 +3068,10 @@ function submitQuiz() {
     if (expBox && expText) { expText.textContent = q.exp || ''; expBox.classList.add('show'); }
   });
   updateScoreBar();
+  // Sync to teacher if student is in a class
+  const subjsForTest = selectedSubjects.length > 0 ? selectedSubjects : [testSubj];
+  const chapNames = selectedChapters.map(c=>c.chapter).join(', ') || 'Mixed';
+  syncStudentProgress(SL[subjsForTest[0]] || testSubj, chapNames, quizData.type, scoreC, scoreW, scoreTot);
 }
 
 function backToConfig() {
@@ -5342,6 +5415,178 @@ async function fetchWithTimeout(url, options, timeoutMs = 30000) {
 /* ══════════════════════════════════════════════
    INIT
 ══════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════
+   TEACHER-STUDENT SYSTEM
+══════════════════════════════════════════════ */
+let studentProfile = JSON.parse(localStorage.getItem('cbse12_student') || 'null');
+// {studentId, classCode, studentName, teacherName}
+let teacherProfile = JSON.parse(localStorage.getItem('cbse12_teacher') || 'null');
+// {classCode, teacherKey, teacherName}
+
+function openProfile() {
+  const overlay = document.getElementById('profileOverlay');
+  overlay.classList.add('show');
+  renderProfileState();
+}
+function closeProfile() {
+  document.getElementById('profileOverlay').classList.remove('show');
+}
+function switchProfileTab(tab) {
+  document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('ptab-' + tab).classList.add('active');
+  document.getElementById('ppanel-student').style.display = tab === 'student' ? '' : 'none';
+  document.getElementById('ppanel-teacher').style.display = tab === 'teacher' ? '' : 'none';
+}
+
+function renderProfileState() {
+  // Student panel
+  if (studentProfile) {
+    document.getElementById('studentJoinForm').style.display = 'none';
+    document.getElementById('studentJoinedInfo').style.display = '';
+    document.getElementById('joinedStudentName').textContent = studentProfile.studentName;
+    document.getElementById('joinedClassCode').textContent = studentProfile.classCode;
+    document.getElementById('joinedTeacherName').textContent = studentProfile.teacherName || '—';
+    updateProfileBtn('student');
+  } else {
+    document.getElementById('studentJoinForm').style.display = '';
+    document.getElementById('studentJoinedInfo').style.display = 'none';
+  }
+  // Teacher panel
+  if (teacherProfile) {
+    document.getElementById('teacherCreateForm').style.display = 'none';
+    document.getElementById('teacherClassInfo').style.display = '';
+    document.getElementById('teacherClassCodeDisplay').textContent = teacherProfile.classCode;
+    updateProfileBtn('teacher');
+    // Auto-switch to teacher tab if they're a teacher
+    switchProfileTab('teacher');
+  } else if (studentProfile) {
+    switchProfileTab('student');
+  }
+}
+
+function updateProfileBtn(role) {
+  const btn = document.getElementById('profileBtn');
+  if (btn) btn.textContent = role === 'teacher' ? '📋' : '🎓';
+}
+
+async function joinClass() {
+  const name = document.getElementById('studentNameInput').value.trim();
+  const code = document.getElementById('classCodeInput').value.trim().toUpperCase();
+  if (!name || !code) { showToast('Enter your name and class code'); return; }
+  try {
+    const r = await fetchWithTimeout(BACKEND_URL + '/api/class/join', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({classCode: code, studentName: name})
+    });
+    const d = await r.json();
+    if (!r.ok) { showToast(d.error || 'Failed to join class'); return; }
+    studentProfile = {studentId: d.studentId, classCode: d.classCode, studentName: name, teacherName: d.teacherName};
+    localStorage.setItem('cbse12_student', JSON.stringify(studentProfile));
+    showToast('Joined class successfully!');
+    renderProfileState();
+  } catch(e) { showToast('Network error — check connection'); }
+}
+
+function leaveClass() {
+  if (!confirm('Leave this class? Your progress history on the teacher\'s side will remain.')) return;
+  studentProfile = null;
+  localStorage.removeItem('cbse12_student');
+  document.getElementById('studentJoinForm').style.display = '';
+  document.getElementById('studentJoinedInfo').style.display = 'none';
+  document.getElementById('profileBtn').textContent = '👤';
+}
+
+async function createTeacherClass() {
+  const name = document.getElementById('teacherNameInput').value.trim();
+  if (!name) { showToast('Enter your name'); return; }
+  try {
+    const r = await fetchWithTimeout(BACKEND_URL + '/api/class/create', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({teacherName: name})
+    });
+    const d = await r.json();
+    if (!r.ok) { showToast(d.error || 'Failed to create class'); return; }
+    teacherProfile = {classCode: d.classCode, teacherKey: d.teacherKey, teacherName: name};
+    localStorage.setItem('cbse12_teacher', JSON.stringify(teacherProfile));
+    document.getElementById('teacherCreateForm').style.display = 'none';
+    document.getElementById('teacherClassInfo').style.display = '';
+    document.getElementById('teacherClassCodeDisplay').textContent = d.classCode;
+    updateProfileBtn('teacher');
+    showToast('Class created! Share the code with students.');
+  } catch(e) { showToast('Network error'); }
+}
+
+function leaveTeacherClass() {
+  if (!confirm('Delete this class? Students will no longer be able to sync.')) return;
+  teacherProfile = null;
+  localStorage.removeItem('cbse12_teacher');
+  document.getElementById('teacherCreateForm').style.display = '';
+  document.getElementById('teacherClassInfo').style.display = '';
+  document.getElementById('teacherDashboard').innerHTML = '';
+  document.getElementById('profileBtn').textContent = '👤';
+}
+
+async function loadTeacherDashboard() {
+  if (!teacherProfile) return;
+  const dash = document.getElementById('teacherDashboard');
+  dash.innerHTML = '<div style="text-align:center;padding:20px;color:var(--t3)">Loading students…</div>';
+  try {
+    const r = await fetchWithTimeout(BACKEND_URL + '/api/class/' + teacherProfile.classCode, {
+      headers: {'x-teacher-key': teacherProfile.teacherKey}
+    });
+    const d = await r.json();
+    if (!r.ok) { dash.innerHTML = `<div style="color:var(--red);padding:10px">${d.error}</div>`; return; }
+    if (!d.students.length) {
+      dash.innerHTML = '<div style="text-align:center;padding:20px;color:var(--t3);font-size:13px">No students yet.<br>Share your class code: <strong>' + teacherProfile.classCode + '</strong></div>';
+      return;
+    }
+    const colors = ['var(--phy)','var(--chem)','var(--math)','var(--eng)','var(--cs)','var(--bio)'];
+    dash.innerHTML = `<div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:10px">${d.students.length} Student${d.students.length>1?'s':''} · ${d.teacherName}'s Class</div>` +
+      d.students.sort((a,b) => (b.avgScore||0) - (a.avgScore||0)).map((s,i) => {
+        const col = colors[i % colors.length];
+        const pctColor = s.avgScore >= 70 ? 'var(--green)' : s.avgScore >= 40 ? 'var(--yellow)' : 'var(--red)';
+        const recent = s.recentProgress.slice(-3).reverse().map(p =>
+          `<span style="font-size:10px;background:var(--paper-2);border-radius:6px;padding:2px 6px;margin-right:4px">${p.subject?.slice(0,3)||'?'} ${p.pct}%</span>`
+        ).join('');
+        return `<div class="tc-row">
+          <div class="tc-avatar" style="background:${col}22;color:${col}">${s.name[0].toUpperCase()}</div>
+          <div style="flex:1;min-width:0">
+            <div class="tc-name">${esc(s.name)}</div>
+            <div class="tc-meta">${s.totalQuizzes} quiz${s.totalQuizzes!==1?'zes':''} completed</div>
+            <div style="margin-top:4px">${recent || '<span style="font-size:10px;color:var(--t3)">No quizzes yet</span>'}</div>
+          </div>
+          <div class="tc-score">
+            <div class="tc-pct" style="color:${s.avgScore!==null?pctColor:'var(--t3)'}">${s.avgScore !== null ? s.avgScore + '%' : '—'}</div>
+            <div class="tc-quizzes">Avg score</div>
+          </div>
+        </div>`;
+      }).join('');
+  } catch(e) { dash.innerHTML = '<div style="color:var(--red);padding:10px">Network error — try again</div>'; }
+}
+
+async function syncStudentProgress(subject, chapter, type, scoreC, scoreW, scoreTot) {
+  if (!studentProfile) return;
+  try {
+    await fetchWithTimeout(BACKEND_URL + '/api/student/sync', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        studentId: studentProfile.studentId,
+        classCode: studentProfile.classCode,
+        subject, chapter, type, scoreC, scoreW, scoreTot
+      })
+    });
+  } catch(e) { /* silent fail — don't interrupt quiz flow */ }
+}
+
+// Init profile state on load
+(function initProfileBtn() {
+  if (teacherProfile) document.getElementById('profileBtn').textContent = '📋';
+  else if (studentProfile) document.getElementById('profileBtn').textContent = '🎓';
+})();
+
 buildWeekGrid();
 buildActivity();
 renderChPlan();

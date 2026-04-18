@@ -1,8 +1,8 @@
-// CBSE 12 Board Prep — Service Worker v2.2
+// CBSE 12 Board Prep — Service Worker v2.3
 // HTML is NEVER cached — always fetched fresh from network.
 // Only fonts and static assets are cached for offline fallback.
 
-const CACHE_NAME = 'cbse12-v2.2';
+const CACHE_NAME = 'cbse12-v2.3';
 
 // ── INSTALL ──────────────────────────────────
 self.addEventListener('install', (event) => {
@@ -35,7 +35,13 @@ self.addEventListener('fetch', (event) => {
   if (request.headers.get('accept')?.includes('text/html') ||
       url.pathname.endsWith('.html') || url.pathname === '/' ||
       url.pathname.endsWith('/cbse12-prep') || url.pathname.endsWith('/cbse12-prep/')) {
-    event.respondWith(fetch(request));
+    event.respondWith(
+      fetch(request).catch(() =>
+        // Offline fallback — at least show something instead of a blank error
+        new Response('<h2 style="font-family:sans-serif;padding:2rem">You are offline. Please reconnect and reload.</h2>',
+          { headers: { 'Content-Type': 'text/html' } })
+      )
+    );
     return;
   }
 

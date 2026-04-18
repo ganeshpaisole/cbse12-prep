@@ -2133,7 +2133,7 @@ input, select, textarea, button { -webkit-appearance: none; border-radius: var(-
             <option value="iiser">IISER IAT</option>
           </select>
           <div id="adminCreateError" style="color:var(--red);font-size:12px;display:none;margin-bottom:8px"></div>
-          <button style="width:100%;padding:12px;background:var(--ink);color:var(--paper);border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer" onclick="createTeacherByAdmin()">Create Teacher Account →</button>
+          <button style="width:100%;padding:12px;background:var(--ink);color:var(--paper);border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer" onclick="createTeacherByAdmin(this)">Create Teacher Account →</button>
           <!-- Result shown here -->
           <div id="adminCreateResult" style="display:none;margin-top:14px;background:var(--math-l);border:2px solid var(--math);border-radius:12px;padding:14px">
             <div style="font-size:12px;font-weight:700;color:var(--math-m);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">✅ Teacher Created — Share these credentials</div>
@@ -2580,7 +2580,7 @@ function toggleAdminSubj(k, el) {
   else adminNewSubjects = adminNewSubjects.filter(s => s !== k);
 }
 
-async function createTeacherByAdmin() {
+async function createTeacherByAdmin(btn) {
   const nameEl  = document.getElementById('adminNewTeacherName');
   const examEl  = document.getElementById('adminNewTeacherExam');
   const result  = document.getElementById('adminCreateResult');
@@ -2599,7 +2599,6 @@ async function createTeacherByAdmin() {
   }
   if (adminNewSubjects.length === 0) {
     showToast('⚠️ Select at least one subject (tap the chips)');
-    // Flash the subject picker
     const picker = document.getElementById('adminSubjPicker');
     if (picker) { picker.style.outline = '2px solid var(--red)'; setTimeout(() => picker.style.outline = '', 2000); }
     return;
@@ -2607,8 +2606,6 @@ async function createTeacherByAdmin() {
 
   const secret = sessionStorage.getItem('cbse12_admin_secret');
   if (!secret) { showToast('Session expired — please log in again'); adminLogout(); return; }
-
-  const btn = event.target;
   btn.disabled = true; btn.textContent = 'Creating…';
 
   try {

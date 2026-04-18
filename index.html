@@ -1180,6 +1180,13 @@ input, select, textarea, button { -webkit-appearance: none; border-radius: var(-
             <div style="font-size:12px;color:var(--t3);margin-top:2px">Self-study mode, full app access</div>
           </div>
         </div>
+        <div class="ob-role-card" onclick="selectRole('admin',this)">
+          <div style="font-size:28px">🔐</div>
+          <div>
+            <div style="font-weight:700;font-size:15px">Admin</div>
+            <div style="font-size:12px;color:var(--t3);margin-top:2px">Full system control — manage teachers and students</div>
+          </div>
+        </div>
       </div>
       <button class="ob-cta" id="obCtaR" onclick="proceedFromRole()" disabled>Continue →</button>
     </div>
@@ -1205,6 +1212,21 @@ input, select, textarea, button { -webkit-appearance: none; border-radius: var(-
         <option value="iiser">IISER IAT</option>
       </select>
       <button class="ob-cta" onclick="goOnboard('T2')">Continue →</button>
+      <div style="text-align:center;margin-top:12px;font-size:12px;color:var(--t3)">Already have an account? <span style="color:var(--primary);cursor:pointer;font-weight:600" onclick="goOnboard('TL')">Log in here →</span></div>
+    </div>
+
+    <!-- Screen TL: Teacher Login (existing) -->
+    <div class="onboard-screen" id="obTL">
+      <div style="font-size:32px;margin-bottom:10px">📋</div>
+      <div class="ob-title">Teacher Login</div>
+      <div class="ob-sub">Enter your teacher code and password to continue.</div>
+      <div class="field-label" style="margin-top:14px">Teacher Code</div>
+      <input class="ob-input" id="teacherLoginCode" placeholder="6-char teacher code" maxlength="8" style="text-transform:uppercase" oninput="this.value=this.value.toUpperCase()">
+      <div class="field-label" style="margin-top:10px">Password</div>
+      <input class="ob-input" id="teacherLoginPass" type="password" placeholder="Your password" maxlength="30">
+      <div id="teacherLoginError" style="color:var(--red);font-size:12px;margin-top:6px;display:none"></div>
+      <button class="ob-cta" style="margin-top:14px" onclick="loginTeacher()">Login →</button>
+      <div style="text-align:center;margin-top:12px;font-size:12px;color:var(--t3)">New teacher? <span style="color:var(--primary);cursor:pointer;font-weight:600" onclick="renderTeacherSubjPicker();goOnboard('T1')">Register here →</span></div>
     </div>
 
     <!-- Screen T2: Teacher — Set Password -->
@@ -1246,6 +1268,17 @@ input, select, textarea, button { -webkit-appearance: none; border-radius: var(-
       <input class="ob-input" id="studentSPass" type="password" placeholder="4-digit password from teacher" maxlength="8">
       <div id="studentLoginError" style="color:var(--red);font-size:12px;margin-top:6px;display:none"></div>
       <button class="ob-cta" style="margin-top:14px" onclick="loginStudent()">Login →</button>
+    </div>
+
+    <!-- Screen A: Admin Login -->
+    <div class="onboard-screen" id="obA">
+      <div style="font-size:32px;margin-bottom:10px">🔐</div>
+      <div class="ob-title">Admin Login</div>
+      <div class="ob-sub">Enter the admin password to access full system control.</div>
+      <div class="field-label" style="margin-top:14px">Admin Password</div>
+      <input class="ob-input" id="adminLoginPass" type="password" placeholder="Admin password" maxlength="50">
+      <div id="adminLoginError" style="color:var(--red);font-size:12px;margin-top:6px;display:none"></div>
+      <button class="ob-cta" style="margin-top:14px" onclick="loginAdmin()">Login as Admin →</button>
     </div>
 
     <!-- Screen 0: Solo — Exam selection -->
@@ -2037,6 +2070,34 @@ input, select, textarea, button { -webkit-appearance: none; border-radius: var(-
         <div class="wa-sec-title">❌ Error Pattern Analysis</div>
 
     </div>
+    <!-- ── SCREEN 8: ADMIN DASHBOARD ── -->
+    <div class="screen" id="screen-admin">
+      <div class="top-bar">
+        <div class="top-title">🔐 Admin Dashboard</div>
+        <div style="font-size:11px;color:var(--t3)" id="adminLastRefresh"></div>
+      </div>
+      <div style="padding:14px 16px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;gap:10px">
+          <div style="flex:1;background:var(--phy-l);border:1.5px solid var(--phy);border-radius:12px;padding:14px;text-align:center">
+            <div style="font-size:28px;font-weight:800;color:var(--phy-m)" id="adminTeacherCount">—</div>
+            <div style="font-size:11px;color:var(--t3);margin-top:2px;font-weight:600">Teachers</div>
+          </div>
+          <div style="flex:1;background:var(--bio-l);border:1.5px solid var(--bio);border-radius:12px;padding:14px;text-align:center">
+            <div style="font-size:28px;font-weight:800;color:var(--bio-m)" id="adminStudentCount">—</div>
+            <div style="font-size:11px;color:var(--t3);margin-top:2px;font-weight:600">Total Students</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="font-size:13px;font-weight:700">All Teachers</div>
+          <div style="font-size:12px;color:var(--primary);cursor:pointer;font-weight:600" onclick="loadAdminDashboard()">Refresh ↻</div>
+        </div>
+        <div id="adminTeacherList" style="display:flex;flex-direction:column;gap:10px"></div>
+        <div style="margin-top:8px;padding-top:14px;border-top:1px solid var(--border)">
+          <button style="width:100%;padding:10px;background:var(--chem-l);color:var(--chem-m);border:1.5px solid var(--chem);border-radius:10px;font-size:13px;font-weight:700;cursor:pointer" onclick="adminLogout()">Sign Out Admin</button>
+        </div>
+      </div>
+    </div>
+
     </div><!-- /screens -->
 
   <div class="nav">
@@ -2064,6 +2125,11 @@ input, select, textarea, button { -webkit-appearance: none; border-radius: var(-
       <div class="nav-icon">📈</div>
       <div class="nav-dot"></div>
       <div class="nav-label">Progress</div>
+    </div>
+    <div class="nav-item" id="nav-admin" onclick="goTab('admin')" style="display:none">
+      <div class="nav-icon">🔐</div>
+      <div class="nav-dot"></div>
+      <div class="nav-label">Admin</div>
     </div>
   </div>
 
@@ -2346,10 +2412,11 @@ function selectRole(role, el) {
 
 function proceedFromRole() {
   if (obSelectedRole === 'teacher') {
-    renderTeacherSubjPicker();
-    goOnboard('T1');
+    goOnboard('TL');
   } else if (obSelectedRole === 'student') {
     goOnboard('SL');
+  } else if (obSelectedRole === 'admin') {
+    goOnboard('A');
   } else {
     goOnboard(0);
     renderObExamList();
@@ -2438,6 +2505,112 @@ async function loginStudent() {
   } catch(e) { errEl.textContent = 'Network error. Check connection.'; errEl.style.display = ''; }
 }
 
+async function loginTeacher() {
+  const code  = document.getElementById('teacherLoginCode').value.trim().toUpperCase();
+  const pass  = document.getElementById('teacherLoginPass').value;
+  const errEl = document.getElementById('teacherLoginError');
+  errEl.style.display = 'none';
+  if (!code || !pass) { errEl.textContent = 'Fill in all fields.'; errEl.style.display = ''; return; }
+  try {
+    const r = await fetchWithTimeout(BACKEND_URL + '/api/auth/teacher/login', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ teacherCode: code, password: pass })
+    });
+    const d = await r.json();
+    if (!r.ok) { errEl.textContent = d.error || 'Login failed.'; errEl.style.display = ''; return; }
+    teacherProfile = { teacherCode: d.teacherCode, teacherKey: d.teacherKey, name: d.name, subjects: d.subjects, examMode: d.examMode };
+    localStorage.setItem('cbse12_teacher', JSON.stringify(teacherProfile));
+    localStorage.setItem('cbse12_role', 'teacher');
+    localStorage.setItem('cbse12_onboard_done', '1');
+    localStorage.setItem('cbse12_name', d.name);
+    applyTeacherSubjectFilter();
+    document.getElementById('onboardOverlay').style.display = 'none';
+    loadUserProfile(); initHome();
+    document.getElementById('profileBtn').textContent = '📋';
+  } catch(e) { errEl.textContent = 'Network error. Check connection.'; errEl.style.display = ''; }
+}
+
+async function loginAdmin() {
+  const pass  = document.getElementById('adminLoginPass').value;
+  const errEl = document.getElementById('adminLoginError');
+  errEl.style.display = 'none';
+  if (!pass) { errEl.textContent = 'Enter admin password.'; errEl.style.display = ''; return; }
+  try {
+    const r = await fetchWithTimeout(BACKEND_URL + '/api/auth/admin/login', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ password: pass })
+    });
+    const d = await r.json();
+    if (!r.ok) { errEl.textContent = d.error || 'Login failed.'; errEl.style.display = ''; return; }
+    localStorage.setItem('cbse12_role', 'admin');
+    localStorage.setItem('cbse12_admin_secret', pass);
+    localStorage.setItem('cbse12_onboard_done', '1');
+    localStorage.setItem('cbse12_name', 'Admin');
+    document.getElementById('nav-admin').style.display = '';
+    document.getElementById('onboardOverlay').style.display = 'none';
+    loadUserProfile(); initHome();
+    goTab('admin');
+  } catch(e) { errEl.textContent = 'Network error. Check connection.'; errEl.style.display = ''; }
+}
+
+async function loadAdminDashboard() {
+  const secret = localStorage.getItem('cbse12_admin_secret');
+  if (!secret) return;
+  try {
+    const r = await fetchWithTimeout(BACKEND_URL + '/api/admin/teachers', {
+      headers: { 'x-admin-secret': secret }
+    });
+    const d = await r.json();
+    if (!r.ok) { showToast('Admin error: ' + (d.error || 'Unknown')); return; }
+    const teachers = d.teachers || [];
+    const totalStudents = teachers.reduce((sum, t) => sum + t.studentCount, 0);
+    document.getElementById('adminTeacherCount').textContent = teachers.length;
+    document.getElementById('adminStudentCount').textContent = totalStudents;
+    document.getElementById('adminLastRefresh').textContent = 'Updated ' + new Date().toLocaleTimeString();
+    const list = document.getElementById('adminTeacherList');
+    if (teachers.length === 0) {
+      list.innerHTML = '<div style="text-align:center;color:var(--t3);font-size:13px;padding:24px">No teachers registered yet.</div>';
+      return;
+    }
+    list.innerHTML = teachers.map(t => `
+      <div style="background:var(--paper-1);border:1.5px solid var(--border);border-radius:12px;padding:12px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:700;font-size:14px">${t.name}</div>
+            <div style="font-size:11px;color:var(--t3);margin-top:3px">Code: <b style="font-family:monospace;letter-spacing:.08em">${t.teacherCode}</b> · ${(t.examMode||'cbse12').toUpperCase()} · ${t.studentCount} student${t.studentCount!==1?'s':''}</div>
+            <div style="font-size:11px;color:var(--t4);margin-top:2px">${(t.subjects||[]).join(', ')}</div>
+            <div style="font-size:10px;color:var(--t4);margin-top:2px">Registered: ${t.createdAt ? new Date(t.createdAt).toLocaleDateString('en-IN') : '—'}</div>
+          </div>
+          <button style="background:var(--chem-l);color:var(--chem-m);border:1.5px solid var(--chem);border-radius:8px;padding:6px 10px;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0" onclick="adminDeleteTeacher('${t.teacherCode}','${t.name.replace(/'/g,"\\'")}')">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  } catch(e) { showToast('Network error loading admin data.'); }
+}
+
+async function adminDeleteTeacher(code, name) {
+  if (!confirm(`Delete teacher "${name}" (${code}) and all their students? This cannot be undone.`)) return;
+  const secret = localStorage.getItem('cbse12_admin_secret');
+  try {
+    const r = await fetchWithTimeout(BACKEND_URL + '/api/admin/teacher/' + code, {
+      method: 'DELETE', headers: { 'x-admin-secret': secret }
+    });
+    const d = await r.json();
+    if (!r.ok) { showToast(d.error || 'Delete failed.'); return; }
+    showToast('Teacher deleted.');
+    loadAdminDashboard();
+  } catch(e) { showToast('Network error.'); }
+}
+
+function adminLogout() {
+  localStorage.removeItem('cbse12_role');
+  localStorage.removeItem('cbse12_admin_secret');
+  localStorage.removeItem('cbse12_onboard_done');
+  localStorage.removeItem('cbse12_name');
+  document.getElementById('nav-admin').style.display = 'none';
+  location.reload();
+}
+
 function applyTeacherSubjectFilter() {
   if (!teacherProfile || !teacherProfile.subjects) return;
   setExam(teacherProfile.examMode || 'cbse12');
@@ -2485,15 +2658,24 @@ function getExamContext() {
 
 function checkOnboarding() {
   applyExamMode(currentExam);
-  // Restore subject filter if returning teacher/student
   const role = localStorage.getItem('cbse12_role');
+  const done = localStorage.getItem('cbse12_onboard_done');
+
+  // Restore subject filter if returning teacher/student
   if (role === 'teacher' && teacherProfile) applyTeacherSubjectFilter();
   else if (role === 'student' && studentProfile && studentProfile.subjects) applyStudentSubjectFilter(studentProfile.subjects);
+  else if (role === 'admin') document.getElementById('nav-admin').style.display = '';
 
-  const done = localStorage.getItem('cbse12_onboard_done');
-  if (!done) {
+  // Valid session: done flag + matching profile data for the role
+  const hasValidSession = done && (
+    (role === 'solo') ||
+    (role === 'teacher' && teacherProfile) ||
+    (role === 'student' && studentProfile) ||
+    (role === 'admin')
+  );
+
+  if (!hasValidSession) {
     document.getElementById('onboardOverlay').style.display = 'flex';
-    // Always show role selection first
     goOnboard('R');
   } else {
     loadUserProfile();
@@ -2915,15 +3097,17 @@ function goTab(tab) {
   }
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  const screenMap = {home:'home',plan:'plan',tests:'tests',papers:'papers',progress:'progress',pyq:'pyq',weakness:'weakness'};
+  const screenMap = {home:'home',plan:'plan',tests:'tests',papers:'papers',progress:'progress',pyq:'pyq',weakness:'weakness',admin:'admin'};
   if (tab === 'home') { renderHomeScoreDash(); renderFocusCTA(); renderHomeRecentTests(); renderStreakBadge(); renderGoalRing(); }
   const sid = screenMap[tab]||'home';
   document.getElementById('screen-'+sid).classList.add('active');
-  document.getElementById('nav-'+sid).classList.add('active');
+  const navEl = document.getElementById('nav-'+sid);
+  if (navEl) navEl.classList.add('active');
   curTab = tab;
   if (tab === 'weakness') analyseWeaknesses();
   if (tab === 'pyq') renderPYQContent(currentPYQSubj);
   if (tab === 'progress') renderProgressScreen();
+  if (tab === 'admin') loadAdminDashboard();
 }
 
 /* ══════════════════════════════════════════════

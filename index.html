@@ -41,6 +41,7 @@
   --math:  #059669; --math-l: #d1fae5; --math-m: #047857;
   --eng:   #7c3aed; --eng-l:  #ede9fe; --eng-m:  #6d28d9;
   --cs:    #d97706; --cs-l:   #fef3c7; --cs-m:   #b45309;
+  --bio:   #0d9488; --bio-l:  #ccfbf1; --bio-m:  #0f766e;
 
   /* Status */
   --green:  #059669;
@@ -593,9 +594,11 @@ textarea { resize: none; }
   transition: all .15s; display: flex; gap: 8px; align-items: flex-start;
 }
 .mcq-opt:active { background: var(--paper-2); }
-.mcq-opt.correct { background: var(--math-l); border-color: var(--math); color: var(--math-m); font-weight: 600; }
-.mcq-opt.wrong   { background: var(--chem-l);  border-color: var(--chem);  color: var(--chem-m);  }
+.mcq-opt.correct  { background: var(--math-l); border-color: var(--math); color: var(--math-m); font-weight: 600; pointer-events: none; }
+.mcq-opt.wrong    { background: var(--chem-l);  border-color: var(--chem);  color: var(--chem-m); pointer-events: none; }
+.mcq-opt.revealed { background: var(--math-l); border-color: var(--math); color: var(--math-m); font-weight: 600; pointer-events: none; }
 .mcq-opt.disabled { pointer-events: none; }
+.mcq-opt.selected { background: var(--phy-l); border-color: var(--phy); color: var(--phy-m); font-weight: 600; }
 .opt-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; flex-shrink: 0; }
 .exp-box {
   margin-top: 12px; padding: 12px; border-radius: var(--r);
@@ -1490,7 +1493,7 @@ input, select, textarea, button { -webkit-appearance: none; border-radius: var(-
       </div>
 
       <!-- Config -->
-      <div class="section-pad" style="padding-bottom:0">
+      <div class="section-pad" style="padding-bottom:0" id="testConfig">
         <!-- Subject multi-select -->
         <div style="margin-bottom:10px">
           <div class="field-label" style="display:flex;align-items:center;gap:8px">
@@ -1989,6 +1992,7 @@ let obStep = 1;
 let curTab = 'home';
 let testSubj = 'physics', testDiff = 'Mixed';
 let scoreC = 0, scoreW = 0, scoreTot = 0;
+let quizData = null, userAnswers = {};
 let testLoading = false, paperLoading = false;
 let testSource = 'ncert', paperChoice = 'yes', paperSrc = 'ncert';
 let timerInterval = null, timerTotal = 0, timerLeft = 0;
@@ -2032,8 +2036,12 @@ function applyExamMode(examId) {
   if (exam.subjects.includes('biology') && !CH['biology']) {
     CH['biology'] = CH_BIOLOGY;
     SL['biology'] = 'Biology'; SC['biology'] = '044';
-    SUBJ_ICONS['biology'] = '🧬'; SUBJ_COLS['biology'] = 'var(--math)'; SUBJ_MCOLS['biology'] = 'var(--math-m)';
+    SUBJ_ICONS['biology'] = '🧬'; SUBJ_COLS['biology'] = 'var(--bio)'; SUBJ_MCOLS['biology'] = 'var(--bio-m)';
+    SCOL['biology'] = '#0d9488';
+    PRI['biology'] = ['l','m','m','h','h','m','m','h','h','h','m','m','h','h','m','h','h','h','h','m','h','h','m','h','h','m','h','h','h','h','h','h','h','m','h','m','l'];
+    DAYS_CH['biology'] = [1,2,2,3,3,2,2,3,3,3,2,2,4,3,2,3,3,3,3,2,3,3,2,3,4,2,5,5,3,4,3,4,3,2,3,2,1];
   }
+  renderSubjMultiGrid();
   const tbSub = document.getElementById('tbSub');
   if (tbSub) tbSub.textContent = exam.shortName + ' · ' + exam.examDate;
   const examDateLbl = document.getElementById('examDateLbl');
@@ -2084,6 +2092,8 @@ function selectExamItem(el) {
   const examId    = el.getAttribute('data-examid');
   const withClose = el.getAttribute('data-withclose') === 'true';
   setExam(examId);
+  selectedSubjects = [];
+  selectedChapters = [];
   renderExamListHTML('examListContent', withClose);
   renderObExamList();
   renderExamPatternCard();
@@ -2545,7 +2555,7 @@ function openNotif() {
 
 
 
-const SCOL = {physics:"#4d9eff",chemistry:"#ff7043",mathematics:"#26c987",english:"#b970ff",cs:"#ffcc02"};
+const SCOL = {physics:"#4d9eff",chemistry:"#ff7043",mathematics:"#26c987",english:"#b970ff",cs:"#ffcc02",biology:"#0d9488"};
 
 let paperSubj = 'physics', paperScope = 'chapter', paperDiff = 'Mixed';
 let lastPaper = null;
@@ -2740,6 +2750,7 @@ async function generateTest() {
   const timerMins = parseInt(document.getElementById('testTimer').value) || 0;
   const area = document.getElementById('testArea');
 
+  document.getElementById('testConfig').style.display = 'none';
   area.innerHTML = `<div class="thinking"><div class="dots"><span></span><span></span><span></span></div><div>Creating ${SL[testSubj]} questions…</div></div>`;
 
   // Build source from selected reference books
@@ -2841,6 +2852,7 @@ function renderTestQuestions(data, chapter, diff, timerMins) {
   let html = `<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:10px">${SL[testSubj]} · ${chapter}</div>`;
 
   if (data.type === 'mcq') {
+    quizData = data; userAnswers = {};
     data.questions.forEach((q,i) => {
       html += `<div class="q-card">
         <div class="q-card-head">
@@ -2852,7 +2864,7 @@ function renderTestQuestions(data, chapter, diff, timerMins) {
         <div class="q-card-body">
           <div class="q-text">${esc(q.q)}</div>
           <div class="mcq-opts" id="mcq-${i}">
-            ${(q.opts||[]).map((o,j) => `<div class="mcq-opt" onclick="answerMCQ(${i},${j},${q.correct},'${encodeURIComponent(q.exp||'')}','mcq')" id="opt-${i}-${j}">
+            ${(q.opts||[]).map((o,j) => `<div class="mcq-opt" onclick="selectMCQOpt(${i},${j},'mcq')" id="opt-${i}-${j}">
               <span class="opt-letter">${'ABCD'[j]}</span>
               <span>${esc(o.replace(/^\([a-d]\)\s*/i,''))}</span>
             </div>`).join('')}
@@ -2864,7 +2876,12 @@ function renderTestQuestions(data, chapter, diff, timerMins) {
         </div>
       </div>`;
     });
+    html += `<div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn btn-outline btn-sm" onclick="backToConfig()" style="flex:1">← New Quiz</button>
+      <button class="btn btn-primary" onclick="submitQuiz()" style="flex:2" id="submitQuizBtn">Submit Answers</button>
+    </div>`;
   } else if (data.type === 'assertion') {
+    quizData = data; userAnswers = {};
     data.questions.forEach((q,i) => {
       html += `<div class="q-card">
         <div class="q-card-head"><span class="q-type-badge" style="background:${bg};color:${c}">A&R</span><span style="font-size:11px;color:var(--t3)">Q${i+1}</span></div>
@@ -2874,7 +2891,7 @@ function renderTestQuestions(data, chapter, diff, timerMins) {
           <div style="font-size:11px;color:var(--t3);margin:5px 0 8px;font-style:italic">Choose the correct option:</div>
           <div class="mcq-opts" id="mcq-ar-${i}">
             ${['Both A and R are true; R is the correct explanation of A','Both A and R are true; R is NOT the correct explanation of A','A is true but R is false','A is false but R is true'].map((o,j) => `
-            <div class="mcq-opt" onclick="answerMCQ('ar-${i}',${j},${q.correct},'${encodeURIComponent(q.exp||'')}','ar')" id="opt-ar-${i}-${j}">
+            <div class="mcq-opt" onclick="selectMCQOpt(${i},${j},'ar')" id="opt-ar-${i}-${j}">
               <span class="opt-letter">${'ABCD'[j]}</span><span style="font-size:12px">${o}</span>
             </div>`).join('')}
           </div>
@@ -2882,6 +2899,10 @@ function renderTestQuestions(data, chapter, diff, timerMins) {
         </div>
       </div>`;
     });
+    html += `<div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn btn-outline btn-sm" onclick="backToConfig()" style="flex:1">← New Quiz</button>
+      <button class="btn btn-primary" onclick="submitQuiz()" style="flex:2" id="submitQuizBtn">Submit Answers</button>
+    </div>`;
   } else if (data.type === 'formula') {
     html += `<div class="q-card"><div class="q-card-body" style="padding-top:14px">
       ${(data.formulas||[]).map(f => `<div class="formula-row">
@@ -2933,7 +2954,62 @@ function renderTestQuestions(data, chapter, diff, timerMins) {
     });
   }
 
+  if (data.type !== 'mcq' && data.type !== 'assertion') {
+    html += `<div style="margin-top:8px"><button class="btn btn-outline btn-sm" onclick="backToConfig()" style="width:100%">← New Quiz</button></div>`;
+  }
   area.innerHTML = html;
+}
+
+function selectMCQOpt(qi, sel, prefix) {
+  const pref = prefix === 'ar' ? `opt-ar-${qi}` : `opt-${qi}`;
+  document.querySelectorAll(`[id^="${pref}-"]`).forEach((opt, j) => {
+    opt.classList.toggle('selected', j === sel);
+  });
+  userAnswers[`${prefix}-${qi}`] = sel;
+}
+
+function submitQuiz() {
+  if (!quizData) return;
+  const btn = document.getElementById('submitQuizBtn');
+  if (btn) btn.style.display = 'none';
+  const prefix = quizData.type === 'assertion' ? 'ar' : 'mcq';
+  quizData.questions.forEach((q, i) => {
+    const key = `${prefix}-${i}`;
+    const sel = userAnswers[key];
+    const correct = q.correct;
+    const pref = prefix === 'ar' ? `opt-ar-${i}` : `opt-${i}`;
+    document.querySelectorAll(`[id^="${pref}-"]`).forEach((opt, j) => {
+      opt.classList.remove('selected');
+      opt.style.pointerEvents = 'none';
+      if (j === correct) opt.classList.add('revealed');
+      else if (j === sel && sel !== correct) opt.classList.add('wrong');
+    });
+    if (sel !== undefined) {
+      scoreTot++;
+      if (sel === correct) {
+        scoreC++;
+        const selEl = document.getElementById(`${pref}-${sel}`);
+        if (selEl) { selEl.classList.remove('wrong'); selEl.classList.add('correct'); }
+      } else {
+        scoreW++;
+      }
+    }
+    const expBox = document.getElementById(`exp-${prefix}-${i}`);
+    const expText = document.getElementById(`exp-text-${prefix}-${i}`);
+    if (expBox && expText) { expText.textContent = q.exp || ''; expBox.classList.add('show'); }
+  });
+  updateScoreBar();
+}
+
+function backToConfig() {
+  quizData = null; userAnswers = {};
+  document.getElementById('testConfig').style.display = '';
+  document.getElementById('testArea').innerHTML = `<div style="text-align:center;padding:32px 16px;color:var(--t3)">
+    <div style="font-size:36px;margin-bottom:10px">🧠</div>
+    <div style="font-size:14px;font-weight:700;color:var(--t2)">Select a chapter and type,<br>then tap Generate</div>
+  </div>`;
+  stopTimer();
+  deactivateAntiCheat();
 }
 
 function answerMCQ(qi, sel, correct, expEnc, prefix) {
@@ -3124,34 +3200,15 @@ function renderAdaptiveAlerts() {
 
 function resetScore() {
   if (scoreTot > 0) {
-    // Smart chapter resolution
-  let chaptersForTest = [];
-  const subjsForTest = selectedSubjects.length > 0 ? selectedSubjects : [testSubj];
-  if (selectedChapters.length > 0) {
-    chaptersForTest = selectedChapters;
-  } else {
-    // Default: random chapter from selected subject
-    const s = subjsForTest[0];
-    const chs = CH[s] || [];
-    if (chs.length) chaptersForTest = [{subj:s, chapter:chs[Math.floor(Math.random()*chs.length)], idx:0}];
-  }
-  if (!chaptersForTest.length) {
-    showToast('Please select at least one chapter');
-    testLoading=false; btn.disabled=false; btn.classList.remove('loading');
-    document.getElementById('testGenIcon').textContent='✦';
-    document.getElementById('testGenText').textContent='Generate Questions';
-    return;
-  }
-  const isFullSyllabus = chaptersForTest.length > 5;
-  const isMultiSubj = [...new Set(chaptersForTest.map(c=>c.subj))].length > 1;
-  const chapterNames = chaptersForTest.map(c=>c.chapter);
-  const chapter = chapterNames[0]; // for compatibility
+    const subjsForTest = selectedSubjects.length > 0 ? selectedSubjects : [testSubj];
     const type = document.getElementById('testType').value;
     const diff = getTestDiff();
-    saveExamRecord(SL[subjsForTest[0]], chapterLabel||chapter, type, scoreC, scoreW, scoreTot, testSource.toUpperCase()+' · '+diff);
+    saveExamRecord(SL[subjsForTest[0]] || testSubj, 'Mixed', type, scoreC, scoreW, scoreTot, testSource.toUpperCase() + ' · ' + diff);
   }
-  scoreC=scoreW=scoreTot=0;
-  document.getElementById('scoreBarWrap').style.display='none';
+  scoreC = scoreW = scoreTot = 0;
+  quizData = null; userAnswers = {};
+  document.getElementById('scoreBarWrap').style.display = 'none';
+  backToConfig();
 }
 
 /* ══════════════════════════════════════════════
@@ -3829,7 +3886,7 @@ function renderFullPlan(plan) {
 function renderSubjMultiGrid() {
   const el = document.getElementById('subjMultiGrid');
   if (!el) return;
-  const subjects = ['physics','chemistry','mathematics','english','cs'];
+  const subjects = getExam().subjects;
   el.innerHTML = subjects.map(s => {
     const isOn = selectedSubjects.includes(s) || (selectedSubjects.length===0 && s===testSubj);
     const chCount = CH[s] ? CH[s].length : 0;
@@ -3861,7 +3918,7 @@ function toggleSubjMulti(s) {
 }
 
 function selectAllSubjects() {
-  selectedSubjects = ['physics','chemistry','mathematics','english','cs'];
+  selectedSubjects = [...getExam().subjects];
   selectedChapters = [];
   renderSubjMultiGrid();
   updateChSelectorLabel();
@@ -4968,6 +5025,69 @@ const REF_BOOKS = {
       color: 'var(--eng)',
       prompt: 'CBSE English Core revision notes including chapter summaries, character sketches, important quotes, writing format templates (article, speech, letter, report, notice), and commonly asked board questions from each chapter.',
       focus: ['Chapter Summaries','Character Sketches','Writing Templates','Frequently Asked']
+    }
+  ],
+  biology: [
+    {
+      id: 'ncert_bio',
+      name: 'NCERT Biology Part I & II (Class 11 & 12)',
+      author: 'NCERT',
+      type: 'textbook',
+      icon: '📗',
+      color: 'var(--bio)',
+      isDefault: true,
+      prompt: 'NCERT Biology Class 11 and Class 12 (Part I & II). NCERT Biology requires word-level accuracy for NEET — use exact NCERT definitions, diagrams, and terminology. Reference chapter names and NCERT section numbers. Cover both Class 11 and 12 biology syllabus thoroughly.',
+      focus: ['NCERT Definitions','Exact Terminology','Diagrams','Intext Questions']
+    },
+    {
+      id: 'trueman_bio',
+      name: "Trueman's Objective Biology (Vol 1 & 2)",
+      author: 'S.C. Verma & M.P. Tyagi',
+      type: 'reference',
+      icon: '📙',
+      color: 'var(--bio)',
+      prompt: "Trueman's Objective Biology Vol 1 & 2 by S.C. Verma and M.P. Tyagi. The most popular NEET Biology reference. Include MCQs with single correct answer, topic-wise objective questions, assertion-reason questions, and fill in the blank questions. Questions from Trueman's are known for NCERT accuracy and NEET-style framing.",
+      focus: ['NEET-style MCQs','Assertion-Reason','Topic-wise Objectives','NCERT Accuracy']
+    },
+    {
+      id: 'pradeep_bio',
+      name: "Pradeep's A Textbook of Biology",
+      author: 'P.S. Dhami, G. Chopra & H.N. Srivastava',
+      type: 'reference',
+      icon: '📕',
+      color: 'var(--bio)',
+      prompt: "Pradeep's A Textbook of Biology Class 11 & 12. Comprehensive CBSE and NEET reference. Include very short answer (1 mark), short answer (2-3 marks), long answer (5 marks), value-based questions, HOTS questions, and additional important questions. Pradeep covers diagrams, flowcharts, and tabular comparisons that frequently appear in board and NEET exams.",
+      focus: ['VSA (1M)','SA (2-3M)','LA (5M)','HOTS & Diagrams']
+    },
+    {
+      id: 'dinesh_bio',
+      name: 'Dinesh Objective Biology',
+      author: 'S.C. Jain & S.T. Jain (S. Chand)',
+      type: 'reference',
+      icon: '📒',
+      color: 'var(--bio)',
+      prompt: 'Dinesh Objective Biology (S. Chand) by S.C. Jain and S.T. Jain. Includes chapter-wise MCQs, diagram-based questions, match the following, passage-based questions, and fact-based one-liners. Widely used for NEET Biology and CBSE board preparation.',
+      focus: ['Chapter MCQs','Diagram-based Qs','Match the Following','Fact-based Qs']
+    },
+    {
+      id: 'ncert_exemplar_bio',
+      name: 'NCERT Exemplar Biology',
+      author: 'NCERT',
+      type: 'exemplar',
+      icon: '📘',
+      color: 'var(--bio)',
+      prompt: 'NCERT Exemplar Problems in Biology Class 11 & 12. Include MCQ (single and multiple correct), very short answer, short answer, and long answer exemplar problems. Exemplar Biology questions are application-based and frequently appear in NEET and board exams. Emphasise diagram-based and reasoning questions.',
+      focus: ['Application MCQs','Multiple Correct','Reasoning Questions','NEET-pattern']
+    },
+    {
+      id: 'cbse_notes_bio',
+      name: 'CBSE Biology Notes & Mind Maps',
+      author: 'CBSE Board',
+      type: 'notes',
+      icon: '📋',
+      color: 'var(--bio)',
+      prompt: 'CBSE Biology revision notes, mind maps, and important points for Class 11 & 12. Focus on quick revision MCQs, important diagrams (must-draw: human heart, nephron, synapse, mitosis/meiosis stages, flower parts), one-liners, comparisons (C3 vs C4, mitosis vs meiosis), and frequently tested NEET/CBSE biology facts.',
+      focus: ['Important Diagrams','One-liners','Comparisons','Frequently Tested Facts']
     }
   ],
   cs: [

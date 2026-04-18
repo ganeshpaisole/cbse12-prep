@@ -244,7 +244,9 @@ body {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 600; font-size: 13px; color: var(--paper);
   flex-shrink: 0; letter-spacing: -1px;
+  cursor: pointer; user-select: none;
 }
+.tb-logo:active { opacity: 0.7; }
 .tb-info { flex: 1; min-width: 0; }
 .tb-title { font-size: 14px; font-weight: 700; color: var(--ink); letter-spacing: -.3px; }
 .tb-sub   { font-size: 10px; color: var(--ink-4); margin-top: 1px; font-weight: 400; }
@@ -1148,6 +1150,19 @@ input, select, textarea, button { -webkit-appearance: none; border-radius: var(-
 
 <body>
 
+  <!-- EXIT CONFIRMATION DIALOG -->
+  <div id="exitConfirmOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9998;align-items:center;justify-content:center">
+    <div style="background:var(--paper);border-radius:20px;padding:28px 24px;max-width:300px;width:calc(100% - 40px);text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+      <div style="font-size:36px;margin-bottom:10px">👋</div>
+      <div style="font-weight:700;font-size:17px;margin-bottom:8px;color:var(--ink)">Exit App?</div>
+      <div style="font-size:13px;color:var(--t3);margin-bottom:22px;line-height:1.5">Your progress is saved locally. You can return anytime!</div>
+      <div style="display:flex;gap:10px">
+        <button onclick="closeExitDialog()" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid var(--border);background:var(--paper-1);font-weight:600;font-size:14px;cursor:pointer;color:var(--ink)">Stay</button>
+        <button onclick="confirmExit()" style="flex:1;padding:13px;border-radius:12px;border:none;background:var(--ink);color:var(--paper);font-weight:700;font-size:14px;cursor:pointer">Exit</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ═══════════════════════════════════
        ONBOARDING FLOW (3 screens)
   ════════════════════════════════════ -->
@@ -1392,7 +1407,7 @@ input, select, textarea, button { -webkit-appearance: none; border-radius: var(-
 
     <!-- TOP BAR -->
     <div class="topbar">
-      <div class="tb-logo">12</div>
+      <div class="tb-logo" onclick="goTab('home')" title="Home">12</div>
       <div class="tb-info">
         <div class="tb-title">CBSE Board Prep</div>
         <div class="tb-sub" id="tbSub">Grade 12 · Science · 2026–27</div>
@@ -1747,6 +1762,7 @@ input, select, textarea, button { -webkit-appearance: none; border-radius: var(-
         <span class="sb-val sb-c" id="sc">0</span><span style="font-size:12px;color:var(--t3)">✓</span>
         <span class="sb-val sb-w" id="sw">0</span><span style="font-size:12px;color:var(--t3)">✗</span>
         <span class="sb-pct" id="spct">—</span>
+        <span id="quizClock" style="font-size:11px;color:var(--t3);font-family:'JetBrains Mono',monospace;background:var(--paper-2);padding:2px 7px;border-radius:6px;margin-left:2px">🕐 --:--:--</span>
         <button class="btn btn-outline btn-sm" onclick="resetScore()" style="margin-left:auto">Reset</button>
       </div>
 
@@ -3361,6 +3377,7 @@ ${type==='hots'?'- Tag cognitive skill: Analysis / Evaluation / Application':''}
 
 function renderTestQuestions(data, chapter, diff, timerMins) {
   if (timerMins > 0) startTimer(timerMins);
+  startQuizClock();
   const area = document.getElementById('testArea');
   const c = SCOL[testSubj];
   const bg = c + '22';
@@ -3552,6 +3569,7 @@ function backToConfig() {
     <div style="font-size:14px;font-weight:700;color:var(--t2)">Select a chapter and type,<br>then tap Generate</div>
   </div>`;
   stopTimer();
+  stopQuizClock();
   deactivateAntiCheat();
 }
 
@@ -6183,6 +6201,54 @@ renderErrLog();
 renderAdaptiveAlerts();
 renderProgressScreen();
 checkOnboarding();
+
+/* ══════════════════════════════════════════════
+   BACK BUTTON — EXIT CONFIRMATION
+══════════════════════════════════════════════ */
+history.pushState(null, '', location.href);
+window.addEventListener('popstate', function() {
+  history.pushState(null, '', location.href);
+  showExitDialog();
+});
+
+function showExitDialog() {
+  document.getElementById('exitConfirmOverlay').style.display = 'flex';
+}
+function closeExitDialog() {
+  document.getElementById('exitConfirmOverlay').style.display = 'none';
+}
+function confirmExit() {
+  // Try programmatic close (works when opened as PWA from home screen)
+  window.close();
+  // Fallback: show a goodbye message (browser may block window.close)
+  setTimeout(() => {
+    document.getElementById('exitConfirmOverlay').style.display = 'none';
+    showToast('You can now close the app / tab.');
+  }, 300);
+}
+
+/* ══════════════════════════════════════════════
+   QUIZ WALL CLOCK
+══════════════════════════════════════════════ */
+let quizClockInterval = null;
+
+function startQuizClock() {
+  updateQuizClock();
+  quizClockInterval = setInterval(updateQuizClock, 1000);
+}
+function updateQuizClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  const el = document.getElementById('quizClock');
+  if (el) el.textContent = '🕐 ' + h + ':' + m + ':' + s;
+}
+function stopQuizClock() {
+  if (quizClockInterval) { clearInterval(quizClockInterval); quizClockInterval = null; }
+  const el = document.getElementById('quizClock');
+  if (el) el.textContent = '🕐 --:--:--';
+}
 
 /* ══════════════════════════════════════════════
    EXAM RECORDS SYSTEM

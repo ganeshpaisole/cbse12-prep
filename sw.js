@@ -1,7 +1,7 @@
 // CBSE 12 Board Prep — Service Worker
 // Fixed for GitHub Pages subfolder deployment
 
-const CACHE_NAME = 'cbse12-v2.0';
+const CACHE_NAME = 'cbse12-v2.1';
 const STATIC_ASSETS = [
   './index.html',
   './manifest.json'

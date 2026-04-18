@@ -2580,16 +2580,36 @@ function toggleAdminSubj(k, el) {
 }
 
 async function createTeacherByAdmin() {
-  const name    = document.getElementById('adminNewTeacherName').value.trim();
-  const examMode = document.getElementById('adminNewTeacherExam').value;
-  const errEl   = document.getElementById('adminCreateError');
+  const nameEl  = document.getElementById('adminNewTeacherName');
+  const examEl  = document.getElementById('adminNewTeacherExam');
   const result  = document.getElementById('adminCreateResult');
-  errEl.style.display = 'none'; result.style.display = 'none';
+  if (!nameEl || !examEl || !result) { showToast('Page not ready — try again'); return; }
 
-  if (!name) { errEl.textContent = 'Enter teacher name.'; errEl.style.display = ''; return; }
-  if (adminNewSubjects.length === 0) { errEl.textContent = 'Select at least one subject.'; errEl.style.display = ''; return; }
+  const name     = nameEl.value.trim();
+  const examMode = examEl.value;
+
+  // Validate with visible toasts
+  if (!name) {
+    nameEl.focus();
+    nameEl.style.borderColor = 'var(--red)';
+    showToast('⚠️ Enter teacher name first');
+    setTimeout(() => nameEl.style.borderColor = '', 2000);
+    return;
+  }
+  if (adminNewSubjects.length === 0) {
+    showToast('⚠️ Select at least one subject (tap the chips)');
+    // Flash the subject picker
+    const picker = document.getElementById('adminSubjPicker');
+    if (picker) { picker.style.outline = '2px solid var(--red)'; setTimeout(() => picker.style.outline = '', 2000); }
+    return;
+  }
 
   const secret = sessionStorage.getItem('cbse12_admin_secret');
+  if (!secret) { showToast('Session expired — please log in again'); adminLogout(); return; }
+
+  const btn = event.target;
+  btn.disabled = true; btn.textContent = 'Creating…';
+
   try {
     const r = await fetchWithTimeout(BACKEND_URL + '/api/admin/teacher/create', {
       method: 'POST',
@@ -2597,18 +2617,23 @@ async function createTeacherByAdmin() {
       body: JSON.stringify({ name, subjects: adminNewSubjects, examMode })
     });
     const d = await r.json();
-    if (!r.ok) { errEl.textContent = d.error || 'Failed to create teacher.'; errEl.style.display = ''; return; }
+    if (!r.ok) { showToast('Error: ' + (d.error || 'Failed to create teacher')); return; }
 
     document.getElementById('adminCreatedCode').textContent = d.teacherCode;
     document.getElementById('adminCreatedPass').textContent = d.password;
     result.style.display = '';
+    result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    showToast('✅ Teacher account created!');
     // Reset form
-    document.getElementById('adminNewTeacherName').value = '';
+    nameEl.value = '';
     adminNewSubjects = [];
     document.querySelectorAll('#adminSubjPicker .ob-subj-chip').forEach(c => c.classList.remove('sel'));
-    // Refresh teacher list
     loadAdminDashboard();
-  } catch(e) { errEl.textContent = 'Network error. Check connection.'; errEl.style.display = ''; }
+  } catch(e) {
+    showToast('Network error — check connection');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Create Teacher Account →';
+  }
 }
 
 async function loadAdminDashboard() {

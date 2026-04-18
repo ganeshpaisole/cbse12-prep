@@ -2093,6 +2093,8 @@ input, select, textarea, button { -webkit-appearance: none; border-radius: var(-
         <div style="font-size:11px;color:var(--t3)" id="adminLastRefresh"></div>
       </div>
       <div style="padding:14px 16px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:14px">
+
+        <!-- Stats -->
         <div style="display:flex;gap:10px">
           <div style="flex:1;background:var(--phy-l);border:1.5px solid var(--phy);border-radius:12px;padding:14px;text-align:center">
             <div style="font-size:28px;font-weight:800;color:var(--phy-m)" id="adminTeacherCount">—</div>
@@ -2103,12 +2105,59 @@ input, select, textarea, button { -webkit-appearance: none; border-radius: var(-
             <div style="font-size:11px;color:var(--t3);margin-top:2px;font-weight:600">Total Students</div>
           </div>
         </div>
+
+        <!-- Create Teacher -->
+        <div style="background:var(--paper-1);border:1.5px solid var(--border);border-radius:14px;padding:14px">
+          <div style="font-size:13px;font-weight:700;margin-bottom:12px">➕ Create Teacher Account</div>
+          <div class="field-label">Teacher's Full Name</div>
+          <input class="ob-input" id="adminNewTeacherName" placeholder="e.g. Prof. Anil Sharma" maxlength="60" style="margin-bottom:10px">
+          <div class="field-label">Subjects They Teach</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px" id="adminSubjPicker">
+            <div class="ob-subj-chip" id="atsc-physics" onclick="toggleAdminSubj('physics',this)">⚡ Physics</div>
+            <div class="ob-subj-chip" id="atsc-chemistry" onclick="toggleAdminSubj('chemistry',this)">🧪 Chemistry</div>
+            <div class="ob-subj-chip" id="atsc-mathematics" onclick="toggleAdminSubj('mathematics',this)">📐 Maths</div>
+            <div class="ob-subj-chip" id="atsc-biology" onclick="toggleAdminSubj('biology',this)">🧬 Biology</div>
+            <div class="ob-subj-chip" id="atsc-english" onclick="toggleAdminSubj('english',this)">📖 English</div>
+            <div class="ob-subj-chip" id="atsc-cs" onclick="toggleAdminSubj('cs',this)">💻 CS</div>
+          </div>
+          <div class="field-label">Exam Mode</div>
+          <select id="adminNewTeacherExam" style="margin-bottom:12px;width:100%;padding:10px;border-radius:10px;border:1.5px solid var(--border);background:var(--paper);font-size:13px">
+            <option value="cbse12">CBSE Class 12</option>
+            <option value="jee_main">JEE Main</option>
+            <option value="jee_adv">JEE Advanced</option>
+            <option value="neet">NEET UG</option>
+            <option value="mht_cet">MHT-CET</option>
+            <option value="cuet">CUET UG</option>
+            <option value="bitsat">BITSAT</option>
+            <option value="iiser">IISER IAT</option>
+          </select>
+          <div id="adminCreateError" style="color:var(--red);font-size:12px;display:none;margin-bottom:8px"></div>
+          <button style="width:100%;padding:12px;background:var(--ink);color:var(--paper);border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer" onclick="createTeacherByAdmin()">Create Teacher Account →</button>
+          <!-- Result shown here -->
+          <div id="adminCreateResult" style="display:none;margin-top:14px;background:var(--math-l);border:2px solid var(--math);border-radius:12px;padding:14px">
+            <div style="font-size:12px;font-weight:700;color:var(--math-m);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">✅ Teacher Created — Share these credentials</div>
+            <div style="display:flex;gap:10px;margin-bottom:8px">
+              <div style="flex:1;background:var(--paper);border-radius:8px;padding:10px;text-align:center">
+                <div style="font-size:10px;color:var(--t3);font-weight:700;text-transform:uppercase;margin-bottom:4px">Teacher Code</div>
+                <div style="font-size:22px;font-weight:900;letter-spacing:.15em;color:var(--ink)" id="adminCreatedCode">—</div>
+              </div>
+              <div style="flex:1;background:var(--paper);border-radius:8px;padding:10px;text-align:center">
+                <div style="font-size:10px;color:var(--t3);font-weight:700;text-transform:uppercase;margin-bottom:4px">Password</div>
+                <div style="font-size:22px;font-weight:900;letter-spacing:.1em;color:var(--ink)" id="adminCreatedPass">—</div>
+              </div>
+            </div>
+            <div style="font-size:11px;color:var(--t3)">Teacher uses these to log in. Password shown once — note it down!</div>
+          </div>
+        </div>
+
+        <!-- Teacher List -->
         <div style="display:flex;align-items:center;justify-content:space-between">
           <div style="font-size:13px;font-weight:700">All Teachers</div>
           <div style="font-size:12px;color:var(--primary);cursor:pointer;font-weight:600" onclick="loadAdminDashboard()">Refresh ↻</div>
         </div>
         <div id="adminTeacherList" style="display:flex;flex-direction:column;gap:10px"></div>
-        <div style="margin-top:8px;padding-top:14px;border-top:1px solid var(--border)">
+
+        <div style="padding-top:14px;border-top:1px solid var(--border)">
           <button style="width:100%;padding:10px;background:var(--chem-l);color:var(--chem-m);border:1.5px solid var(--chem);border-radius:10px;font-size:13px;font-weight:700;cursor:pointer" onclick="adminLogout()">Sign Out Admin</button>
         </div>
       </div>
@@ -2150,62 +2199,14 @@ input, select, textarea, button { -webkit-appearance: none; border-radius: var(-
   </div>
 
   <!-- PROFILE / CLASS MODAL -->
-  <div class="profile-overlay" id="profileOverlay" onclick="e=>{if(e.target===this)closeProfile()}">
+  <div class="profile-overlay" id="profileOverlay" onclick="if(event.target===this)closeProfile()">
     <div class="profile-sheet" id="profileSheet">
       <div class="ch-sheet-handle"></div>
       <div class="ch-sheet-head">
-        <div class="ch-sheet-title" id="profileTitle">👤 Profile & Class</div>
+        <div class="ch-sheet-title" id="profileTitle">👤 Profile</div>
         <div class="ch-sheet-close" onclick="closeProfile()">✕</div>
       </div>
-      <div class="profile-tabs">
-        <div class="profile-tab active" id="ptab-student" onclick="switchProfileTab('student')">🎓 Student</div>
-        <div class="profile-tab" id="ptab-teacher" onclick="switchProfileTab('teacher')">📋 Teacher</div>
-      </div>
-
-      <!-- STUDENT PANEL -->
-      <div id="ppanel-student">
-        <div id="studentJoinForm">
-          <div style="font-size:12px;color:var(--t3);margin-bottom:12px">Enter your name and the class code your teacher gave you.</div>
-          <div class="field-label">Your Name</div>
-          <input type="text" id="studentNameInput" placeholder="e.g. Ananya Sharma" style="margin-bottom:10px">
-          <div class="field-label">Class Code (from teacher)</div>
-          <input type="text" id="classCodeInput" placeholder="e.g. AB12CD" style="text-transform:uppercase;margin-bottom:14px" oninput="this.value=this.value.toUpperCase()">
-          <button class="btn btn-primary" style="width:100%" onclick="joinClass()">Join Class</button>
-        </div>
-        <div id="studentJoinedInfo" style="display:none">
-          <div class="student-card" style="background:var(--bio-l);border-color:var(--bio)">
-            <div style="font-size:22px;margin-bottom:6px">🎓</div>
-            <div style="font-weight:700;font-size:15px" id="joinedStudentName"></div>
-            <div style="font-size:12px;color:var(--t3);margin-top:2px">Class: <strong id="joinedClassCode"></strong> · Teacher: <strong id="joinedTeacherName"></strong></div>
-            <div style="font-size:11px;color:var(--bio-m);margin-top:6px;font-weight:600">Your quiz results sync automatically to your teacher.</div>
-          </div>
-          <button class="btn btn-outline" style="width:100%;margin-top:10px" onclick="leaveClass()">Leave Class</button>
-        </div>
-      </div>
-
-      <!-- TEACHER PANEL -->
-      <div id="ppanel-teacher" style="display:none">
-        <div id="teacherCreateForm">
-          <div style="font-size:12px;color:var(--t3);margin-bottom:12px">Create a class and share the code with your students to track their progress.</div>
-          <div class="field-label">Your Name</div>
-          <input type="text" id="teacherNameInput" placeholder="e.g. Prof. Rajesh Kumar" style="margin-bottom:14px">
-          <button class="btn btn-primary" style="width:100%" onclick="createTeacherClass()">Create Class</button>
-        </div>
-        <div id="teacherClassInfo" style="display:none">
-          <div class="student-card" style="background:var(--phy-l);border-color:var(--phy);margin-bottom:12px">
-            <div style="font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px">Your Teacher Code</div>
-            <div style="font-size:28px;font-weight:900;letter-spacing:.15em;color:var(--phy-m)" id="teacherClassCodeDisplay"></div>
-            <div style="font-size:11px;color:var(--t3);margin-top:4px">Share this code with your students</div>
-          </div>
-          <div style="display:flex;gap:8px;margin-bottom:8px">
-            <button class="btn btn-primary" style="flex:1" onclick="loadTeacherDashboard()">View Progress</button>
-            <button class="btn btn-outline" style="flex:1" onclick="inviteStudent()">+ Add Student</button>
-          </div>
-          <div id="inviteResult" style="display:none;background:var(--math-l);border:1.5px solid var(--math);border-radius:10px;padding:12px;margin-bottom:10px;font-size:13px"></div>
-          <button class="btn btn-outline" style="width:100%;font-size:12px" onclick="leaveTeacherClass()">Logout Teacher</button>
-          <div id="teacherDashboard" style="margin-top:16px"></div>
-        </div>
-      </div>
+      <div id="profileContent" style="padding:0 16px 16px"></div>
     </div>
   </div>
 
@@ -2560,11 +2561,10 @@ async function loginAdmin() {
     });
     const d = await r.json();
     if (!r.ok) { errEl.textContent = d.error || 'Login failed.'; errEl.style.display = ''; return; }
-    localStorage.setItem('cbse12_role', 'admin');
-    localStorage.setItem('cbse12_admin_secret', pass);
-    localStorage.setItem('cbse12_onboard_done', '1');
-    localStorage.setItem('cbse12_onboard_version', ONBOARD_VERSION);
-    localStorage.setItem('cbse12_name', 'Admin');
+    // Admin uses sessionStorage — clears when browser/tab is closed (no persistent cache)
+    sessionStorage.setItem('cbse12_role', 'admin');
+    sessionStorage.setItem('cbse12_admin_secret', pass);
+    sessionStorage.setItem('cbse12_name', 'Admin');
     document.getElementById('nav-admin').style.display = '';
     document.getElementById('onboardOverlay').style.display = 'none';
     loadUserProfile(); initHome();
@@ -2572,8 +2572,47 @@ async function loginAdmin() {
   } catch(e) { errEl.textContent = 'Network error. Check connection.'; errEl.style.display = ''; }
 }
 
+let adminNewSubjects = [];
+function toggleAdminSubj(k, el) {
+  el.classList.toggle('sel');
+  if (el.classList.contains('sel')) adminNewSubjects.push(k);
+  else adminNewSubjects = adminNewSubjects.filter(s => s !== k);
+}
+
+async function createTeacherByAdmin() {
+  const name    = document.getElementById('adminNewTeacherName').value.trim();
+  const examMode = document.getElementById('adminNewTeacherExam').value;
+  const errEl   = document.getElementById('adminCreateError');
+  const result  = document.getElementById('adminCreateResult');
+  errEl.style.display = 'none'; result.style.display = 'none';
+
+  if (!name) { errEl.textContent = 'Enter teacher name.'; errEl.style.display = ''; return; }
+  if (adminNewSubjects.length === 0) { errEl.textContent = 'Select at least one subject.'; errEl.style.display = ''; return; }
+
+  const secret = sessionStorage.getItem('cbse12_admin_secret');
+  try {
+    const r = await fetchWithTimeout(BACKEND_URL + '/api/admin/teacher/create', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','x-admin-secret': secret},
+      body: JSON.stringify({ name, subjects: adminNewSubjects, examMode })
+    });
+    const d = await r.json();
+    if (!r.ok) { errEl.textContent = d.error || 'Failed to create teacher.'; errEl.style.display = ''; return; }
+
+    document.getElementById('adminCreatedCode').textContent = d.teacherCode;
+    document.getElementById('adminCreatedPass').textContent = d.password;
+    result.style.display = '';
+    // Reset form
+    document.getElementById('adminNewTeacherName').value = '';
+    adminNewSubjects = [];
+    document.querySelectorAll('#adminSubjPicker .ob-subj-chip').forEach(c => c.classList.remove('sel'));
+    // Refresh teacher list
+    loadAdminDashboard();
+  } catch(e) { errEl.textContent = 'Network error. Check connection.'; errEl.style.display = ''; }
+}
+
 async function loadAdminDashboard() {
-  const secret = localStorage.getItem('cbse12_admin_secret');
+  const secret = sessionStorage.getItem('cbse12_admin_secret');
   if (!secret) return;
   try {
     const r = await fetchWithTimeout(BACKEND_URL + '/api/admin/teachers', {
@@ -2609,7 +2648,7 @@ async function loadAdminDashboard() {
 
 async function adminDeleteTeacher(code, name) {
   if (!confirm(`Delete teacher "${name}" (${code}) and all their students? This cannot be undone.`)) return;
-  const secret = localStorage.getItem('cbse12_admin_secret');
+  const secret = sessionStorage.getItem('cbse12_admin_secret');
   try {
     const r = await fetchWithTimeout(BACKEND_URL + '/api/admin/teacher/' + code, {
       method: 'DELETE', headers: { 'x-admin-secret': secret }
@@ -2622,10 +2661,9 @@ async function adminDeleteTeacher(code, name) {
 }
 
 function adminLogout() {
-  localStorage.removeItem('cbse12_role');
-  localStorage.removeItem('cbse12_admin_secret');
-  localStorage.removeItem('cbse12_onboard_done');
-  localStorage.removeItem('cbse12_name');
+  sessionStorage.removeItem('cbse12_role');
+  sessionStorage.removeItem('cbse12_admin_secret');
+  sessionStorage.removeItem('cbse12_name');
   document.getElementById('nav-admin').style.display = 'none';
   location.reload();
 }
@@ -2679,21 +2717,27 @@ const ONBOARD_VERSION = '2'; // bump to force re-onboarding on all devices
 
 function checkOnboarding() {
   applyExamMode(currentExam);
-  const role    = localStorage.getItem('cbse12_role');
-  const done    = localStorage.getItem('cbse12_onboard_done');
-  const version = localStorage.getItem('cbse12_onboard_version');
+  // Admin lives in sessionStorage (clears on tab/browser close — no persistent cache)
+  const adminRole   = sessionStorage.getItem('cbse12_role');
+  const role        = adminRole || localStorage.getItem('cbse12_role');
+  const done        = localStorage.getItem('cbse12_onboard_done');
+  const version     = localStorage.getItem('cbse12_onboard_version');
 
-  // Restore subject filter if returning teacher/student/admin
+  // Restore state for returning sessions
   if (role === 'teacher' && teacherProfile) applyTeacherSubjectFilter();
   else if (role === 'student' && studentProfile && studentProfile.subjects) applyStudentSubjectFilter(studentProfile.subjects);
   else if (role === 'admin') document.getElementById('nav-admin').style.display = '';
 
-  // Valid session requires: done flag, current onboard version, AND matching profile
+  // Admin: valid if sessionStorage has role (no localStorage check needed)
+  if (adminRole === 'admin') {
+    loadUserProfile(); initHome(); return;
+  }
+
+  // Other roles: need done flag + current version + matching profile
   const hasValidSession = done && version === ONBOARD_VERSION && (
     (role === 'solo') ||
     (role === 'teacher' && teacherProfile) ||
-    (role === 'student' && studentProfile) ||
-    (role === 'admin')
+    (role === 'student' && studentProfile)
   );
 
   if (!hasValidSession) {
@@ -2761,7 +2805,7 @@ function finishOnboard() {
 }
 
 function loadUserProfile() {
-  const name    = localStorage.getItem('cbse12_name') || 'Student';
+  const name    = sessionStorage.getItem('cbse12_name') || localStorage.getItem('cbse12_name') || 'Student';
   const target  = localStorage.getItem('cbse12_target') || '87%';
   const initials = name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
   const hour = new Date().getHours();
@@ -6005,108 +6049,81 @@ let teacherProfile = JSON.parse(localStorage.getItem('cbse12_teacher') || 'null'
 // {classCode, teacherKey, teacherName}
 
 function openProfile() {
-  const overlay = document.getElementById('profileOverlay');
-  overlay.classList.add('show');
+  const role = sessionStorage.getItem('cbse12_role') || localStorage.getItem('cbse12_role');
+  if (role === 'admin') { goTab('admin'); return; } // admin → use admin dashboard
+  document.getElementById('profileOverlay').classList.add('show');
   renderProfileState();
 }
 function closeProfile() {
   document.getElementById('profileOverlay').classList.remove('show');
 }
-function switchProfileTab(tab) {
-  document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('ptab-' + tab).classList.add('active');
-  document.getElementById('ppanel-student').style.display = tab === 'student' ? '' : 'none';
-  document.getElementById('ppanel-teacher').style.display = tab === 'teacher' ? '' : 'none';
-}
 
 function renderProfileState() {
-  // Student panel
-  if (studentProfile) {
-    document.getElementById('studentJoinForm').style.display = 'none';
-    document.getElementById('studentJoinedInfo').style.display = '';
-    document.getElementById('joinedStudentName').textContent = studentProfile.studentName;
-    document.getElementById('joinedClassCode').textContent = studentProfile.classCode;
-    document.getElementById('joinedTeacherName').textContent = studentProfile.teacherName || '—';
-    updateProfileBtn('student');
+  const role = localStorage.getItem('cbse12_role');
+  const content = document.getElementById('profileContent');
+
+  if (role === 'teacher' && teacherProfile) {
+    document.getElementById('profileTitle').textContent = '📋 Teacher Profile';
+    const tCode = teacherProfile.teacherCode;
+    content.innerHTML = `
+      <div style="background:var(--phy-l);border:2px solid var(--phy);border-radius:14px;padding:16px;text-align:center;margin-bottom:14px">
+        <div style="font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">Your Teacher Code</div>
+        <div style="font-size:32px;font-weight:900;letter-spacing:.2em;color:var(--phy-m)">${esc(tCode)}</div>
+        <div style="font-size:11px;color:var(--t3);margin-top:4px">Share with students to join your class</div>
+      </div>
+      <div style="font-size:12px;color:var(--t3);margin-bottom:10px">👤 <strong>${esc(teacherProfile.name)}</strong> · ${(teacherProfile.examMode||'cbse12').toUpperCase()} · Subjects: ${(teacherProfile.subjects||[]).join(', ')}</div>
+      <div style="display:flex;gap:8px;margin-bottom:10px">
+        <button class="btn btn-primary" style="flex:1" onclick="loadTeacherDashboard()">👁 View Students</button>
+        <button class="btn btn-outline" style="flex:1" onclick="inviteStudent()">+ Add Student</button>
+      </div>
+      <div id="inviteResult" style="display:none;background:var(--math-l);border:1.5px solid var(--math);border-radius:10px;padding:12px;margin-bottom:10px;font-size:13px"></div>
+      <div id="teacherDashboard"></div>
+      <button class="btn btn-outline" style="width:100%;margin-top:14px;font-size:12px;color:var(--red)" onclick="teacherLogout()">Sign Out</button>`;
+
+  } else if (role === 'student' && studentProfile) {
+    document.getElementById('profileTitle').textContent = '🎓 Student Profile';
+    content.innerHTML = `
+      <div style="background:var(--bio-l);border:2px solid var(--bio);border-radius:14px;padding:16px;margin-bottom:14px">
+        <div style="font-size:22px;margin-bottom:8px">🎓</div>
+        <div style="font-weight:700;font-size:16px">${esc(studentProfile.studentName)}</div>
+        <div style="font-size:12px;color:var(--t3);margin-top:6px">Teacher Code: <strong style="font-family:monospace;letter-spacing:.1em">${esc(studentProfile.classCode)}</strong></div>
+        <div style="font-size:12px;color:var(--t3);margin-top:2px">Teacher: <strong>${esc(studentProfile.teacherName||'—')}</strong></div>
+        <div style="font-size:11px;color:var(--bio-m);margin-top:8px;font-weight:600">Quiz results sync to your teacher automatically.</div>
+      </div>
+      <button class="btn btn-outline" style="width:100%;font-size:12px;color:var(--red)" onclick="studentLogout()">Sign Out</button>`;
+
   } else {
-    document.getElementById('studentJoinForm').style.display = '';
-    document.getElementById('studentJoinedInfo').style.display = 'none';
-  }
-  // Teacher panel
-  if (teacherProfile) {
-    document.getElementById('teacherCreateForm').style.display = 'none';
-    document.getElementById('teacherClassInfo').style.display = '';
-    document.getElementById('teacherClassCodeDisplay').textContent = teacherProfile.classCode;
-    updateProfileBtn('teacher');
-    // Auto-switch to teacher tab if they're a teacher
-    switchProfileTab('teacher');
-  } else if (studentProfile) {
-    switchProfileTab('student');
+    // Solo user
+    const name = localStorage.getItem('cbse12_name') || 'Student';
+    const target = localStorage.getItem('cbse12_target') || '87%';
+    document.getElementById('profileTitle').textContent = '👤 Profile';
+    content.innerHTML = `
+      <div style="background:var(--paper-1);border:1.5px solid var(--border);border-radius:14px;padding:16px;margin-bottom:14px">
+        <div style="font-size:14px;font-weight:700">${esc(name)}</div>
+        <div style="font-size:12px;color:var(--t3);margin-top:4px">Solo Mode · Target: <strong>${esc(target)}</strong> · ${(localStorage.getItem('cbse12_exam')||'cbse12').toUpperCase()}</div>
+      </div>
+      <button class="btn btn-outline" style="width:100%;font-size:12px" onclick="closeProfile();localStorage.removeItem('cbse12_onboard_done');localStorage.removeItem('cbse12_onboard_version');location.reload()">Switch Role / Re-setup</button>`;
   }
 }
 
-function updateProfileBtn(role) {
-  const btn = document.getElementById('profileBtn');
-  if (btn) btn.textContent = role === 'teacher' ? '📋' : '🎓';
-}
-
-async function joinClass() {
-  const name = document.getElementById('studentNameInput').value.trim();
-  const code = document.getElementById('classCodeInput').value.trim().toUpperCase();
-  if (!name || !code) { showToast('Enter your name and class code'); return; }
-  try {
-    const r = await fetchWithTimeout(BACKEND_URL + '/api/class/join', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({classCode: code, studentName: name})
-    });
-    const d = await r.json();
-    if (!r.ok) { showToast(d.error || 'Failed to join class'); return; }
-    studentProfile = {studentId: d.studentId, classCode: d.classCode, studentName: name, teacherName: d.teacherName};
-    localStorage.setItem('cbse12_student', JSON.stringify(studentProfile));
-    showToast('Joined class successfully!');
-    renderProfileState();
-  } catch(e) { showToast('Network error — check connection'); }
-}
-
-function leaveClass() {
-  if (!confirm('Leave this class? Your progress history on the teacher\'s side will remain.')) return;
-  studentProfile = null;
-  localStorage.removeItem('cbse12_student');
-  document.getElementById('studentJoinForm').style.display = '';
-  document.getElementById('studentJoinedInfo').style.display = 'none';
-  document.getElementById('profileBtn').textContent = '👤';
-}
-
-async function createTeacherClass() {
-  const name = document.getElementById('teacherNameInput').value.trim();
-  if (!name) { showToast('Enter your name'); return; }
-  try {
-    const r = await fetchWithTimeout(BACKEND_URL + '/api/class/create', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({teacherName: name})
-    });
-    const d = await r.json();
-    if (!r.ok) { showToast(d.error || 'Failed to create class'); return; }
-    teacherProfile = {classCode: d.classCode, teacherKey: d.teacherKey, teacherName: name};
-    localStorage.setItem('cbse12_teacher', JSON.stringify(teacherProfile));
-    document.getElementById('teacherCreateForm').style.display = 'none';
-    document.getElementById('teacherClassInfo').style.display = '';
-    document.getElementById('teacherClassCodeDisplay').textContent = d.classCode;
-    updateProfileBtn('teacher');
-    showToast('Class created! Share the code with students.');
-  } catch(e) { showToast('Network error'); }
-}
-
-function leaveTeacherClass() {
-  if (!confirm('Delete this class? Students will no longer be able to sync.')) return;
-  teacherProfile = null;
+function teacherLogout() {
+  if (!confirm('Sign out as teacher?')) return;
+  localStorage.removeItem('cbse12_role');
   localStorage.removeItem('cbse12_teacher');
-  document.getElementById('teacherCreateForm').style.display = '';
-  document.getElementById('teacherClassInfo').style.display = '';
-  document.getElementById('teacherDashboard').innerHTML = '';
-  document.getElementById('profileBtn').textContent = '👤';
+  localStorage.removeItem('cbse12_onboard_done');
+  localStorage.removeItem('cbse12_onboard_version');
+  localStorage.removeItem('cbse12_name');
+  location.reload();
+}
+
+function studentLogout() {
+  if (!confirm('Sign out?')) return;
+  localStorage.removeItem('cbse12_role');
+  localStorage.removeItem('cbse12_student');
+  localStorage.removeItem('cbse12_onboard_done');
+  localStorage.removeItem('cbse12_onboard_version');
+  localStorage.removeItem('cbse12_name');
+  location.reload();
 }
 
 async function inviteStudent() {
@@ -6116,16 +6133,16 @@ async function inviteStudent() {
   try {
     const r = await fetchWithTimeout(BACKEND_URL + '/api/teacher/student/invite', {
       method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ teacherCode: teacherProfile.classCode || teacherProfile.teacherCode, teacherKey: teacherProfile.teacherKey, studentName: name.trim() })
+      body: JSON.stringify({ teacherCode: teacherProfile.teacherCode, teacherKey: teacherProfile.teacherKey, studentName: name.trim() })
     });
     const d = await r.json();
     if (!r.ok) { showToast(d.error || 'Failed'); return; }
     const box = document.getElementById('inviteResult');
     box.style.display = '';
-    box.innerHTML = `<strong>${esc(d.studentName)}'s Login Credentials</strong><br>
-      Teacher Code: <code style="font-weight:900">${teacherProfile.classCode || teacherProfile.teacherCode}</code><br>
-      Student Code: <code style="font-weight:900">${d.studentCode}</code><br>
-      Password: <code style="font-weight:900">${d.studentPassword}</code><br>
+    box.innerHTML = `<strong>📋 ${esc(d.studentName)}'s Login Credentials</strong><br><br>
+      Teacher Code: <code style="font-weight:900;font-size:14px">${esc(teacherProfile.teacherCode)}</code><br>
+      Student Code: <code style="font-weight:900;font-size:14px">${esc(d.studentCode)}</code><br>
+      Password: <code style="font-weight:900;font-size:14px">${esc(d.studentPassword)}</code><br>
       <span style="font-size:11px;color:var(--t3)">Share these with the student to log in.</span>`;
   } catch(e) { showToast('Network error'); }
 }
@@ -6133,25 +6150,25 @@ async function inviteStudent() {
 async function loadTeacherDashboard() {
   if (!teacherProfile) return;
   const dash = document.getElementById('teacherDashboard');
+  if (!dash) return;
   dash.innerHTML = '<div style="text-align:center;padding:20px;color:var(--t3)">Loading students…</div>';
   try {
-    const tCode = teacherProfile.classCode || teacherProfile.teacherCode;
-    const r = await fetchWithTimeout(BACKEND_URL + '/api/class/' + tCode, {
+    const r = await fetchWithTimeout(BACKEND_URL + '/api/class/' + teacherProfile.teacherCode, {
       headers: {'x-teacher-key': teacherProfile.teacherKey}
     });
     const d = await r.json();
     if (!r.ok) { dash.innerHTML = `<div style="color:var(--red);padding:10px">${d.error}</div>`; return; }
-    if (!d.students.length) {
-      dash.innerHTML = '<div style="text-align:center;padding:20px;color:var(--t3);font-size:13px">No students yet.<br>Share your class code: <strong>' + teacherProfile.classCode + '</strong></div>';
+    if (!d.students || !d.students.length) {
+      dash.innerHTML = `<div style="text-align:center;padding:20px;color:var(--t3);font-size:13px">No students yet.<br>Use "+ Add Student" to invite them.</div>`;
       return;
     }
     const colors = ['var(--phy)','var(--chem)','var(--math)','var(--eng)','var(--cs)','var(--bio)'];
-    dash.innerHTML = `<div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:10px">${d.students.length} Student${d.students.length>1?'s':''} · ${d.teacherName}'s Class</div>` +
+    dash.innerHTML = `<div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--t3);margin-bottom:10px">${d.students.length} Student${d.students.length>1?'s':''}</div>` +
       d.students.sort((a,b) => (b.avgScore||0) - (a.avgScore||0)).map((s,i) => {
         const col = colors[i % colors.length];
         const pctColor = s.avgScore >= 70 ? 'var(--green)' : s.avgScore >= 40 ? 'var(--yellow)' : 'var(--red)';
-        const recent = s.recentProgress.slice(-3).reverse().map(p =>
-          `<span style="font-size:10px;background:var(--paper-2);border-radius:6px;padding:2px 6px;margin-right:4px">${p.subject?.slice(0,3)||'?'} ${p.pct}%</span>`
+        const recent = (s.recentProgress||[]).slice(-3).reverse().map(p =>
+          `<span style="font-size:10px;background:var(--paper-2);border-radius:6px;padding:2px 6px;margin-right:4px">${(p.subject||'?').slice(0,3)} ${p.pct}%</span>`
         ).join('');
         return `<div class="tc-row">
           <div class="tc-avatar" style="background:${col}22;color:${col}">${s.name[0].toUpperCase()}</div>
@@ -6161,12 +6178,12 @@ async function loadTeacherDashboard() {
             <div style="margin-top:4px">${recent || '<span style="font-size:10px;color:var(--t3)">No quizzes yet</span>'}</div>
           </div>
           <div class="tc-score">
-            <div class="tc-pct" style="color:${s.avgScore!==null?pctColor:'var(--t3)'}">${s.avgScore !== null ? s.avgScore + '%' : '—'}</div>
+            <div class="tc-pct" style="color:${s.avgScore!=null?pctColor:'var(--t3)'}">${s.avgScore != null ? s.avgScore + '%' : '—'}</div>
             <div class="tc-quizzes">Avg score</div>
           </div>
         </div>`;
       }).join('');
-  } catch(e) { dash.innerHTML = '<div style="color:var(--red);padding:10px">Network error — try again</div>'; }
+  } catch(e) { dash.innerHTML = '<div style="color:var(--red);padding:10px">Network error</div>'; }
 }
 
 async function syncStudentProgress(subject, chapter, type, scoreC, scoreW, scoreTot) {

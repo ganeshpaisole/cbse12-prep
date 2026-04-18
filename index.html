@@ -484,6 +484,26 @@ body {
   transition: opacity .15s;
 }
 .ob-cta:active { opacity: .85; }
+.ob-cta:disabled { opacity: .4; pointer-events: none; }
+.ob-role-card {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 16px; border-radius: 14px;
+  border: 2px solid var(--border); background: var(--paper-1);
+  cursor: pointer; transition: all .15s;
+}
+.ob-role-card.sel { border-color: var(--ink); background: var(--paper-2); }
+.ob-role-card:active { transform: scale(.98); }
+.ob-subj-chip {
+  padding: 8px 14px; border-radius: 100px; border: 2px solid var(--border);
+  font-size: 12px; font-weight: 700; cursor: pointer; transition: all .15s;
+  background: var(--paper-1); color: var(--t2);
+}
+.ob-subj-chip.sel { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+.wrong-review { background: var(--chem-l); border: 1.5px solid var(--chem); border-radius: 12px; padding: 14px; margin-bottom: 10px; }
+.wrong-review-q { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+.wrong-review-row { display: flex; gap: 6px; font-size: 12px; margin-bottom: 4px; align-items: flex-start; }
+.wrong-review-label { font-weight: 700; min-width: 70px; flex-shrink: 0; }
+.wrong-review-exp { background: var(--paper); border-radius: 8px; padding: 8px 10px; font-size: 12px; color: var(--t2); margin-top: 6px; line-height: 1.5; }
 .ob-progress {
   display: flex; gap: 6px; padding: 16px 24px 32px;
 }
@@ -1133,29 +1153,124 @@ input, select, textarea, button { -webkit-appearance: none; border-radius: var(-
   ════════════════════════════════════ -->
   <div class="onboard-overlay" id="onboardOverlay" style="display:none">
 
-    <!-- Screen 0: Exam selection -->
-    <div class="onboard-screen active" id="ob0">
-      <div class="ob-step">Welcome to CBSE Prep AI</div>
+    <!-- Screen R: Role Selection (always first) -->
+    <div class="onboard-screen active" id="obR">
+      <div style="font-size:36px;margin-bottom:12px">👋</div>
+      <div class="ob-title">Welcome to CBSE Prep AI</div>
+      <div class="ob-sub">Who are you? This helps us set up the right experience.</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin:20px 0">
+        <div class="ob-role-card" onclick="selectRole('teacher',this)">
+          <div style="font-size:28px">📋</div>
+          <div>
+            <div style="font-weight:700;font-size:15px">I'm a Teacher</div>
+            <div style="font-size:12px;color:var(--t3);margin-top:2px">Create a class, set subjects, track student progress</div>
+          </div>
+        </div>
+        <div class="ob-role-card" onclick="selectRole('student',this)">
+          <div style="font-size:28px">🎓</div>
+          <div>
+            <div style="font-weight:700;font-size:15px">I'm a Student (with teacher)</div>
+            <div style="font-size:12px;color:var(--t3);margin-top:2px">Login with your teacher's class code</div>
+          </div>
+        </div>
+        <div class="ob-role-card" onclick="selectRole('solo',this)">
+          <div style="font-size:28px">📚</div>
+          <div>
+            <div style="font-weight:700;font-size:15px">Solo Student</div>
+            <div style="font-size:12px;color:var(--t3);margin-top:2px">Self-study mode, full app access</div>
+          </div>
+        </div>
+      </div>
+      <button class="ob-cta" id="obCtaR" onclick="proceedFromRole()" disabled>Continue →</button>
+    </div>
+
+    <!-- Screen T1: Teacher — Name + Subjects -->
+    <div class="onboard-screen" id="obT1">
+      <div style="font-size:32px;margin-bottom:10px">📋</div>
+      <div class="ob-title">Teacher Profile</div>
+      <div class="ob-sub">Set up your teaching profile. Your students will see only the subjects you select.</div>
+      <div class="field-label" style="margin-top:14px">Your Full Name</div>
+      <input class="ob-input" id="teacherRegName" placeholder="e.g. Prof. Rajesh Kumar" maxlength="50">
+      <div class="field-label" style="margin-top:12px">Subjects You Teach</div>
+      <div id="teacherSubjPicker" style="display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 14px"></div>
+      <div class="field-label">Select Exam Mode</div>
+      <select id="teacherExamMode" style="margin-bottom:14px">
+        <option value="cbse12">CBSE Class 12</option>
+        <option value="jee_main">JEE Main</option>
+        <option value="jee_adv">JEE Advanced</option>
+        <option value="neet">NEET UG</option>
+        <option value="mht_cet">MHT-CET</option>
+        <option value="cuet">CUET UG</option>
+        <option value="bitsat">BITSAT</option>
+        <option value="iiser">IISER IAT</option>
+      </select>
+      <button class="ob-cta" onclick="goOnboard('T2')">Continue →</button>
+    </div>
+
+    <!-- Screen T2: Teacher — Set Password -->
+    <div class="onboard-screen" id="obT2">
+      <div style="font-size:32px;margin-bottom:10px">🔑</div>
+      <div class="ob-title">Set Your Password</div>
+      <div class="ob-sub">You'll use this to log in as teacher and manage students.</div>
+      <div class="field-label" style="margin-top:14px">Password (min 4 characters)</div>
+      <input class="ob-input" id="teacherRegPass" type="password" placeholder="Choose a password" maxlength="30">
+      <div class="field-label" style="margin-top:10px">Confirm Password</div>
+      <input class="ob-input" id="teacherRegPass2" type="password" placeholder="Repeat password" maxlength="30">
+      <div id="teacherRegError" style="color:var(--red);font-size:12px;margin-top:6px;display:none"></div>
+      <button class="ob-cta" style="margin-top:14px" onclick="registerTeacher()">Create Teacher Account →</button>
+    </div>
+
+    <!-- Screen T3: Teacher — Success -->
+    <div class="onboard-screen" id="obT3">
+      <div style="font-size:40px;margin-bottom:12px">🎉</div>
+      <div class="ob-title">Account Created!</div>
+      <div class="ob-sub">Share your Teacher Code with your students so they can join your class.</div>
+      <div style="background:var(--phy-l);border:2px solid var(--phy);border-radius:14px;padding:18px;text-align:center;margin:20px 0">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t3)">Your Teacher Code</div>
+        <div style="font-size:36px;font-weight:900;letter-spacing:.2em;color:var(--phy-m);margin:6px 0" id="obTeacherCodeDisplay"></div>
+        <div style="font-size:11px;color:var(--t3)">Students need this + a student code to join</div>
+      </div>
+      <button class="ob-cta" onclick="finishTeacherOnboard()">Enter App →</button>
+    </div>
+
+    <!-- Screen SL: Student — Login -->
+    <div class="onboard-screen" id="obSL">
+      <div style="font-size:32px;margin-bottom:10px">🎓</div>
+      <div class="ob-title">Student Login</div>
+      <div class="ob-sub">Enter the codes your teacher gave you.</div>
+      <div class="field-label" style="margin-top:14px">Teacher Code</div>
+      <input class="ob-input" id="studentTCode" placeholder="6-char teacher code" maxlength="8" style="text-transform:uppercase" oninput="this.value=this.value.toUpperCase()">
+      <div class="field-label" style="margin-top:10px">Student Code</div>
+      <input class="ob-input" id="studentSCode" placeholder="4-char student code" maxlength="6" style="text-transform:uppercase" oninput="this.value=this.value.toUpperCase()">
+      <div class="field-label" style="margin-top:10px">Password</div>
+      <input class="ob-input" id="studentSPass" type="password" placeholder="4-digit password from teacher" maxlength="8">
+      <div id="studentLoginError" style="color:var(--red);font-size:12px;margin-top:6px;display:none"></div>
+      <button class="ob-cta" style="margin-top:14px" onclick="loginStudent()">Login →</button>
+    </div>
+
+    <!-- Screen 0: Solo — Exam selection -->
+    <div class="onboard-screen" id="ob0">
+      <div class="ob-step">Solo Setup — Step 1 of 4</div>
       <div class="ob-title">Which exam are you preparing for?</div>
       <div class="ob-sub">We'll personalise everything — questions, papers and study plan.</div>
       <div id="obExamList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px"></div>
       <button class="ob-cta" id="obCta0" onclick="goOnboard(1)" disabled>Continue →</button>
     </div>
 
-    <!-- Screen 1: Name -->
+    <!-- Screen 1: Solo — Name -->
     <div class="onboard-screen" id="ob1">
-      <div class="ob-step">Step 2 of 4</div>
+      <div class="ob-step">Solo Setup — Step 2 of 4</div>
       <div class="ob-title">What's your name?</div>
       <div class="ob-sub">We'll personalise your prep journey just for you.</div>
       <input class="ob-input" id="obName" placeholder="Enter your name" maxlength="30" oninput="obNameCheck()">
       <button class="ob-cta" id="obCta1" onclick="goOnboard(2)" disabled>Continue →</button>
     </div>
 
-    <!-- Screen 2: Target Score -->
+    <!-- Screen 2: Solo — Target Score -->
     <div class="onboard-screen" id="ob2">
-      <div class="ob-step">Step 2 of 3</div>
+      <div class="ob-step">Solo Setup — Step 3 of 4</div>
       <div class="ob-title">What's your target score?</div>
-      <div class="ob-sub">Set an ambitious but achievable goal for your board exams.</div>
+      <div class="ob-sub">Set an ambitious but achievable goal.</div>
       <div class="ob-score-row">
         <div class="ob-score-btn" onclick="selectTarget('75%',this)">75%</div>
         <div class="ob-score-btn" onclick="selectTarget('80%',this)">80%</div>
@@ -1167,18 +1282,12 @@ input, select, textarea, button { -webkit-appearance: none; border-radius: var(-
       <button class="ob-cta" onclick="goOnboard(3)">Continue →</button>
     </div>
 
-    <!-- Screen 3: Weakest Subject -->
+    <!-- Screen 3: Solo — Weakest Subject -->
     <div class="onboard-screen" id="ob3">
-      <div class="ob-step">Step 3 of 3</div>
+      <div class="ob-step">Solo Setup — Step 4 of 4</div>
       <div class="ob-title">Which subject needs the most work?</div>
-      <div class="ob-sub">We'll prioritise this in your study plan and daily focus.</div>
-      <div class="ob-options">
-        <div class="ob-option" onclick="selectWeakest('physics',this)">⚡ Physics</div>
-        <div class="ob-option" onclick="selectWeakest('chemistry',this)">🧪 Chemistry</div>
-        <div class="ob-option" onclick="selectWeakest('mathematics',this)">📐 Mathematics</div>
-        <div class="ob-option" onclick="selectWeakest('english',this)">📖 English</div>
-        <div class="ob-option" onclick="selectWeakest('cs',this)">💻 Computer Science</div>
-      </div>
+      <div class="ob-sub">We'll prioritise this in your study plan.</div>
+      <div class="ob-options" id="obWeakestOptions"></div>
       <button class="ob-cta" id="obCta3" onclick="finishOnboard()" disabled>Let's begin →</button>
     </div>
 
@@ -1584,6 +1693,7 @@ input, select, textarea, button { -webkit-appearance: none; border-radius: var(-
           <div style="flex:1">
             <div class="field-label">Timer</div>
             <select id="testTimer">
+              <option value="auto" selected>Auto (exam standard)</option>
               <option value="0">No Timer</option>
               <option value="5">5 min</option>
               <option value="10">10 min</option>
@@ -2001,12 +2111,16 @@ input, select, textarea, button { -webkit-appearance: none; border-radius: var(-
         </div>
         <div id="teacherClassInfo" style="display:none">
           <div class="student-card" style="background:var(--phy-l);border-color:var(--phy);margin-bottom:12px">
-            <div style="font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px">Your Class Code</div>
+            <div style="font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px">Your Teacher Code</div>
             <div style="font-size:28px;font-weight:900;letter-spacing:.15em;color:var(--phy-m)" id="teacherClassCodeDisplay"></div>
             <div style="font-size:11px;color:var(--t3);margin-top:4px">Share this code with your students</div>
           </div>
-          <button class="btn btn-primary" style="width:100%;margin-bottom:8px" onclick="loadTeacherDashboard()">View Student Progress</button>
-          <button class="btn btn-outline" style="width:100%" onclick="leaveTeacherClass()">Delete Class</button>
+          <div style="display:flex;gap:8px;margin-bottom:8px">
+            <button class="btn btn-primary" style="flex:1" onclick="loadTeacherDashboard()">View Progress</button>
+            <button class="btn btn-outline" style="flex:1" onclick="inviteStudent()">+ Add Student</button>
+          </div>
+          <div id="inviteResult" style="display:none;background:var(--math-l);border:1.5px solid var(--math);border-radius:10px;padding:12px;margin-bottom:10px;font-size:13px"></div>
+          <button class="btn btn-outline" style="width:100%;font-size:12px" onclick="leaveTeacherClass()">Logout Teacher</button>
           <div id="teacherDashboard" style="margin-top:16px"></div>
         </div>
       </div>
@@ -2219,6 +2333,126 @@ function renderObExamList() {
   }).join('');
 }
 
+/* ── Role-based onboarding ─── */
+let obSelectedRole = '';
+let obTeacherSubjects = [];
+
+function selectRole(role, el) {
+  obSelectedRole = role;
+  document.querySelectorAll('.ob-role-card').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('obCtaR').disabled = false;
+}
+
+function proceedFromRole() {
+  if (obSelectedRole === 'teacher') {
+    renderTeacherSubjPicker();
+    goOnboard('T1');
+  } else if (obSelectedRole === 'student') {
+    goOnboard('SL');
+  } else {
+    goOnboard(0);
+    renderObExamList();
+  }
+}
+
+function renderTeacherSubjPicker() {
+  const allSubjects = [{k:'physics',l:'⚡ Physics'},{k:'chemistry',l:'🧪 Chemistry'},{k:'mathematics',l:'📐 Maths'},{k:'biology',l:'🧬 Biology'},{k:'english',l:'📖 English'},{k:'cs',l:'💻 CS'}];
+  document.getElementById('teacherSubjPicker').innerHTML = allSubjects.map(s =>
+    `<div class="ob-subj-chip" id="tsc-${s.k}" onclick="toggleTeacherSubj('${s.k}',this)">${s.l}</div>`
+  ).join('');
+}
+
+function toggleTeacherSubj(k, el) {
+  el.classList.toggle('sel');
+  if (el.classList.contains('sel')) obTeacherSubjects.push(k);
+  else obTeacherSubjects = obTeacherSubjects.filter(s => s !== k);
+}
+
+async function registerTeacher() {
+  const name     = document.getElementById('teacherRegName').value.trim();
+  const pass     = document.getElementById('teacherRegPass').value;
+  const pass2    = document.getElementById('teacherRegPass2').value;
+  const examMode = document.getElementById('teacherExamMode').value;
+  const errEl    = document.getElementById('teacherRegError');
+  errEl.style.display = 'none';
+
+  if (!name) { errEl.textContent = 'Please enter your name.'; errEl.style.display = ''; return; }
+  if (obTeacherSubjects.length === 0) { errEl.textContent = 'Select at least one subject.'; errEl.style.display = ''; return; }
+  if (pass.length < 4) { errEl.textContent = 'Password must be at least 4 characters.'; errEl.style.display = ''; return; }
+  if (pass !== pass2) { errEl.textContent = 'Passwords do not match.'; errEl.style.display = ''; return; }
+
+  try {
+    const r = await fetchWithTimeout(BACKEND_URL + '/api/auth/teacher/register', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ name, password: pass, subjects: obTeacherSubjects, examMode })
+    });
+    const d = await r.json();
+    if (!r.ok) { errEl.textContent = d.error || 'Registration failed.'; errEl.style.display = ''; return; }
+
+    // Store teacher profile
+    teacherProfile = { teacherCode: d.teacherCode, teacherKey: d.teacherKey, name: d.name, subjects: obTeacherSubjects, examMode };
+    localStorage.setItem('cbse12_teacher', JSON.stringify(teacherProfile));
+    localStorage.setItem('cbse12_role', 'teacher');
+    document.getElementById('obTeacherCodeDisplay').textContent = d.teacherCode;
+    goOnboard('T3');
+  } catch(e) { errEl.textContent = 'Network error. Check connection.'; errEl.style.display = ''; }
+}
+
+function finishTeacherOnboard() {
+  applyTeacherSubjectFilter();
+  localStorage.setItem('cbse12_onboard_done', '1');
+  localStorage.setItem('cbse12_name', teacherProfile.name);
+  document.getElementById('onboardOverlay').style.display = 'none';
+  loadUserProfile(); initHome();
+  document.getElementById('profileBtn').textContent = '📋';
+}
+
+async function loginStudent() {
+  const tCode  = document.getElementById('studentTCode').value.trim().toUpperCase();
+  const sCode  = document.getElementById('studentSCode').value.trim().toUpperCase();
+  const sPass  = document.getElementById('studentSPass').value.trim();
+  const errEl  = document.getElementById('studentLoginError');
+  errEl.style.display = 'none';
+
+  if (!tCode || !sCode || !sPass) { errEl.textContent = 'Fill in all fields.'; errEl.style.display = ''; return; }
+
+  try {
+    const r = await fetchWithTimeout(BACKEND_URL + '/api/auth/student/login', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ teacherCode: tCode, studentCode: sCode, studentPassword: sPass })
+    });
+    const d = await r.json();
+    if (!r.ok) { errEl.textContent = d.error || 'Login failed.'; errEl.style.display = ''; return; }
+
+    studentProfile = { studentId: d.studentCode, classCode: d.teacherCode, studentName: d.studentName, teacherName: d.teacherName, subjects: d.subjects, examMode: d.examMode };
+    localStorage.setItem('cbse12_student', JSON.stringify(studentProfile));
+    localStorage.setItem('cbse12_role', 'student');
+    localStorage.setItem('cbse12_name', d.studentName);
+    localStorage.setItem('cbse12_onboard_done', '1');
+    setExam(d.examMode || 'cbse12');
+    applyStudentSubjectFilter(d.subjects);
+    document.getElementById('onboardOverlay').style.display = 'none';
+    loadUserProfile(); initHome();
+    document.getElementById('profileBtn').textContent = '🎓';
+  } catch(e) { errEl.textContent = 'Network error. Check connection.'; errEl.style.display = ''; }
+}
+
+function applyTeacherSubjectFilter() {
+  if (!teacherProfile || !teacherProfile.subjects) return;
+  setExam(teacherProfile.examMode || 'cbse12');
+  activeSubjectFilter = teacherProfile.subjects;
+  renderSubjMultiGrid();
+}
+
+function applyStudentSubjectFilter(subjects) {
+  if (!subjects || !subjects.length) return;
+  activeSubjectFilter = subjects;
+  renderSubjMultiGrid();
+}
+
+let activeSubjectFilter = null; // null = show all based on exam
+
 function obSelectExam(el) {
   const examId = el.getAttribute('data-examid');
   currentExam  = examId;
@@ -2251,10 +2485,16 @@ function getExamContext() {
 
 function checkOnboarding() {
   applyExamMode(currentExam);
+  // Restore subject filter if returning teacher/student
+  const role = localStorage.getItem('cbse12_role');
+  if (role === 'teacher' && teacherProfile) applyTeacherSubjectFilter();
+  else if (role === 'student' && studentProfile && studentProfile.subjects) applyStudentSubjectFilter(studentProfile.subjects);
+
   const done = localStorage.getItem('cbse12_onboard_done');
   if (!done) {
     document.getElementById('onboardOverlay').style.display = 'flex';
-    renderObExamList();
+    // Always show role selection first
+    goOnboard('R');
   } else {
     loadUserProfile();
     initHome();
@@ -2268,12 +2508,16 @@ function obNameCheck() {
 
 function goOnboard(step) {
   document.querySelectorAll('.onboard-screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('ob' + step).classList.add('active');
-  for (let i = 0; i <= 3; i++) {
-    const dot = document.getElementById('obDot' + i);
-    if (dot) dot.classList.toggle('done', i <= step);
+  const el = document.getElementById('ob' + step);
+  if (el) el.classList.add('active');
+  if (typeof step === 'number') {
+    for (let i = 0; i <= 3; i++) {
+      const dot = document.getElementById('obDot' + i);
+      if (dot) dot.classList.toggle('done', i <= step);
+    }
+    obStep = step;
+    if (step === 3) renderWeakestOptions();
   }
-  obStep = step;
 }
 
 function selectTarget(val, el) {
@@ -2284,9 +2528,18 @@ function selectTarget(val, el) {
 
 function selectWeakest(subj, el) {
   obWeakest = subj;
-  document.querySelectorAll('.ob-option').forEach(o => o.classList.remove('sel'));
+  document.querySelectorAll('#obWeakestOptions .ob-option').forEach(o => o.classList.remove('sel'));
   el.classList.add('sel');
   document.getElementById('obCta3').disabled = false;
+}
+
+function renderWeakestOptions() {
+  const exam = EXAMS[currentExam] || EXAMS.cbse12;
+  const subjs = exam.subjects;
+  document.getElementById('obWeakestOptions').innerHTML = subjs.map(s =>
+    `<div class="ob-option" onclick="selectWeakest('${s}',this)">${SUBJ_ICONS[s]} ${SL[s]}</div>`
+  ).join('');
+  document.getElementById('obCta3').disabled = true;
 }
 
 function finishOnboard() {
@@ -2296,13 +2549,10 @@ function finishOnboard() {
   localStorage.setItem('cbse12_target', obTarget);
   localStorage.setItem('cbse12_weakest', obWeakest);
   localStorage.setItem('cbse12_goal_daily', '20');
+  localStorage.setItem('cbse12_role', 'solo');
   document.getElementById('onboardOverlay').style.display = 'none';
-  loadUserProfile();
-  initHome();
-  if (obWeakest) {
-    testSubj = obWeakest;
-    renderTestChapters();
-  }
+  loadUserProfile(); initHome();
+  if (obWeakest) { testSubj = obWeakest; renderTestChapters(); }
 }
 
 function loadUserProfile() {
@@ -2816,7 +3066,11 @@ async function generateTest() {
   const type = document.getElementById('testType').value;
   const count = parseInt(document.getElementById('testCount').value) || 5;
   const diff = getTestDiff();
-  const timerMins = parseInt(document.getElementById('testTimer').value) || 0;
+  const timerSel = document.getElementById('testTimer').value;
+  const minsPerQ = {cbse12:2, jee_main:2, jee_adv:3, neet:1, mht_cet:1.2, cuet:1, bitsat:1.2, iiser:3};
+  const timerMins = timerSel === 'auto'
+    ? (type === 'mcq' || type === 'assertion' ? Math.ceil(count * (minsPerQ[currentExam] || 1.5)) : 0)
+    : (parseInt(timerSel) || 0);
   const area = document.getElementById('testArea');
 
   document.getElementById('testConfig').style.display = 'none';
@@ -3068,7 +3322,31 @@ function submitQuiz() {
     if (expBox && expText) { expText.textContent = q.exp || ''; expBox.classList.add('show'); }
   });
   updateScoreBar();
-  // Sync to teacher if student is in a class
+
+  // Wrong answer review section
+  const wrongItems = quizData.questions.map((q, i) => {
+    const key = `${prefix}-${i}`;
+    const sel = userAnswers[key];
+    if (sel === undefined || sel === q.correct) return null;
+    const opts = q.opts || ['Both A and R true; R explains A','Both true; R NOT explanation','A true R false','A false R true'];
+    return { q: q.q || (q.assertion ? `A: ${q.assertion} | R: ${q.reason}` : ''), yourAns: opts[sel] || 'Option '+'ABCD'[sel], corrAns: opts[q.correct] || 'Option '+'ABCD'[q.correct], exp: q.exp || '' };
+  }).filter(Boolean);
+
+  if (wrongItems.length > 0) {
+    const reviewHtml = `<div style="margin-top:16px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--chem);margin-bottom:10px">❌ ${wrongItems.length} Wrong Answer${wrongItems.length>1?'s':''} — Review</div>
+      ${wrongItems.map((w,i) => `<div class="wrong-review">
+        <div class="wrong-review-q">Q${i+1}: ${esc(w.q)}</div>
+        <div class="wrong-review-row"><span class="wrong-review-label" style="color:var(--chem)">Your ans:</span><span style="color:var(--chem-m);font-weight:600">${esc(w.yourAns.replace(/^\([a-d]\)\s*/i,''))}</span></div>
+        <div class="wrong-review-row"><span class="wrong-review-label" style="color:var(--green)">Correct:</span><span style="color:var(--math-m);font-weight:600">${esc(w.corrAns.replace(/^\([a-d]\)\s*/i,''))}</span></div>
+        ${w.exp ? `<div class="wrong-review-exp">💡 ${esc(w.exp)}</div>` : ''}
+      </div>`).join('')}
+    </div>`;
+    const area = document.getElementById('testArea');
+    area.insertAdjacentHTML('beforeend', reviewHtml);
+  }
+
+  // Sync to teacher
   const subjsForTest = selectedSubjects.length > 0 ? selectedSubjects : [testSubj];
   const chapNames = selectedChapters.map(c=>c.chapter).join(', ') || 'Mixed';
   syncStudentProgress(SL[subjsForTest[0]] || testSubj, chapNames, quizData.type, scoreC, scoreW, scoreTot);
@@ -3959,7 +4237,11 @@ function renderFullPlan(plan) {
 function renderSubjMultiGrid() {
   const el = document.getElementById('subjMultiGrid');
   if (!el) return;
-  const subjects = getExam().subjects;
+  // Teacher/student subject filter takes priority over exam subjects
+  const examSubjects = getExam().subjects;
+  const subjects = activeSubjectFilter
+    ? examSubjects.filter(s => activeSubjectFilter.includes(s))
+    : examSubjects;
   el.innerHTML = subjects.map(s => {
     const isOn = selectedSubjects.includes(s) || (selectedSubjects.length===0 && s===testSubj);
     const chCount = CH[s] ? CH[s].length : 0;
@@ -4919,6 +5201,36 @@ const REF_BOOKS = {
       color: 'var(--phy)',
       prompt: 'CBSE Physics revision notes, mind maps, and important points. Focus on quick revision questions, key formulas, important diagrams that must be drawn in board exams, and commonly tested one-liners.',
       focus: ['Key Formulas','Important Diagrams','One-liners','Quick Revision']
+    },
+    {
+      id: 'mhsb_phy',
+      name: 'Maharashtra State Board Physics (Balbharati)',
+      author: 'SCERT Maharashtra / Balbharati',
+      type: 'textbook',
+      icon: '📗',
+      color: 'var(--phy)',
+      prompt: 'Maharashtra State Board Physics textbook (Balbharati) Class 11 and Class 12. This is the primary resource for MHT-CET. Include questions directly from Balbharati exercises, activities, solved examples, and HSC board-style questions. Cover 80% Class 12 and 20% Class 11 topics as per MHT-CET weightage.',
+      focus: ['Balbharati Exercises','HSC Board Pattern','Class 11 (20%)','Class 12 (80%)']
+    },
+    {
+      id: 'marvel_phy_mht',
+      name: 'MCQs in Physics — Marvel Publishers',
+      author: 'Marvel Publishers (MHT CET)',
+      type: 'reference',
+      icon: '📙',
+      color: 'var(--phy)',
+      prompt: 'Marvel MCQs in Physics for MHT-CET. Include chapter-wise MCQs at +2/0 pattern, topic-wise objective questions, graph-based questions, and numerical MCQs aligned to Maharashtra HSC syllabus. Marvel is the most widely used MHT-CET physics reference.',
+      focus: ['MHT-CET MCQs','Numerical MCQs','Graph-based Qs','Chapter-wise']
+    },
+    {
+      id: 'arihant_phy_mht',
+      name: "Arihant MHT-CET Physics",
+      author: 'Arihant Experts',
+      type: 'reference',
+      icon: '📕',
+      color: 'var(--phy)',
+      prompt: "Arihant MHT-CET Physics. Include chapter-wise MCQs, previous year MHT-CET questions, mock test questions, and assertion-reason type MCQs. Focus on Maharashtra HSC syllabus topics and MHT-CET exam pattern (+2/0, no negative marking).",
+      focus: ['PYQ MHT-CET','Mock MCQs','Assertion-Reason','HSC Aligned']
     }
   ],
   chemistry: [
@@ -4982,6 +5294,36 @@ const REF_BOOKS = {
       color: 'var(--chem)',
       prompt: 'CBSE Chemistry revision notes and trend analysis. Focus on frequently asked reactions in board exams, important name reactions (list of 15 must-know), electrochemistry formulas, commonly tested organic conversions.',
       focus: ['Frequently Asked Rxns','Name Reactions List','Organic Conversions','Board Trends']
+    },
+    {
+      id: 'mhsb_chem',
+      name: 'Maharashtra State Board Chemistry (Balbharati)',
+      author: 'SCERT Maharashtra / Balbharati',
+      type: 'textbook',
+      icon: '📗',
+      color: 'var(--chem)',
+      prompt: 'Maharashtra State Board Chemistry textbook (Balbharati) Class 11 and Class 12. Primary MHT-CET resource. Include questions from Balbharati exercises, intext questions, and activities. Cover Maharashtra HSC syllabus — 80% Class 12, 20% Class 11.',
+      focus: ['Balbharati Exercises','Maharashtra HSC','Reactions & Mechanisms','Numerical Qs']
+    },
+    {
+      id: 'marvel_chem_mht',
+      name: 'Marvel Chemistry for MHT-CET — Mayur Mehta',
+      author: 'Mayur Mehta & Chitra Joshi',
+      type: 'reference',
+      icon: '📙',
+      color: 'var(--chem)',
+      prompt: "Marvel Chemistry for MHT-CET by Mayur Mehta and Chitra Joshi. The most popular MHT-CET chemistry reference. Include chapter-wise MCQs, reaction-based questions, structural formula MCQs, and numerical problems at +2/0 pattern. Focus on Maharashtra HSC syllabus.",
+      focus: ['MHT-CET MCQs','Reaction MCQs','Structural Questions','Numericals']
+    },
+    {
+      id: 'arihant_chem_mht',
+      name: 'Arihant Complete Reference Manual — MH-CET Chemistry',
+      author: 'Arihant Experts',
+      type: 'reference',
+      icon: '📕',
+      color: 'var(--chem)',
+      prompt: 'Arihant Complete Reference Manual for MH-CET Chemistry. Include PYQ MHT-CET chemistry questions, chapter-wise practice MCQs, mock test questions, and important reaction MCQs aligned to Maharashtra HSC syllabus.',
+      focus: ['PYQ MHT-CET','Practice MCQs','Mock Test Qs','HSC Reactions']
     }
   ],
   mathematics: [
@@ -5045,6 +5387,36 @@ const REF_BOOKS = {
       color: 'var(--math)',
       prompt: 'CBSE Mathematics formula sheets, revision notes and important results. Focus on integration formulas, differentiation rules, vector identities, probability theorems, and 3D geometry formulas that must be memorised for board exams.',
       focus: ['Integration Formulas','Differentiation Rules','Vector Identities','Board Formula Sheet']
+    },
+    {
+      id: 'mhsb_math',
+      name: 'Maharashtra State Board Mathematics (Balbharati)',
+      author: 'SCERT Maharashtra / Balbharati',
+      type: 'textbook',
+      icon: '📗',
+      color: 'var(--math)',
+      prompt: 'Maharashtra State Board Mathematics textbook (Balbharati) Class 11 and Class 12. Primary resource for MHT-CET Mathematics. Include questions from Balbharati exercises and practice sets. Maharashtra HSC syllabus: 80% Class 12, 20% Class 11. Focus on Calculus, Algebra, Trigonometry, Statistics.',
+      focus: ['Balbharati Exercises','Maharashtra HSC','Calculus MCQs','Practice Sets']
+    },
+    {
+      id: 'marvel_math_mht',
+      name: 'Marvel Mathematics for MHT-CET',
+      author: 'Marvel Publishers',
+      type: 'reference',
+      icon: '📙',
+      color: 'var(--math)',
+      prompt: 'Marvel Mathematics for MHT-CET. Include chapter-wise MCQs, numerical MCQs, application-based questions, and previous year MHT-CET maths questions. Focus on Maharashtra HSC maths syllabus at +2/0 pattern.',
+      focus: ['MHT-CET MCQs','Numerical MCQs','PYQ Maths','Chapter-wise']
+    },
+    {
+      id: 'amit_agarwal_mht',
+      name: 'Mathematics for MHT-CET — Amit M. Agarwal',
+      author: 'Amit M. Agarwal (Arihant)',
+      type: 'reference',
+      icon: '📕',
+      color: 'var(--math)',
+      prompt: 'Mathematics for MHT-CET by Amit M. Agarwal (Arihant). Include single-correct MCQs on Calculus, Algebra, Trigonometry, Coordinate Geometry, Statistics and Probability at MHT-CET level. Focus on Maharashtra HSC difficulty and exam pattern.',
+      focus: ['Calculus MCQs','Algebra & Trig','Coordinate Geometry','Statistics']
     }
   ],
   english: [
@@ -5528,12 +5900,34 @@ function leaveTeacherClass() {
   document.getElementById('profileBtn').textContent = '👤';
 }
 
+async function inviteStudent() {
+  if (!teacherProfile) return;
+  const name = prompt('Enter student name:');
+  if (!name || !name.trim()) return;
+  try {
+    const r = await fetchWithTimeout(BACKEND_URL + '/api/teacher/student/invite', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ teacherCode: teacherProfile.classCode || teacherProfile.teacherCode, teacherKey: teacherProfile.teacherKey, studentName: name.trim() })
+    });
+    const d = await r.json();
+    if (!r.ok) { showToast(d.error || 'Failed'); return; }
+    const box = document.getElementById('inviteResult');
+    box.style.display = '';
+    box.innerHTML = `<strong>${esc(d.studentName)}'s Login Credentials</strong><br>
+      Teacher Code: <code style="font-weight:900">${teacherProfile.classCode || teacherProfile.teacherCode}</code><br>
+      Student Code: <code style="font-weight:900">${d.studentCode}</code><br>
+      Password: <code style="font-weight:900">${d.studentPassword}</code><br>
+      <span style="font-size:11px;color:var(--t3)">Share these with the student to log in.</span>`;
+  } catch(e) { showToast('Network error'); }
+}
+
 async function loadTeacherDashboard() {
   if (!teacherProfile) return;
   const dash = document.getElementById('teacherDashboard');
   dash.innerHTML = '<div style="text-align:center;padding:20px;color:var(--t3)">Loading students…</div>';
   try {
-    const r = await fetchWithTimeout(BACKEND_URL + '/api/class/' + teacherProfile.classCode, {
+    const tCode = teacherProfile.classCode || teacherProfile.teacherCode;
+    const r = await fetchWithTimeout(BACKEND_URL + '/api/class/' + tCode, {
       headers: {'x-teacher-key': teacherProfile.teacherKey}
     });
     const d = await r.json();
@@ -5573,12 +5967,12 @@ async function syncStudentProgress(subject, chapter, type, scoreC, scoreW, score
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
-        studentId: studentProfile.studentId,
-        classCode: studentProfile.classCode,
+        teacherCode: studentProfile.classCode,
+        studentCode: studentProfile.studentId,
         subject, chapter, type, scoreC, scoreW, scoreTot
       })
     });
-  } catch(e) { /* silent fail — don't interrupt quiz flow */ }
+  } catch(e) { /* silent fail */ }
 }
 
 // Init profile state on load

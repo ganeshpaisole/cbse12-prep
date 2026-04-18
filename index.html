@@ -2469,6 +2469,7 @@ async function registerTeacher() {
 function finishTeacherOnboard() {
   applyTeacherSubjectFilter();
   localStorage.setItem('cbse12_onboard_done', '1');
+  localStorage.setItem('cbse12_onboard_version', ONBOARD_VERSION);
   localStorage.setItem('cbse12_name', teacherProfile.name);
   document.getElementById('onboardOverlay').style.display = 'none';
   loadUserProfile(); initHome();
@@ -2497,6 +2498,7 @@ async function loginStudent() {
     localStorage.setItem('cbse12_role', 'student');
     localStorage.setItem('cbse12_name', d.studentName);
     localStorage.setItem('cbse12_onboard_done', '1');
+    localStorage.setItem('cbse12_onboard_version', ONBOARD_VERSION);
     setExam(d.examMode || 'cbse12');
     applyStudentSubjectFilter(d.subjects);
     document.getElementById('onboardOverlay').style.display = 'none';
@@ -2522,6 +2524,7 @@ async function loginTeacher() {
     localStorage.setItem('cbse12_teacher', JSON.stringify(teacherProfile));
     localStorage.setItem('cbse12_role', 'teacher');
     localStorage.setItem('cbse12_onboard_done', '1');
+    localStorage.setItem('cbse12_onboard_version', ONBOARD_VERSION);
     localStorage.setItem('cbse12_name', d.name);
     applyTeacherSubjectFilter();
     document.getElementById('onboardOverlay').style.display = 'none';
@@ -2545,6 +2548,7 @@ async function loginAdmin() {
     localStorage.setItem('cbse12_role', 'admin');
     localStorage.setItem('cbse12_admin_secret', pass);
     localStorage.setItem('cbse12_onboard_done', '1');
+    localStorage.setItem('cbse12_onboard_version', ONBOARD_VERSION);
     localStorage.setItem('cbse12_name', 'Admin');
     document.getElementById('nav-admin').style.display = '';
     document.getElementById('onboardOverlay').style.display = 'none';
@@ -2656,18 +2660,21 @@ function getExamContext() {
   return ctx[currentExam] || ctx.cbse12;
 }
 
+const ONBOARD_VERSION = '2'; // bump to force re-onboarding on all devices
+
 function checkOnboarding() {
   applyExamMode(currentExam);
-  const role = localStorage.getItem('cbse12_role');
-  const done = localStorage.getItem('cbse12_onboard_done');
+  const role    = localStorage.getItem('cbse12_role');
+  const done    = localStorage.getItem('cbse12_onboard_done');
+  const version = localStorage.getItem('cbse12_onboard_version');
 
-  // Restore subject filter if returning teacher/student
+  // Restore subject filter if returning teacher/student/admin
   if (role === 'teacher' && teacherProfile) applyTeacherSubjectFilter();
   else if (role === 'student' && studentProfile && studentProfile.subjects) applyStudentSubjectFilter(studentProfile.subjects);
   else if (role === 'admin') document.getElementById('nav-admin').style.display = '';
 
-  // Valid session: done flag + matching profile data for the role
-  const hasValidSession = done && (
+  // Valid session requires: done flag, current onboard version, AND matching profile
+  const hasValidSession = done && version === ONBOARD_VERSION && (
     (role === 'solo') ||
     (role === 'teacher' && teacherProfile) ||
     (role === 'student' && studentProfile) ||
@@ -2727,6 +2734,7 @@ function renderWeakestOptions() {
 function finishOnboard() {
   const name = document.getElementById('obName').value.trim() || 'Student';
   localStorage.setItem('cbse12_onboard_done', '1');
+  localStorage.setItem('cbse12_onboard_version', ONBOARD_VERSION);
   localStorage.setItem('cbse12_name', name);
   localStorage.setItem('cbse12_target', obTarget);
   localStorage.setItem('cbse12_weakest', obWeakest);

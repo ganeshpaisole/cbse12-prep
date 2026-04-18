@@ -1,34 +1,21 @@
-// CBSE 12 Board Prep — Service Worker
-// Fixed for GitHub Pages subfolder deployment
+// CBSE 12 Board Prep — Service Worker v2.2
+// HTML is NEVER cached — always fetched fresh from network.
+// Only fonts and static assets are cached for offline fallback.
 
-const CACHE_NAME = 'cbse12-v2.1';
-const STATIC_ASSETS = [
-  './index.html',
-  './manifest.json'
-];
+const CACHE_NAME = 'cbse12-v2.2';
 
 // ── INSTALL ──────────────────────────────────
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return Promise.allSettled(
-        STATIC_ASSETS.map(url => cache.add(url).catch(e => console.log('[SW] Failed to cache:', url, e)))
-      );
-    })
-  );
+  // Don't pre-cache index.html — always want fresh HTML
   self.skipWaiting();
 });
 
 // ── ACTIVATE ─────────────────────────────────
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames
-          .filter(name => name !== CACHE_NAME)
-          .map(name => caches.delete(name))
-      );
-    })
+    caches.keys().then((cacheNames) =>
+      Promise.all(cacheNames.map(name => caches.delete(name)))
+    )
   );
   self.clients.claim();
 });
@@ -36,11 +23,24 @@ self.addEventListener('activate', (event) => {
 // ── FETCH ────────────────────────────────────
 self.addEventListener('fetch', (event) => {
   const { request } = event;
+  const url = new URL(request.url);
 
-  // Skip non-GET and Anthropic API calls
+  // Skip non-GET
   if (request.method !== 'GET') return;
-  if (request.url.includes('api.anthropic.com')) return;
-  if (request.url.includes('fonts.googleapis.com') || request.url.includes('fonts.gstatic.com')) {
+
+  // Skip Anthropic API — never intercept
+  if (url.hostname.includes('anthropic.com') || url.hostname.includes('railway.app')) return;
+
+  // HTML files — ALWAYS network only, no caching
+  if (request.headers.get('accept')?.includes('text/html') ||
+      url.pathname.endsWith('.html') || url.pathname === '/' ||
+      url.pathname.endsWith('/cbse12-prep') || url.pathname.endsWith('/cbse12-prep/')) {
+    event.respondWith(fetch(request));
+    return;
+  }
+
+  // Google Fonts — cache first (they never change)
+  if (url.hostname.includes('fonts.googleapis.com') || url.hostname.includes('fonts.gstatic.com')) {
     event.respondWith(
       caches.open(CACHE_NAME).then(cache =>
         cache.match(request).then(cached => {
@@ -48,14 +48,14 @@ self.addEventListener('fetch', (event) => {
           return fetch(request).then(response => {
             cache.put(request, response.clone());
             return response;
-          }).catch(() => cached);
+          });
         })
       )
     );
     return;
   }
 
-  // Network first, fall back to cache
+  // Everything else — network first, cache as fallback
   event.respondWith(
     fetch(request)
       .then(response => {
